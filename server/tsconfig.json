@@ -1,7 +1,12 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "watch": true,
-        "lib": ["dom", "es2020"]
-    }
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "watch": true,
+    "lib": ["dom", "es2020"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "outDir": "./build"
+  }
 }
