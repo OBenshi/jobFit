@@ -1,4 +1,5 @@
 // import { mongoURI } from "./config";
+require("dotenv").config();
 import * as dotenv from "dotenv";
 const mongoURI = require("./config.js").mongoURI;
 import express from "express";
@@ -10,6 +11,7 @@ const port = process.env.PORT || 5000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+
 
 connect(mongoURI, {
   useNewUrlParser: true,
