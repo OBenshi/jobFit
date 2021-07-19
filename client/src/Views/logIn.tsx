@@ -44,7 +44,7 @@ interface Props {
   password: string,
 }
 
-const logIn: React.FC<Props> = (props) => {
+const LogIn: React.FC = () => {
 const classes = useStyles();
 /* const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     username(e.target.value); <== how to setUserName??????
@@ -90,4 +90,4 @@ const classes = useStyles();
   );
 };
 
-export default logIn;
+export default LogIn;
