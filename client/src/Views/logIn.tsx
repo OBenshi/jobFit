@@ -6,6 +6,7 @@ import React, {
   FormEvent,
   useContext
 } from "react";
+import { useForm } from "react-hook-form";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
@@ -39,16 +40,37 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-interface Props {
+interface FormData {
   username: string,
   password: string,
+  email: string
 }
 
-const logIn: React.FC<Props> = (props) => {
-const classes = useStyles();
+const LogIn: React.FC<FormData> = (FormData) => {
+  const classes = useStyles();
+  const { register, handleSubmit } = useForm<FormData>();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  //const onSubmit = handleSubmit(({ username, email, password }) => {
+  //  console.log(username, password, email)
+  //})
+  //const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+   //     event.preventDefault();
+    //    await callback(); // triggering the callback
+    //};
 /* const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    username(e.target.value); <== how to setUserName??????
+    username(e.target.value); <== how to setUserName??????Is it better to use FormEvent or useForm hook?
   }; */
+  const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+   const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+   const changeUsername = (e: ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
   return (
     <>
      <form className={classes.container} noValidate autoComplete="off">
@@ -90,4 +112,4 @@ const classes = useStyles();
   );
 };
 
-export default logIn;
+export default LogIn;
