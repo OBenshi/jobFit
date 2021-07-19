@@ -45,7 +45,7 @@ interface FormData {
   email: string;
 }
 
-const LogIn: React.FC<FormData> = (FormData) => {
+const LogIn: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm<FormData>();
   const [email, setEmail] = useState<string>("");
