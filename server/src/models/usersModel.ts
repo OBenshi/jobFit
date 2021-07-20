@@ -1,7 +1,6 @@
 import { Schema, model, connect } from "mongoose";
 import { User } from "../@types/index";
 
-// 2. Create a Schema corresponding to the document interface.
 const userSchema = new Schema<User.userProfile>({
   username: { type: String, required: true },
   firstName: { type: String, required: true },
@@ -13,5 +12,4 @@ const userSchema = new Schema<User.userProfile>({
   avatar: { type: String, required: true },
   loggedIn: { type: Boolean, required: true },
 });
-// 3. Create a Model.
 const UserModel = model<User.userProfile>("User", userSchema);
