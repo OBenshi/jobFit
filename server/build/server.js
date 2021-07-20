@@ -22,7 +22,6 @@ mongoose_1.connect(mongoURI, {
     .then(() => console.log("Connection to Mongo DB established"))
     .catch((err) => console.log(err));
 app.use("/users", require("./routes/users"));
-const Password = process.env.MONGO_KEY;
 app.listen(port, () => {
-    console.log("Server is running on " + port + "port", Password);
+    console.log("Server is running on " + port + "port");
 });
