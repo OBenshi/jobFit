@@ -7,14 +7,12 @@ import React, {
   useContext,
 } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
-
 import background from '../img/background.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,19 +46,14 @@ interface FormData {
 
 const LogIn: React.FC = () => {
   const classes = useStyles();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
-
-  const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-  const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-  const changeUsername = (e: ChangeEvent<HTMLInputElement>) => {
-  setUsername(e.target.value);
- };
+  const [sign, setSign] = useState <FormData>({
+    password: "",
+    email: "",
+    username:"",
+  })
+const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setSign({ ...sign, [e.target.name]: e.target.value });
+ 
   const backgroundStyles = {
         backgroundImage: `url(${background})`,
         backgroundPosition: 'center',
@@ -84,7 +77,7 @@ const LogIn: React.FC = () => {
                 label="Email"
                 placeholder="Email"
                 margin="normal"
-                onChange={changeEmail}
+                onChange={handleChange}
                               />
                                <TextField
                 fullWidth
@@ -93,7 +86,7 @@ const LogIn: React.FC = () => {
                 label="Username"
                 placeholder="Username"
                 margin="normal"
-                onChange={changeUsername}
+                onChange={handleChange}
               />
               <TextField
                 fullWidth
@@ -102,7 +95,7 @@ const LogIn: React.FC = () => {
                 label="Password"
                 placeholder="Password"
                 margin="normal"
-                onChange={changePassword}
+                onChange={handleChange}
               />
             </div>
           </CardContent>
