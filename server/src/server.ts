@@ -1,40 +1,20 @@
-// // // import { mongoURI } from "./config";
 require("dotenv").config();
+import { schema } from "./graphql/schema";
 const mongoURI = require("./config.js").mongoURI;
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { ApolloServer, gql } from "apollo-server-express";
-// // const { ApolloServer, gql } = require("apollo-server");
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
-
-// // Provide resolver functions for your schema fields
-const resolvers = {
-  Query: {
-    hello: () => "Hello world!",
-  },
-};
-
-// Additional middleware can be mounted at this point to run before Apollo.
-// app.use("*", jwtCheck, requireAuth, checkScope);
-
-// Mount Apollo middleware here.
-//   server.applyMiddleware({ app, path: "/specialUrl" });
-
-async function startApolloServer(typeDefs, resolvers) {
+// const userRoute = re './routes/users'
+async function startApolloServer() {
   try {
-    const server = new ApolloServer({ typeDefs, resolvers });
-    // console.log(`server.graphqlPath`, server.graphqlPath);
+    const server = new ApolloServer({ schema });
     await server.start();
     const app = express();
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(cors());
-
+    app.use("/users", require("./routes/users"));
     server.applyMiddleware({ app });
 
     await mongoose.connect(mongoURI, {
@@ -53,4 +33,4 @@ async function startApolloServer(typeDefs, resolvers) {
     console.log(`err`, err);
   }
 }
-startApolloServer(typeDefs, resolvers);
+startApolloServer();

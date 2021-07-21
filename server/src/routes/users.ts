@@ -21,8 +21,10 @@
 
 //* server imports
 import express from "express";
+import userModel from "../models/usersModel";
 const router = express.Router();
-
+import mongoose from "mongoose";
+// import userModel from "../models/usersModel";
 // //*security imports
 
 //*models import
@@ -38,7 +40,9 @@ const router = express.Router();
 
 //*------------------------SECTION TEST ROUTE ------------------------------- */
 
-router.get("/test", (req, res) => {
+router.get("/test", async (req, res) => {
+  const user = await userModel.find({});
+  console.log(`user`, user);
   res.json({ isOdedGreat: true });
 });
 //* ----------------------- END !SECTION TEST ROUTE -------------------------- */

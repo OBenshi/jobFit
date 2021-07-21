@@ -2,6 +2,7 @@ import { ObjectId } from "mongoose";
 
 export namespace User {
   interface userProfile {
+    _id?: ObjectId;
     username: string;
     firstName: string;
     lastName: string;
