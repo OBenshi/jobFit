@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface FormData {
-  //username: string;
   password: string;
   email: string;
 }
