@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: "center",
-      background: `${theme.palette.primary}`,
+      background: "#002884",
       color: "#fff",
     },
     card: {
@@ -41,17 +41,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface FormData {
-  //username: string;
+  username: string;
   password: string;
   email: string;
 }
 
 const LogIn: React.FC = () => {
   const classes = useStyles();
-  //const { register, handleSubmit } = useForm<FormData>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  //const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
 
   const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -59,9 +58,9 @@ const LogIn: React.FC = () => {
   const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-  //const changeUsername = (e: ChangeEvent<HTMLInputElement>) => {
-   // setUsername(e.target.value);
- // };
+  const changeUsername = (e: ChangeEvent<HTMLInputElement>) => {
+  setUsername(e.target.value);
+ };
   const backgroundStyles = {
         backgroundImage: `url(${background})`,
         backgroundPosition: 'center',
@@ -75,7 +74,7 @@ const LogIn: React.FC = () => {
       <div style={backgroundStyles}>
       <form className={classes.container} noValidate autoComplete="off">
         <Card className={classes.card}>
-          <CardHeader className={classes.header} title="Log in to your SWAT" />
+          <CardHeader className={classes.header} title="Sign Up to your SWAT" />
           <CardContent>
             <div>
               <TextField
@@ -86,6 +85,15 @@ const LogIn: React.FC = () => {
                 placeholder="Email"
                 margin="normal"
                 onChange={changeEmail}
+                              />
+                               <TextField
+                fullWidth
+                id="username"
+                type="username"
+                label="Username"
+                placeholder="Username"
+                margin="normal"
+                onChange={changeUsername}
               />
               <TextField
                 fullWidth
@@ -100,7 +108,7 @@ const LogIn: React.FC = () => {
           </CardContent>
           <CardActions>
             <Button variant="contained" size="large" color="primary">
-              Login
+              Sign Up
             </Button>
           </CardActions>
         </Card>
