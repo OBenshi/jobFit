@@ -28,9 +28,17 @@ export default gql`
     datingTexts: String
   }
 
+  input logInInput {
+    email: String
+    password: String
+  }
+
   extend type Query {
     users: [User]
-    user: User
-    zhz(_id: String): User
+    user(_id: String): User
+  }
+  extend type Mutation {
+    logIn(input: logInInput): User!
+    # addUser(input: UserInput!): User!
   }
 `;

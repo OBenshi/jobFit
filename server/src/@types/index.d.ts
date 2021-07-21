@@ -1,6 +1,12 @@
 import { ObjectId } from "mongoose";
 
-export namespace User {
+export namespace General {
+  interface Error {
+    msg: string;
+  }
+}
+
+export namespace UserNs {
   interface userProfile {
     _id?: ObjectId;
     username: string;
@@ -14,6 +20,11 @@ export namespace User {
     loggedIn: boolean;
     datingTexts: Array<ObjectId>;
     comments: Array<ObjectId>;
+  }
+
+  interface logInInput {
+    email: string;
+    password: string;
   }
 
   interface userDatingText {
