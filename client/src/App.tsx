@@ -6,6 +6,7 @@ import LogIn from "./Views/LogIn";
 import Home from "./Views/Home";
 import SignUp from "./Views/SignUp";
 import AAbla from "./AAbla";
+
 function App() {
   return (
     <div className="App">

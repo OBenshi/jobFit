@@ -43,6 +43,7 @@ async function startApolloServer(typeDefs, resolvers) {
       useUnifiedTopology: true,
     });
     console.log("Connection to Mongo DB established");
+    //@ts-ignore
     await new Promise((resolve) => app.listen({ port: 4000 }, resolve));
     console.log(
       `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
