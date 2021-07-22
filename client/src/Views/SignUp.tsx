@@ -14,7 +14,6 @@ import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import background from '../img/background.jpg';
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
