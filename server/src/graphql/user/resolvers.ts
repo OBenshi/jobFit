@@ -1,8 +1,9 @@
-import { ApolloError } from "apollo-server-express";
+import { ApolloError, ApolloServer } from "apollo-server-express";
 import { UserNs } from "../../@types";
 import userModel from "../../models/usersModel";
-
 export const resolvers = {
+  //* ---------------------------- // SECTION Query ---------------------------- */
+
   Query: {
     users: async () => {
       try {
@@ -23,13 +24,21 @@ export const resolvers = {
       }
     },
   },
+
+  //* ----------------------------- !SECTION Query ----------------------------- */
+
+  //* ---------------------------- SECTION Mutation ---------------------------- */
   Mutation: {
+    //* ------------------------------ SECTION LogIn ----------------------------- */
     logIn: async (parent, args) => {
+      //?STUB imput from args
       const { input }: { input: UserNs.logInInput } = args;
       console.log(`input`, input);
       try {
+        //?STUB email&password from input
         const { email, password } = input;
         console.log(`email`, email);
+        //?STUB connecting to mongoDB
         const user = await userModel.findOneAndUpdate(
           {
             email: email,
@@ -42,6 +51,7 @@ export const resolvers = {
         if (user === null || !user) {
           throw new ApolloError("User not found", "204");
         } else {
+          //TODO token
           return user;
         }
       } catch (err) {
@@ -49,9 +59,33 @@ export const resolvers = {
         throw new ApolloError("error", "500");
       }
     },
+    //* ----------------------------- !SECTION LogIn ----------------------------- */
+
+    //* ----------------------------- SECTION LogOut ----------------------------- */
+    logOut: async (parent, args) => {
+      const { input }: { input: UserNs.logOutInput } = args;
+      try {
+        const { _id } = input;
+        const user = await userModel.findByIdAndUpdate(
+          { _id: _id },
+          { $set: { loggedIn: false } },
+          { useFindAndModify: false }
+        );
+        if (user === null || !user) {
+          throw new ApolloError("User not found", "204");
+        } else {
+          return { status: 200, msg: "LogOut successful" };
+        }
+      } catch (err) {
+        console.log(err);
+        return new ApolloError("LogOut Failed", "501");
+      }
+    },
+    //* ----------------------------- !SECTION LogOut ---------------------------- */
+
+    //* ---------------------------- SECTION ADD USER ---------------------------- */
     addUser: async (parent, args) => {
       const { input }: { input: UserNs.newUser } = args;
-      // console.log(`input`, input);
       try {
         const {
           email,
@@ -93,13 +127,15 @@ export const resolvers = {
             avatar,
           });
           const savedUser = await newUser.save();
+          //TODO email validation
           return savedUser;
         }
-        return 9;
       } catch (err) {
         console.log(`err`, err);
         throw new ApolloError("Could not create user", "400");
       }
     },
+    //* ---------------------------- !SECTION ADD USER --------------------------- */
   },
+  //* ---------------------------- !SECTION Mutation --------------------------- */
 };

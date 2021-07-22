@@ -1,9 +1,14 @@
 import { ObjectId } from "mongoose";
 import { Document, Model } from "mongoose";
 
-export namespace General {
+export namespace GeneralNs {
   interface Error {
     msg: string;
+    code: number;
+  }
+  interface info {
+    msg: string;
+    code: number;
   }
 }
 /** @namespace UserNs */
@@ -38,6 +43,9 @@ export namespace UserNs {
   interface logInInput {
     email: string;
     password: string;
+  }
+  interface logOutInput {
+    _id: ObjectId;
   }
 
   interface userDatingText {

@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-express";
 import { ObjectId } from "mongoose";
+import { GeneralNs } from "../../@types";
 import { DateTypeDefinition } from "graphql-scalars";
 export default gql`
   type User {
@@ -36,12 +37,17 @@ export default gql`
     password: String
   }
 
+  input logOutInput {
+    _id: ObjectID
+  }
+
   extend type Query {
     users: [User]
     user(_id: String): User
   }
   extend type Mutation {
     logIn(input: logInInput): User!
+    logOut(input: logOutInput): JSON!
     addUser(input: newUserInput!): User!
   }
 `;
