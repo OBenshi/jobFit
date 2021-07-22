@@ -7,7 +7,7 @@ import React, {
   useContext,
 } from "react";
 import { useMutation } from "@apollo/client";
-//import {LOGIN_USER} from '../GraphQL/Mutations'
+import {LOGIN_USER} from '../GraphQL/Mutations'
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -47,7 +47,7 @@ interface FormData {
 }
 
 const LogIn: React.FC = () => {
-  //const [addUser, { error }] = useMutation(LOGIN_USER);
+  const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
   const [input, setInput] = useState <FormData>({
     password: "",
@@ -56,7 +56,7 @@ const LogIn: React.FC = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setInput({ ...input, [e.target.name]: e.target.value });
 
-  /* const handleCLick =  (e: FormEvent<HTMLFormElement>) => {
+  const handleCLick =  (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
       if (
       !input.email ||
@@ -64,10 +64,21 @@ const LogIn: React.FC = () => {
     ) {
        alert("Enter email and password!");
       } else {
-        addUser ({variables: {email:input.email, password:input.password}})
-       //here if user else//
+        logIn({
+          variables: {
+            "logInInput": {
+              "email": input.email,
+              "password": input.password
+            }
+          }
+        })
+        if (error) {
+          console.log(error)
+        } else {
+          console.log("user logged in")
+        }
       }
-  }  */
+  }  
  
   const backgroundStyles = {
         backgroundImage: `url(${background})`,
@@ -80,7 +91,7 @@ const LogIn: React.FC = () => {
   return (
     <>
       <div style={backgroundStyles}>
-      <form className={classes.container} noValidate autoComplete="off">
+      <form className={classes.container} noValidate autoComplete="off" onSubmit={handleCLick}>
         <Card className={classes.card}>
           <CardHeader className={classes.header} title="Log in to your SWAT" />
           <CardContent>
@@ -110,7 +121,7 @@ const LogIn: React.FC = () => {
             </div>
           </CardContent>
           <CardActions>
-            <Button variant="contained" size="large" color="primary">
+            <Button variant="contained" size="large" color="primary"  type="submit">
               Login
             </Button>
           </CardActions>

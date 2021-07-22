@@ -32,26 +32,35 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "#fff",
     },
     card: {
-      marginTop: theme.spacing(10),
+      marginTop: theme.spacing(1),
     },
   })
 );
 
 interface FormData {
-  username: string;
-  password: string;
-  email: string;
+  firstName: string,
+  lastName: string,
+  username: string,
+  password: string,
+  birthday: string,
+  email: string,
+  avatar: string
 }
 
 const LogIn: React.FC = () => {
   const classes = useStyles();
-  const [sign, setSign] = useState <FormData>({
+  const [sign, setSign] = useState<FormData>({
+    firstName: "",
+    lastName: "",
     password: "",
+    birthday: "",
     email: "",
-    username:"",
+    username: "",
+    avatar: "",
   })
 const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setSign({ ...sign, [e.target.name]: e.target.value });
+  
  
   const backgroundStyles = {
         backgroundImage: `url(${background})`,
@@ -68,7 +77,47 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
         <Card className={classes.card}>
           <CardHeader className={classes.header} title="Sign Up to your SWAT" />
           <CardContent>
-            <div>
+              <div>
+                 <TextField
+                fullWidth
+                id="firstName"
+                type="firstName"
+                label="First Name"
+                placeholder="First Name"
+                  margin="normal"
+                  name="firstName"
+                onChange={handleChange}
+                />
+                 <TextField
+                fullWidth
+                id="lastName"
+                type="lastName"
+                label="Last Name"
+                placeholder="Last Name"
+                  margin="normal"
+                  name="lastName"
+                onChange={handleChange}
+                />
+                                <TextField
+                fullWidth
+                id="username"
+                type="username"
+                label="Username"
+                placeholder="Username"
+                  margin="normal"
+                  name="username"
+                onChange={handleChange}
+                />
+                          <TextField
+                fullWidth
+                id="birthday"
+                 type="date"
+                //label="Birthday"
+                placeholder="Birthday"
+                margin="normal"
+                name="birthday"
+                  onChange={handleChange}
+                />
               <TextField
                 fullWidth
                 id="email"
@@ -78,15 +127,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 margin="normal"
                 onChange={handleChange}
                               />
-                               <TextField
-                fullWidth
-                id="username"
-                type="username"
-                label="Username"
-                placeholder="Username"
-                margin="normal"
-                onChange={handleChange}
-              />
+               
               <TextField
                 fullWidth
                 id="password"
@@ -95,7 +136,12 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 placeholder="Password"
                 margin="normal"
                 onChange={handleChange}
-              />
+                />
+                 <label htmlFor="img">
+         Your avatar
+         <input accept="image/*" type='file' id="imgInp" />
+         {/* <img src={url} alt="" style={{ width: "100%" }} /> */}
+        </label>
             </div>
           </CardContent>
           <CardActions>

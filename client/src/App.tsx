@@ -16,7 +16,7 @@ function App() {
           <Route exact path="/login" children={<LogIn />} />
           <Route exact path="/testing" children={<AAbla />} />
           <Route exact path="/signup" children={<SignUp />} />
-           <Route exact path="/home" children={<Home />} />
+           <Route exact path="/" children={<Home />} />
         </Switch>
       </Router>
     </div>

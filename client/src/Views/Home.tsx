@@ -1,12 +1,9 @@
 import React, {
 } from "react";
 import img from '../img/home.jpg';
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
@@ -48,8 +45,8 @@ const Home: React.FC = () => {
       <main>
         <div className={classes.heroContent}>
          <Container maxWidth="sm">
-            <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom>
-              SWAT analyser
+            <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom><Box fontWeight="fontWeightBold" fontSize={92} letterSpacing={14} fontFamily="Monospace">SWAT</Box>
+            <Box fontStyle="oblique" fontWeight="fontWeightLight" fontFamily="Monospace">analyser</Box>
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               Here can be the description of the app

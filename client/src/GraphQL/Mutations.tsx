@@ -1,13 +1,22 @@
 import { gql, useQuery } from "@apollo/client";
 
-/* 
 export const LOGIN_USER = gql`
-  mutation addUser ($email: String!,$password: String!) {
-    user (email:$email, password:$password) {
-     email
-    }
+  mutation Mutation($logInInput: logInInput) {
+  logIn(input: $logInInput) {
+    username
   }
+}
+`;
+/* export const SIGN_UP_USER =  gql`
+  mutation Mutation($logInInput: logInInput) {
+  logIn(input: $logInInput) {
+    username
+  }
+}
 `; */
+  
+
+
 //*Good morning dearest Nathalia,
 // if you are writing comments meant for me to read it would be better if you
 // would use anchor comments with any workspace scope
