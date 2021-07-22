@@ -1,31 +1,34 @@
 import { gql } from "apollo-server-express";
-import { DateTimeTypeDefinition } from "graphql-scalars";
+import { ObjectId } from "mongoose";
+import { DateTypeDefinition } from "graphql-scalars";
 export default gql`
   type User {
     _id: ID
     username: String
     firstName: String
     lastName: String
-    birthday: DateTime
+    birthday: Date
     email: String
+    password: String
     rank: Int
     avatar: String
     loggedIn: Boolean
-    comments: [String]
-    datingTexts: [String]
+    comments: [ObjectID]
+    datingTexts: [ObjectID]
   }
-  input userProfileInput {
+  input newUserInput {
     _id: ID
     username: String
     firstName: String
     lastName: String
     birthday: DateTime
     email: String
+    password: String
     rank: Int
     avatar: String
     loggedIn: Boolean
-    comments: String
-    datingTexts: String
+    comments: [ObjectID]
+    datingTexts: [ObjectID]
   }
 
   input logInInput {
@@ -39,6 +42,6 @@ export default gql`
   }
   extend type Mutation {
     logIn(input: logInInput): User!
-    # addUser(input: UserInput!): User!
+    addUser(input: newUserInput!): User!
   }
 `;
