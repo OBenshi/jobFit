@@ -1,7 +1,7 @@
-import { Schema, model, connect } from "mongoose";
+import mongoose, { Schema, connect, Model } from "mongoose";
 import { UserNs } from "../@types/index";
 
-const userSchema = new Schema({
+const userSchema: Schema = new Schema({
   username: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
@@ -14,5 +14,8 @@ const userSchema = new Schema({
   comments: [{ type: Schema.Types.ObjectId, ref: "comment" }],
   datingTexts: [{ type: Schema.Types.ObjectId, ref: "datingText" }],
 });
-const userModel = model("user", userSchema);
+const userModel: Model<UserNs.userSchemaData> = mongoose.model(
+  "user",
+  userSchema
+);
 export default userModel;
