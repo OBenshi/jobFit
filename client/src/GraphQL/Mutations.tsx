@@ -7,13 +7,13 @@ export const LOGIN_USER = gql`
   }
 }
 `;
-/* export const SIGN_UP_USER =  gql`
-  mutation Mutation($logInInput: logInInput) {
-  logIn(input: $logInInput) {
+export const SIGN_UP_USER =  gql`
+  mutation Mutation($addUserInput: newUserInput!) {
+  addUser(input: $addUserInput) {
     username
   }
 }
-`; */
+`; 
   
 
 
