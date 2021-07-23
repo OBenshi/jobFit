@@ -14,7 +14,7 @@ async function startApolloServer() {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(cors());
-    app.use("/users", require("./routes/users"));
+    // app.use("/users", require("./routes/users"));
     server.applyMiddleware({ app });
 
     await mongoose.connect(mongoURI, {

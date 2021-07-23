@@ -11,7 +11,7 @@ export namespace GeneralNs {
     code: number;
   }
 }
-/** @namespace UserNs */
+/** @namespace UserNs a Namespace for user related types */
 export namespace UserNs {
   interface userProfile {
     // _id: ObjectId;
@@ -48,11 +48,6 @@ export namespace UserNs {
     _id: ObjectId;
   }
 
-  interface userDatingText {
-    text: string;
-    date: Date;
-    comments: Array<ObjectId>;
-  }
   interface comments {
     text: string;
     date: Date;
@@ -60,4 +55,16 @@ export namespace UserNs {
     onPost: ObjectId;
   }
   interface userSchemaData extends userProfile, Document {}
+}
+export namespace datingTextNs {
+  interface datingText {
+    text: string;
+    score: number;
+    postDate: Date;
+    owner: ObjectId;
+    comments: Array<ObjectId>;
+    display: boolean;
+    private: boolean;
+  }
+  interface datingTextSchemaData extends datingText, Document {}
 }

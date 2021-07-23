@@ -49,5 +49,6 @@ export default gql`
     logIn(input: logInInput): User!
     logOut(input: logOutInput): JSON!
     addUser(input: newUserInput!): User!
+    UpdateAllUsers(input: String): JSON!
   }
 `;

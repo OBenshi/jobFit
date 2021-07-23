@@ -1,5 +1,6 @@
 import { ApolloError, ApolloServer } from "apollo-server-express";
 import { UserNs } from "../../@types";
+import { sendConfirmationEmail } from "../../mailer/mailer";
 import userModel from "../../models/usersModel";
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
@@ -29,9 +30,28 @@ export const resolvers = {
 
   //* ---------------------------- SECTION Mutation ---------------------------- */
   Mutation: {
+    //*--------------------------- SECTION MAINTENANCE -------------------------- */
+
+    UpdateAllUsers: async (parent, args) => {
+      try {
+        sendConfirmationEmail("bob", "benshi.code@gmail.com");
+        // const users = await userModel.updateMany(
+        //   {},
+        //   { $set: { loggedIn: true } },
+        //   { useFindAndModify: false }
+        // );
+        return { status: 200, msg: "LogOut successful" };
+      } catch (err) {
+        console.log(`err`, err);
+        throw new ApolloError("shit", "69");
+      }
+    },
+
+    //*-------------------------- !SECTION MAINTENANCE -------------------------- */
+
     //* ------------------------------ SECTION LogIn ----------------------------- */
     logIn: async (parent, args) => {
-      //?STUB imput from args
+      //?STUB input from args
       const { input }: { input: UserNs.logInInput } = args;
       console.log(`input`, input);
       try {
