@@ -16,7 +16,7 @@ export default gql`
     avatar: String
     loggedIn: Boolean
     comments: [ObjectID]
-    datingTexts: [ObjectID]
+    datingTexts: [datingText]
   }
   input newUserInput {
     _id: ObjectID
@@ -44,7 +44,7 @@ export default gql`
 
   extend type Query {
     users: [User]
-    user(_id: String): User
+    user(_id: ObjectID): User
   }
   extend type Mutation {
     logIn(input: logInInput): User!

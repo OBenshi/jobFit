@@ -1,5 +1,7 @@
 import { ApolloError, ApolloServer } from "apollo-server-express";
 import { UserNs } from "../../@types";
+import { ObjectID } from "mongodb";
+
 import { sendConfirmationEmail } from "../../mailer/mailer";
 import userModel from "../../models/usersModel";
 export const resolvers = {
@@ -15,10 +17,13 @@ export const resolvers = {
         throw new ApolloError("Error retrieving all users", "400");
       }
     },
-    user: async (parent, args) => {
+    user: async (parent: any, args: ObjectID) => {
+      console.log(`args._id`, args);
       try {
         console.log(`args`, args);
-        const user = await userModel.findById({ _id: args._id });
+        const user = await userModel
+          .findById({ _id: args })
+          .populate({ path: "datingTexts" });
         return user;
       } catch (err) {
         console.log(`err`, err);

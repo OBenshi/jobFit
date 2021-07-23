@@ -15,6 +15,7 @@ export default gql`
     postDate: DateTime
     comments: [ObjectID]
     display: Boolean
+    private: Boolean
   }
   input newDTI {
     owner: ObjectID
@@ -37,7 +38,7 @@ export default gql`
 
   extend type Query {
     allTexts: [datingText!]!
-    aText(_id: ID): datingText!
+    aText(_id: ObjectID): datingText!
   }
   extend type Mutation {
     # logIn(input: logInInput): User!
