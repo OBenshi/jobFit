@@ -8,20 +8,26 @@ export default gql`
     _id: ObjectID
   }
   type datingText {
-    _id: ID
+    _id: ObjectID
     owner: ObjectID
     text: String
     score: Int
-    postDate: Date
+    postDate: DateTime
     comments: [ObjectID]
     display: Boolean
   }
-  input newDTInput {
-    owner: ID
+  input newDTI {
+    owner: ObjectID
     text: String
-    postDate: Date
+    postDate: DateTime
     display: Boolean
-    private: Boolean
+    xprivate: Boolean
+  }
+  input editText {
+    _id: ObjectID
+    text: String
+    display: Boolean
+    xprivate: Boolean
   }
 
   input showHideInput {
@@ -33,10 +39,10 @@ export default gql`
     allTexts: [datingText!]!
     aText(_id: ID): datingText!
   }
-  #   extend type Mutation {
-  # logIn(input: logInInput): User!
-  # logOut(input: logOutInput): JSON!
-  # addDatingText(input: newDTInput!): datingText!
-  # UpdateAllUsers(input: String): JSON!
-  #   }
+  extend type Mutation {
+    # logIn(input: logInInput): User!
+    # logOut(input: logOutInput): JSON!
+    addDatingText(input: newDTI): datingText!
+    editDatingText(input: editText!): datingText!
+  }
 `;

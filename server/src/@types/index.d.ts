@@ -64,7 +64,26 @@ export namespace datingTextNs {
     owner: ObjectId;
     comments: Array<ObjectId>;
     display: boolean;
-    private: boolean;
+    xprivate: boolean;
   }
+  interface newText {
+    text: string;
+    postDate: Date;
+    owner: ObjectId;
+    xprivate: boolean;
+  }
+  interface editText {
+    _id: ObjectId;
+    text: string;
+    display: boolean;
+    xprivate: boolean;
+  }
+  /**
+   *
+   *
+   * @interface datingTextSchemaData
+   * @extends {datingText}
+   * @extends {Document}{@link Document}
+   */
   interface datingTextSchemaData extends datingText, Document {}
 }

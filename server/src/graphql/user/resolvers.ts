@@ -30,7 +30,7 @@ export const resolvers = {
 
   //* ---------------------------- SECTION Mutation ---------------------------- */
   Mutation: {
-    //*--------------------------- SECTION MAINTENANCE -------------------------- */
+    //*--------------------------- SECTION User MAINTENANCE -------------------------- */
 
     UpdateAllUsers: async (parent, args) => {
       try {
@@ -47,7 +47,7 @@ export const resolvers = {
       }
     },
 
-    //*-------------------------- !SECTION MAINTENANCE -------------------------- */
+    //*-------------------------- !SECTION User MAINTENANCE -------------------------- */
 
     //* ------------------------------ SECTION LogIn ----------------------------- */
     logIn: async (parent, args) => {

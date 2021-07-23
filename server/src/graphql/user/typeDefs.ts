@@ -1,10 +1,11 @@
 import { gql } from "apollo-server-express";
-import { ObjectId } from "mongoose";
+import { ObjectID } from "mongodb";
+// import { ObjectId } from "mongoose";
 import { GeneralNs } from "../../@types";
 import { DateTypeDefinition } from "graphql-scalars";
 export default gql`
   type User {
-    _id: ID
+    _id: ObjectID
     username: String
     firstName: String
     lastName: String
@@ -18,7 +19,7 @@ export default gql`
     datingTexts: [ObjectID]
   }
   input newUserInput {
-    _id: ID
+    _id: ObjectID
     username: String
     firstName: String
     lastName: String
