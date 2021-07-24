@@ -1,9 +1,11 @@
 import { gql } from "apollo-server-express";
-import { ObjectId } from "mongoose";
+import { ObjectID } from "mongodb";
+// import { ObjectId } from "mongoose";
+import { GeneralNs } from "../../@types";
 import { DateTypeDefinition } from "graphql-scalars";
 export default gql`
   type User {
-    _id: ID
+    _id: ObjectID
     username: String
     firstName: String
     lastName: String
@@ -14,10 +16,10 @@ export default gql`
     avatar: String
     loggedIn: Boolean
     comments: [ObjectID]
-    datingTexts: [ObjectID]
+    datingTexts: [datingText]
   }
   input newUserInput {
-    _id: ID
+    _id: ObjectID
     username: String
     firstName: String
     lastName: String
@@ -36,12 +38,18 @@ export default gql`
     password: String
   }
 
+  input logOutInput {
+    _id: ObjectID
+  }
+
   extend type Query {
     users: [User]
-    user(_id: String): User
+    user(_id: ObjectID): User
   }
   extend type Mutation {
     logIn(input: logInInput): User!
+    logOut(input: logOutInput): JSON!
     addUser(input: newUserInput!): User!
+    UpdateAllUsers(input: String): JSON!
   }
 `;
