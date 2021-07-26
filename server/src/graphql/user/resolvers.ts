@@ -1,8 +1,8 @@
 import { ApolloError, ApolloServer } from "apollo-server-express";
 import { UserNs } from "../../@types";
-import { ObjectID } from "mongodb";
+import { ObjectId, ObjectID } from "mongodb";
 
-import { sendConfirmationEmail } from "../../mailer/mailer";
+// import { sendConfirmationEmail } from "../../mailer/mailer";
 import userModel from "../../models/usersModel";
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
@@ -17,13 +17,15 @@ export const resolvers = {
         throw new ApolloError("Error retrieving all users", "400");
       }
     },
-    user: async (parent: any, args: ObjectID) => {
-      console.log(`args._id`, args);
+    user: async (parent: any, args) => {
+      console.log(`args`, args._id);
+      // const { id } = args;
       try {
         console.log(`args`, args);
         const user = await userModel
-          .findById({ _id: args })
-          .populate({ path: "datingTexts" });
+          .findById(args._id)
+          .populate({ path: "datingTexts" })
+          .populate({ path: "comments" });
         return user;
       } catch (err) {
         console.log(`err`, err);
@@ -37,20 +39,20 @@ export const resolvers = {
   Mutation: {
     //*--------------------------- SECTION User MAINTENANCE -------------------------- */
 
-    UpdateAllUsers: async (parent, args) => {
-      try {
-        sendConfirmationEmail("bob", "benshi.code@gmail.com");
-        // const users = await userModel.updateMany(
-        //   {},
-        //   { $set: { loggedIn: true } },
-        //   { useFindAndModify: false }
-        // );
-        return { status: 200, msg: "LogOut successful" };
-      } catch (err) {
-        console.log(`err`, err);
-        throw new ApolloError("shit", "69");
-      }
-    },
+    // UpdateAllUsers: async (parent, args) => {
+    //   try {
+    //     sendConfirmationEmail("bob", "benshi.code@gmail.com");
+    //     // const users = await userModel.updateMany(
+    //     //   {},
+    //     //   { $set: { loggedIn: true } },
+    //     //   { useFindAndModify: false }
+    //     // );
+    //     return { status: 200, msg: "LogOut successful" };
+    //   } catch (err) {
+    //     console.log(`err`, err);
+    //     throw new ApolloError("shit", "69");
+    //   }
+    // },
 
     //*-------------------------- !SECTION User MAINTENANCE -------------------------- */
 
@@ -64,14 +66,17 @@ export const resolvers = {
         const { email, password } = input;
         console.log(`email`, email);
         //?STUB connecting to mongoDB
-        const user = await userModel.findOneAndUpdate(
-          {
-            email: email,
-            password: password,
-          },
-          { $set: { loggedIn: true } },
-          { useFindAndModify: false }
-        );
+        const user = await userModel
+          .findOneAndUpdate(
+            {
+              email: email,
+              password: password,
+            },
+            { $set: { loggedIn: true } },
+            { useFindAndModify: false }
+          )
+          .populate({ path: "datingTexts" })
+          .populate({ path: "comments" });
         console.log(`user`, user);
         if (user === null || !user) {
           throw new ApolloError("User not found", "204");

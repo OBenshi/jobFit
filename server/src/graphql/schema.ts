@@ -1,6 +1,9 @@
 import { makeExecutableSchema } from "graphql-tools";
 import { merge } from "lodash";
+import Comments from "./comments/typeDefs";
+import { resolvers as commentsResolver } from "./comments/resolvers";
 import User from "./user/typeDefs";
+
 import { resolvers as userResolvers } from "./user/resolvers";
 import datingText from "./datingText/typeDefs";
 import { resolvers as datingTextResolvers } from "./datingText/resolvers";
@@ -21,10 +24,11 @@ const Query = gql`
   #     _empty: String
   #   }
 `;
-const typeDefs = [...ScalarTypeDef, User, datingText, Query];
+const typeDefs = [...ScalarTypeDef, User, Comments, datingText, Query];
 const resolvers = merge(
   ScalarResolvers,
   userResolvers,
+  commentsResolver,
   datingTextResolvers,
   scalarResolverMap
 );

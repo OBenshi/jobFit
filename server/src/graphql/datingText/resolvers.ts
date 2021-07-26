@@ -99,17 +99,19 @@ export const resolvers = {
     ) => {
       try {
         const { text, xprivate, _id, display } = args.input;
-        const editDT = datingTextModel.findByIdAndUpdate(
-          { _id: _id },
-          {
-            $set: {
-              text: text,
-              private: xprivate,
-              display: display,
+        const editDT = datingTextModel
+          .findByIdAndUpdate(
+            { _id: _id },
+            {
+              $set: {
+                text: text,
+                private: xprivate,
+                display: display,
+              },
             },
-          },
-          { useFindAndModify: false, new: true }
-        );
+            { useFindAndModify: false, new: true }
+          )
+          .populate({ path: "comments" });
         if (editDT === null) {
           return new ApolloError("failed to edit text", "502");
         }

@@ -1,4 +1,5 @@
-import { ObjectId } from "mongoose";
+import { ObjectID } from "mongodb";
+// import { ObjectId } from "mongoose";
 import { Document, Model } from "mongoose";
 
 export namespace GeneralNs {
@@ -24,8 +25,8 @@ export namespace UserNs {
     rank: number;
     avatar?: string;
     loggedIn: boolean;
-    datingTexts: Array<ObjectId>;
-    comments: Array<ObjectId>;
+    datingTexts: Array<datingTextNs.datingText>;
+    comments: Array<commentsNs.comment>;
   }
   interface newUser {
     username: string;
@@ -45,15 +46,9 @@ export namespace UserNs {
     password: string;
   }
   interface logOutInput {
-    _id: ObjectId;
+    _id: ObjectID;
   }
 
-  interface comments {
-    text: string;
-    date: Date;
-    user: ObjectId;
-    onPost: ObjectId;
-  }
   interface userSchemaData extends userProfile, Document {}
 }
 export namespace datingTextNs {
@@ -61,19 +56,19 @@ export namespace datingTextNs {
     text: string;
     score: number;
     postDate: Date;
-    owner: ObjectId;
-    comments: Array<ObjectId>;
+    owner: ObjectID;
+    comments: Array<ObjectID>;
     display: boolean;
     xprivate: boolean;
   }
   interface newText {
     text: string;
     postDate: Date;
-    owner: ObjectId;
+    owner: ObjectID;
     xprivate: boolean;
   }
   interface editText {
-    _id: ObjectId;
+    _id: ObjectID;
     text: string;
     display: boolean;
     xprivate: boolean;
@@ -86,4 +81,18 @@ export namespace datingTextNs {
    * @extends {Document}{@link Document}
    */
   interface datingTextSchemaData extends datingText, Document {}
+}
+
+export namespace commentsNs {
+  interface newComment {
+    text: string;
+    score: number;
+    owner: ObjectID;
+    onText: ObjectID;
+  }
+  interface comment extends newComment {
+    display: boolean;
+    postDate: Date;
+  }
+  interface commentsSchemaData extends comment, Document {}
 }
