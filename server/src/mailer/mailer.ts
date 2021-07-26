@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+/* import nodemailer from "nodemailer";
 const dotenv = require("dotenv").config();
 
 // const user = require("../config").;
@@ -38,3 +38,4 @@ export const sendConfirmationEmail = async (
     console.log(err);
   }
 };
+ */

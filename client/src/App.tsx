@@ -5,6 +5,7 @@ import Appbar from "./components/Appbar";
 import LogIn from "./Views/LogIn";
 import Home from "./Views/Home";
 import SignUp from "./Views/SignUp";
+import DisplayText from "./Views/DisplayText";
 import AAbla from "./AAbla";
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -16,7 +17,8 @@ function App() {
         <Appbar />
         <Switch>
           <Route exact path="/login" children={<LogIn />} />
-          <Route exact path="/testing" children={<AAbla />} />
+            <Route exact path="/testing" children={<AAbla />} />
+            <Route exact path="/displayText" children={<DisplayText />} />
           <Route exact path="/signup" children={<SignUp />} />
            <Route exact path="/" children={<Home />} />
           </Switch>
