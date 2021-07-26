@@ -4,7 +4,7 @@ import React, {
   useState,
   ChangeEvent,
   FormEvent,
-    useContext,
+  useContext,
   useEffect
 } from "react";
 import background from '../img/background.jpg';
@@ -18,6 +18,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { LocalDiningTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   root: {
@@ -42,17 +43,20 @@ interface Props {
 }
 
 const DisplayText: React.FC = () => {
-    const classes = useStyles();
+  const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+  
     const { error, loading, data } = useQuery(DATING_TEXT)
     const [texts, setTexts] = useState<any[]>([])
     
-    useEffect(() => {
-        if (data) {
-            console.log(data.allTexts)
-        setTexts(data.allTexts)
-        }
-    }, [data]);
+  useEffect(() => {
+    console.log(data);
+    console.log(error);
+      if (data) {
+          //console.log(data.allTexts)
+      //setTexts(data.allTexts)
+        } 
+    }, [loading]);
 
      const backgroundStyles = {
         backgroundImage: `url(${background})`,
@@ -64,22 +68,22 @@ const DisplayText: React.FC = () => {
         height: '100vh'
 };
     return (
-        <div style={backgroundStyles}>
-             {texts.map((value) => {
+      <div style={backgroundStyles}>
+       {/*  {texts.map((value) => {
                     return <Card className={classes.root}>
             <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-            <Typography variant="h5" component="h2"> {value.postDate} </Typography> 
+            <Typography variant="h5" component="h2">{value.text}</Typography> 
             </Typography>
                             <Typography variant="h5" component="h2"> {value.text} </Typography>
-                            <Typography variant="h5" component="h2"> {value.comments} </Typography>
+                            <Typography variant="h5" component="h2">  </Typography>
                         </CardContent>
                         
         <CardActions>
         <Button size="small">Add a comment</Button>
       </CardActions>
-                 </Card>
-            })} 
+          </Card>
+              })}  */}
         </div> 
   )
 }

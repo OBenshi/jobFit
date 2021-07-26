@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const DATING_TEXT = gql`
 query Query {
@@ -8,9 +8,8 @@ query Query {
     text
     score
     postDate
-    comments
     display
     private
   }
 }
-`
+`;
