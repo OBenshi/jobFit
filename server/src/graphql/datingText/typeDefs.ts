@@ -13,7 +13,7 @@ export default gql`
     text: String
     score: Int
     postDate: DateTime
-    comments: [ObjectID]
+    comments: [comment]
     display: Boolean
     private: Boolean
   }
