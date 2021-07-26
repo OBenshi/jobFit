@@ -5,11 +5,14 @@ query Query {
   allTexts {
     _id
     owner
-    text
     score
     postDate
+    comments{
+    text  
+    }
     display
     private
+    text
   }
 }
 `;
