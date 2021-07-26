@@ -78,6 +78,7 @@ export const resolvers = {
           { $addToSet: { comments: savedComment._id } },
           { useFindAndModify: false, new: true }
         );
+
         console.log(`datingText`, datingText);
         if (datingText === null) {
           return new ApolloError(

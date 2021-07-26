@@ -9,7 +9,9 @@ export const resolvers = {
   Query: {
     allTexts: async () => {
       try {
-        const datingTexts = await datingTextModel.find({});
+        const datingTexts = await datingTextModel
+          .find({})
+          .populate({ path: "comments" });
         return datingTexts;
       } catch (err) {
         console.error("¡error! : ", err);
@@ -18,7 +20,9 @@ export const resolvers = {
     },
     aText: async (parent, args: ObjectID) => {
       try {
-        const datingText = await datingTextModel.findById(args);
+        const datingText = await datingTextModel
+          .findById(args)
+          .populate({ path: "comments" });
         if (datingText === null) {
           return new ApolloError("Dating Text not found", "204");
         }
