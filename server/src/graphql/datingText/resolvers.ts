@@ -11,7 +11,7 @@ export const resolvers = {
       try {
         const datingTexts = await datingTextModel
           .find({})
-          .populate({ path: "comments" });
+          .populate({ path: "comments", populate: { path: "owner" } });
         return datingTexts;
       } catch (err) {
         console.error("¡error! : ", err);
@@ -115,7 +115,7 @@ export const resolvers = {
             },
             { useFindAndModify: false, new: true }
           )
-          .populate({ path: "comments" });
+          .populate({ path: "comments", populate: { path: "owner" } });
         if (editDT === null) {
           return new ApolloError("failed to edit text", "502");
         }
