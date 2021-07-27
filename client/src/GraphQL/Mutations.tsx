@@ -15,7 +15,21 @@ export const SIGN_UP_USER =  gql`
 }
 `; 
   
+export const ADD_DATING = gql`
+mutation Mutation($addDatingTextInput: newDTI) {
+  addDatingText(input: $addDatingTextInput) {
+    username
+  }
+}
+`;
 
+export const ADD_COMMENT = gql`
+query Query($aCommentId: ObjectID) {
+  aComment(_id: $aCommentId) {
+    text
+  }
+}
+`; 
 
 //*Good morning dearest Nathalia,
 // if you are writing comments meant for me to read it would be better if you

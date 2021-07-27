@@ -136,13 +136,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
         }
       }
   }
-  
-  /*   useEffect(() => {
-    if (url) {
-      handleCLick;
-    }
-    }, [url]); */
-  
+ 
   const backgroundStyles = {
         backgroundImage: `url(${background})`,
         backgroundPosition: 'center',
