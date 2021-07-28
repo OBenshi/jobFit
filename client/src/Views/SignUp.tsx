@@ -213,7 +213,6 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 onChange={handleChange}
                 />
                  <label htmlFor="img">
-         Your avatar
                   <input
                     accept="image/*"
                     type="file"
