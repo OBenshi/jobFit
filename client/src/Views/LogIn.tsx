@@ -66,11 +66,9 @@ const LogIn: React.FC = () => {
       } else {
         logIn({
           variables: {
-            "logInInput": {
-              "email": input.email,
-              "password": input.password
+              "logInEmail": input.email,
+              "logInPassword": input.password
             }
-          }
         })
         if (error) {
           console.log(error)

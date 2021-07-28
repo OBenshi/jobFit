@@ -114,7 +114,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
       } else {
         addUser({
           variables: {
-            "addUserInput": {
+            "addUserUser": {
                "firstName": sign.firstName,
                "lastName": sign.lastName, 
                "password": sign.password,
