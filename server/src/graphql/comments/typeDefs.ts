@@ -5,7 +5,7 @@ import { datingTextNs } from "../../@types";
 import { DateTypeDefinition } from "graphql-scalars";
 export default gql`
   type comment {
-    # _id: ObjectID
+    _id: ObjectID
     owner: User
     text: String
     score: Int

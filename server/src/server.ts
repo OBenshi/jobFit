@@ -1,5 +1,6 @@
 require("dotenv").config();
 import { schema } from "./graphql/schema";
+// import { context } from "./context";
 const mongoURI = require("./config.js").mongoURI;
 import express from "express";
 import cors from "cors";
@@ -8,7 +9,17 @@ import { ApolloServer, gql } from "apollo-server-express";
 // const userRoute = re './routes/users'
 async function startApolloServer() {
   try {
-    const server = new ApolloServer({ schema });
+    const server = new ApolloServer({
+      schema,
+      context: ({ req }) => {
+        // get the authorization from the request headers
+        // return a context obj with our token. if any!
+        const auth = req.headers.authorization || "";
+        return {
+          auth,
+        };
+      },
+    });
     await server.start();
     const app = express();
     app.use(express.urlencoded({ extended: true }));
