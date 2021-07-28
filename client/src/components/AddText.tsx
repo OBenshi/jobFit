@@ -72,9 +72,9 @@ const AddText: React.FC = (props) => {
       }
   }
     return (
-        <div>
+      <div>
         <form className={classes.container} noValidate autoComplete="off" style ={{backgroundColor:" white"}} onSubmit={handleCLick}>
-        <TextareaAutosize aria-label="minimum height" minRows={7} placeholder="Add your own dating text here and click upload" name="text"
+        <TextareaAutosize aria-label="minimum height" minRows={10} placeholder="Add your own dating text here and click upload" name="text"
         onChange={handleChange} />
         <FormControlLabel
         control={
@@ -88,7 +88,7 @@ const AddText: React.FC = (props) => {
          <KeyboardDatePicker
           margin="normal"
           id="date-picker-dialog"
-          label="Date picker dialog"
+          label="Todays date"
           format="MM/dd/yyyy"
           value={selectedDate}
           onChange={handleDateChange}
@@ -96,10 +96,12 @@ const AddText: React.FC = (props) => {
             'aria-label': 'change date',
           }}
         />
-        <Button variant="contained" color="primary" type="submit">Upload</Button>
+        <Button variant="contained" color="primary" type="submit">Upload your text for analyse</Button>
         </form>
         </div>
     )
 }
 
 export default AddText;
+
+///TODO watson and edit your dating text.

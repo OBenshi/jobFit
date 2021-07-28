@@ -1,11 +1,7 @@
 import React, {
-  FC,
-  Fragment,
   useState,
   ChangeEvent,
   FormEvent,
-  useEffect,
-  useContext,
 } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -34,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: "center",
-      background: "#002884",
+      background: "#FFD700",
       color: "#fff",
     },
     card: {
@@ -153,6 +149,15 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
           <CardHeader className={classes.header} title="Sign Up to your SWAT" />
           <CardContent>
               <div>
+                                        <DatePicker
+        disableFuture
+        openTo="year"
+        format="dd/MM/yyyy"
+        label="Date of birth"
+        views={["year", "month", "date"]}
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
                  <TextField
                 fullWidth
                 id="firstName"
@@ -183,15 +188,6 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 name="username"
                 onChange={handleChange}
                 />
-                  <DatePicker
-        disableFuture
-        openTo="year"
-        format="dd/MM/yyyy"
-        label="Date of birth"
-        views={["year", "month", "date"]}
-        value={selectedDate}
-        onChange={handleDateChange}
-      />
               <TextField
                 fullWidth
                 id="email"
@@ -220,13 +216,13 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                     name="avatar"
                     onChange={(e: ChangeEvent<any>)=> setImageSelected(e.target.files[0])} />
                 </label>
-                <Button variant="contained" size="large" color="primary" onClick={() => uploadImage()}>
-              Upload img
+                <Button variant="contained" size="large" style={{backgroundColor: "#FFD700", color: '#FFFFFF'}} onClick={() => uploadImage()}>
+              Upload avatar
             </Button>
             </div>
           </CardContent>
           <CardActions>
-            <Button variant="contained" size="large" color="primary" type="submit">
+             <Button variant="contained" size="large" type="submit" style={{backgroundColor: "#FFD700", color: '#FFFFFF'}}>
               Sign Up
             </Button>
           </CardActions>

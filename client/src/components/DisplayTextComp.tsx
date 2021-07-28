@@ -11,10 +11,11 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const useStyles = makeStyles({
   root: {
-        maxWidth: 275,
-        minHeight: 190,
+        maxWidth: 340,
+        minHeight: 110,
         marginBottom: 10,
-        marginLeft: 60
+        marginLeft: 10,
+        elevation: 12,
   },
   pos: {
     marginBottom: 12,
@@ -69,13 +70,14 @@ const DisplayTextComp: React.FC = (props) => {
       {data !== undefined && data.allTexts.map((allText: any) => {
         return <Paper className={classes.root}>
             <Typography variant="h6" gutterBottom>{allText.text}</Typography> 
-            <Typography variant="caption" display="block" gutterBottom> {allText.postDate} </Typography>
+            <Typography variant="caption" display="block" gutterBottom> {allText.postDate} </Typography><hr></hr>
               {allText.comments.map((comment: any) => {
-                return <Typography variant="body2">{comment.text}</Typography>
+                return <Typography variant="body2" style={{backgroundColor: "#FFD700"}}>{comment.text}</Typography>
               })}
-          <div>
+          <div style={{display: "flex",
+    flexDirection:'column', justifyContent:"space-between"}}>
          <TextareaAutosize aria-label="minimum height" minRows={2} placeholder="your comment" name="text" />
-        <Button size="small" variant="contained" color="primary">Add a comment</Button></div>
+        <Button size="small" variant="contained" style={{backgroundColor: "#FFD700", color: '#FFFFFF'}}>Add a comment</Button></div>
         </Paper>
               })} 
         </div> 

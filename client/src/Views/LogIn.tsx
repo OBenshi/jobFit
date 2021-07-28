@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: "center",
-      background: "#002884",
+      background: "#FFD700",
       color: "#fff",
     },
     card: {
@@ -121,7 +121,7 @@ const LogIn: React.FC = () => {
             </div>
           </CardContent>
           <CardActions>
-            <Button variant="contained" size="large" color="primary"  type="submit">
+            <Button variant="contained" size="large" type="submit" style={{backgroundColor: "#FFD700", color: '#FFFFFF'}}>
               Login
             </Button>
           </CardActions>

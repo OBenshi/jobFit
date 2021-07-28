@@ -1,19 +1,21 @@
 import React from "react";
-import background from '../img/background.jpg';
+import bg from '../img/bg2.jpg';
 import DisplayTextComp from '../components/DisplayTextComp';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 const DisplayText: React.FC = () => {
      const backgroundStyles = {
-        backgroundImage: `url(${background})`,
+        backgroundImage: `url(${bg})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
          backgroundRepeat: 'no-repeat',
-        //opacity: 0.8,
         width: '100vw',
         height: '100vh'
 };
     return (
-    <div style={backgroundStyles}>
+      <div style={backgroundStyles}>
+        <Typography component="h1" variant="h4" align="center" color="textPrimary" gutterBottom><Box fontWeight="fontWeightBold" fontSize={92} letterSpacing={14} fontFamily="Monospace" color="#FFD700">SWAT</Box></Typography>
     <DisplayTextComp/>
         </div> 
   )
