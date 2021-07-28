@@ -4,12 +4,9 @@ import { gql } from "apollo-server-express";
 import { datingTextNs } from "../../@types";
 import { DateTypeDefinition } from "graphql-scalars";
 export default gql`
-  type id {
-    _id: ObjectID
-  }
   type datingText {
     _id: ObjectID
-    owner: ObjectID
+    owner: User
     text: String
     score: Int
     postDate: DateTime

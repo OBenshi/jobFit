@@ -54,9 +54,11 @@ export const resolvers = {
 
     //* ---------------------------- SECTION ADD COMMENT ---------------------------- */
     //todo  TODO ranking!!!
-    addComment: async (parent: any, args: { input: commentsNs.newComment }) => {
+    addComment: async (
+      parent: any,
+      { owner, text, onText, score }: commentsNs.newComment
+    ) => {
       try {
-        const { owner, text, onText, score } = args.input;
         console.log(`owner`, owner);
         const newComment: commentsNs.commentsSchemaData = new commentsModel({
           owner,

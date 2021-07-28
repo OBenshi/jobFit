@@ -18,7 +18,7 @@ export const resolvers = {
         throw new ApolloError("Error retrieving all dating texts", "500");
       }
     },
-    aText: async (parent, args: ObjectID) => {
+    aText: async (parent: any, args: ObjectID) => {
       try {
         const datingText = await datingTextModel
           .findById(args)
@@ -57,11 +57,10 @@ export const resolvers = {
 
     //* ---------------------------- SECTION ADD TEXT ---------------------------- */
     addDatingText: async (
-      parent: any,
-      args: { input: datingTextNs.newText }
+      parent,
+      { owner, postDate, text, xprivate }: datingTextNs.newText
     ) => {
       try {
-        const { owner, postDate, text, xprivate } = args.input;
         console.log(`owner`, owner);
         const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
           owner,
@@ -99,10 +98,9 @@ export const resolvers = {
 
     editDatingText: async (
       parent: any,
-      args: { input: datingTextNs.editText }
+      { text, xprivate, display, _id }: datingTextNs.editText
     ) => {
       try {
-        const { text, xprivate, _id, display } = args.input;
         const editDT = datingTextModel
           .findByIdAndUpdate(
             { _id: _id },

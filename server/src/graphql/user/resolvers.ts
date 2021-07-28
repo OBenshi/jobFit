@@ -1,6 +1,6 @@
 import { ApolloError, ApolloServer } from "apollo-server-express";
 import { UserNs } from "../../@types";
-import { ObjectId, ObjectID } from "mongodb";
+import { ObjectID } from "mongodb";
 
 // import { sendConfirmationEmail } from "../../mailer/mailer";
 import userModel from "../../models/usersModel";
@@ -17,15 +17,13 @@ export const resolvers = {
         throw new ApolloError("Error retrieving all users", "400");
       }
     },
-    user: async (parent: any, args) => {
-      console.log(`args`, args._id);
-      // const { id } = args;
+    user: async (parent: any, args: ObjectID) => {
       try {
         console.log(`args`, args);
         const user = await userModel
-          .findById(args._id)
+          .findOne(args)
           .populate({ path: "datingTexts" })
-          .populate({ path: "comments" });
+          .populate({ path: "comments", populate: { path: "onText" } });
         return user;
       } catch (err) {
         console.log(`err`, err);
@@ -57,13 +55,10 @@ export const resolvers = {
     //*-------------------------- !SECTION User MAINTENANCE -------------------------- */
 
     //* ------------------------------ SECTION LogIn ----------------------------- */
-    logIn: async (parent, args) => {
-      //?STUB input from args
-      const { input }: { input: UserNs.logInInput } = args;
-      console.log(`input`, input);
+    logIn: async (_: any, args: { email: string; password: string }) => {
       try {
-        //?STUB email&password from input
-        const { email, password } = input;
+        //?STUB email&password from args
+        const { email, password } = args;
         console.log(`email`, email);
         //?STUB connecting to mongoDB
         const user = await userModel
@@ -92,10 +87,9 @@ export const resolvers = {
     //* ----------------------------- !SECTION LogIn ----------------------------- */
 
     //* ----------------------------- SECTION LogOut ----------------------------- */
-    logOut: async (parent, args) => {
-      const { input }: { input: UserNs.logOutInput } = args;
+    logOut: async (parent: any, args: { _id: ObjectID }) => {
+      const { _id } = args;
       try {
-        const { _id } = input;
         const user = await userModel.findByIdAndUpdate(
           { _id: _id },
           { $set: { loggedIn: false } },
@@ -114,10 +108,10 @@ export const resolvers = {
     //* ----------------------------- !SECTION LogOut ---------------------------- */
 
     //* ---------------------------- SECTION ADD USER ---------------------------- */
-    addUser: async (parent, args) => {
-      const { input }: { input: UserNs.newUser } = args;
-      try {
-        const {
+    addUser: async (
+      _: any,
+      {
+        user: {
           email,
           password,
           username,
@@ -125,7 +119,10 @@ export const resolvers = {
           firstName,
           lastName,
           avatar,
-        } = input;
+        },
+      }
+    ) => {
+      try {
         const existingUser = JSON.parse(
           JSON.stringify(
             await userModel.findOne({

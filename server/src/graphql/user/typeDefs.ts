@@ -9,7 +9,7 @@ export default gql`
     username: String
     firstName: String
     lastName: String
-    birthday: Date
+    birthday: DateTime
     email: String
     password: String
     rank: Int
@@ -26,7 +26,7 @@ export default gql`
     birthday: DateTime
     email: String
     password: String
-    rank: Int
+    # rank: Int
     avatar: String
     # loggedIn: Boolean
     # comments: [comment]
@@ -47,9 +47,9 @@ export default gql`
     user(_id: ObjectID): User
   }
   extend type Mutation {
-    logIn(input: logInInput): User!
-    logOut(input: logOutInput): JSON!
-    addUser(input: newUserInput!): User!
+    logIn(email: String, password: String): User!
+    logOut(_id: ObjectID): JSON!
+    addUser(user: newUserInput!): User!
     UpdateAllUsers(input: String): JSON!
   }
 `;
