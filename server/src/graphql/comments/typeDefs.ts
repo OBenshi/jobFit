@@ -33,7 +33,7 @@ export default gql`
   extend type Mutation {
     # logIn(input: logInInput): User!
     # logOut(input: logOutInput): JSON!
-    addComment(input: newComment): comment!
+    addComment(comment: newComment): comment!
     editComment(input: editComment!): comment!
   }
 `;
