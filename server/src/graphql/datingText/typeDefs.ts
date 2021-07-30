@@ -40,7 +40,7 @@ export default gql`
   extend type Mutation {
     # logIn(input: logInInput): User!
     # logOut(input: logOutInput): JSON!
-    addDatingText(input: newDTI): datingText!
+    addDatingText(text: newDTI): datingText!
     editDatingText(input: editText!): datingText!
   }
 `;
