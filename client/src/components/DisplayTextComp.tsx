@@ -57,7 +57,7 @@ const handleChange =  (e: ChangeEvent<any>) =>
    e.preventDefault();
         AddCommentMutation({
           variables: {
-            "addCommentInput": {
+            "addCommentComment": {
              "owner": comment.owner,
              "text": comment.text,
              "score": comment.score,
