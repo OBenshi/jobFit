@@ -56,12 +56,12 @@ export const resolvers = {
     //todo  TODO ranking!!!
     addComment: async (
       parent: any,
-      { owner, text, onText, score }: commentsNs.newComment
+      { comment: { owner, text, onText, score } }
     ) => {
       try {
         console.log(`owner`, owner);
         const newComment: commentsNs.commentsSchemaData = new commentsModel({
-          owner,
+          owner: owner,
           onText,
           postDate: new Date().toISOString(),
           text,
