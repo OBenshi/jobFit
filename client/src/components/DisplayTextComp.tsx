@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import React, {
+  FC,
+  Fragment,
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useContext,
+} from "react";
 import { useQuery, gql } from '@apollo/client'
 import { DATING_TEXT } from '../GraphQL/Queries';
 import { useMutation } from "@apollo/client";
@@ -7,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Paper } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 
 const useStyles = makeStyles({
@@ -26,42 +34,45 @@ interface IAddText {
    owner: string,
     text: string,
     score: string,
-    postDate: string
+    onText: string
 }
 
 const DisplayTextComp: React.FC = (props) => {
   const classes = useStyles();
   const { error, loading, data } = useQuery(DATING_TEXT);
-  //const [aComment] = useMutation(ADD_COMMENT);
+  const [AddCommentMutation] = useMutation(ADD_COMMENT);
   const [comment, setComment] = useState<IAddText>({
     owner: "",
     text: "",
     score: "",
-    postDate: ""
+    onText: ""
   });
 
   console.log(data);
   
-  /* const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+const handleChange =  (e: ChangeEvent<any>) =>
   setComment({ ...comment, [e.target.name]: e.target.value }
-    ); */
-  /* const handleCLick =  (e: ) => {
-    e.preventDefault();
-        aComment({
+    ); 
+ const handleSubmit =  (e: FormEvent<HTMLFormElement>)=> {
+   e.preventDefault();
+        AddCommentMutation({
           variables: {
-          "owner": comment.owner,
-           "text": comment.text,
-          "score": comment.score,
-          "postDate": comment.postDate
+            "addCommentInput": {
+             "owner": comment.owner,
+             "text": comment.text,
+             "score": comment.score,
+             "onText": comment.onText
+          }
             }
           }
         )
         if (error) {
           console.log(error)
         } else {
-          console.log("user logged in")
-        }
-      } */
+          console.log("success")
+   }
+    console.log(comment);
+      }  
   
     return (
     <div>
@@ -74,10 +85,17 @@ const DisplayTextComp: React.FC = (props) => {
               {allText.comments.map((comment: any) => {
                 return <Typography variant="body2" style={{backgroundColor: "#FFD700"}}>{comment.text}</Typography>
               })}
-          <div style={{display: "flex",
-    flexDirection:'column', justifyContent:"space-between"}}>
-         <TextareaAutosize aria-label="minimum height" minRows={2} placeholder="your comment" name="text" />
-        <Button size="small" variant="contained" style={{backgroundColor: "#FFD700", color: '#FFFFFF'}}>Add a comment</Button></div>
+          <form noValidate autoComplete="off" onSubmit={handleSubmit} style={{display: "flex",
+            flexDirection: 'column', justifyContent: "space-between"
+          }}>
+            <TextareaAutosize
+              aria-label="minimum height"
+              minRows={2} placeholder="your comment"
+              name="text"
+              value={comment.text}
+              onChange={handleChange} />
+            <Button size="small" variant="contained" style={{ backgroundColor: "#FFD700", color: '#FFFFFF' }} type="submit">Add a comment</Button>
+          </form>
         </Paper>
               })} 
         </div> 
