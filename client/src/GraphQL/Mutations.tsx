@@ -39,9 +39,9 @@ export const SIGN_UP_USER =  gql`
   
 
 export const ADD_DATING = gql`
-mutation AddDatingTextMutation($addDatingTextInput: newDTI) {
-  addDatingText(input: $addDatingTextInput) {
-     text
+mutation Mutation($addDatingTextText: newDTI) {
+  addDatingText(text: $addDatingTextText) {
+    text
   }
 }
 `;
@@ -49,7 +49,7 @@ mutation AddDatingTextMutation($addDatingTextInput: newDTI) {
 export const ADD_COMMENT = gql`
 mutation AddCommentMutation($addCommentComment: newComment) {
   addComment(comment: $addCommentComment) {
-    
+   text
   }
 }
 `; 

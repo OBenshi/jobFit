@@ -31,10 +31,10 @@ const useStyles = makeStyles({
 });
 
 interface IAddText {
-   owner: string,
+   //owner: string,
     text: string,
-    score: string,
-    onText: string
+   //score: string,
+   // onText: string
 }
 
 const DisplayTextComp: React.FC = (props) => {
@@ -42,10 +42,10 @@ const DisplayTextComp: React.FC = (props) => {
   const { error, loading, data } = useQuery(DATING_TEXT);
   const [AddCommentMutation] = useMutation(ADD_COMMENT);
   const [comment, setComment] = useState<IAddText>({
-    owner: "",
+    //owner: "",
     text: "",
-    score: "",
-    onText: ""
+    //score: "",
+    //onText: ""
   });
 
   console.log(data);
@@ -58,10 +58,10 @@ const handleChange =  (e: ChangeEvent<any>) =>
         AddCommentMutation({
           variables: {
             "addCommentComment": {
-             "owner": comment.owner,
+             //"owner": comment.owner,
              "text": comment.text,
-             "score": comment.score,
-             "onText": comment.onText
+             //"score": comment.score,
+             //"onText": comment.onText
           }
             }
           }

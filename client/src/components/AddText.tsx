@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 interface IAddText {
-    owner: string
+    //owner: string
     text: string
-    postDate: string
-    display: boolean
-    xprivate: boolean
+   // postDate: string
+   // display: boolean
+   // private: boolean
 }
 
 const AddText: React.FC = (props) => {
@@ -43,11 +43,11 @@ const AddText: React.FC = (props) => {
     const classes = useStyles();
     const [AddDatingTextMutation, { error }] = useMutation(ADD_DATING);
     const [datingText, setDatingText] = useState <IAddText>({
-    owner: "",
+    //owner: "",
     text: "",
-    postDate: new Date().toISOString(),
-    xprivate: false,
-    display: true
+    //postDate: new Date().toISOString(),
+    //private: false,
+    //display: true
     })
 
    const handleChange = (e: ChangeEvent<any>): void =>
@@ -59,12 +59,12 @@ const AddText: React.FC = (props) => {
       console.log(datingText);
         AddDatingTextMutation({
           variables: {
-              "addDatingTextInput": {
-               "owner": datingText.owner,
+              "addDatingTextText": {
+               //"owner": datingText.owner,
                "text": datingText.text, 
-               "postDate": datingText.postDate,
-               "xprivate": datingText.xprivate,
-               "display": datingText.display
+               //"postDate": datingText.postDate,
+               //"private": datingText.private,
+               //"display": datingText.display
             }
           }
         })
@@ -85,12 +85,12 @@ const AddText: React.FC = (props) => {
             name="text"
             value={datingText.text}
         onChange={handleChange} />
-        <FormControlLabel
+        {/* <FormControlLabel
         control={
           <Checkbox
             name="xprivate"
             color="primary"
-            value={datingText.xprivate}
+            value={datingText.private}
             onChange={handleChange}
           />
         }
@@ -106,7 +106,7 @@ const AddText: React.FC = (props) => {
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}
-        />
+        /> */}
         <Button variant="contained" color="primary" type="submit">Upload your text for analyse</Button>
         </form>
         </div>
