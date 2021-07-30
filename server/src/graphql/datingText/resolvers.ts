@@ -58,7 +58,7 @@ export const resolvers = {
     //* ---------------------------- SECTION ADD TEXT ---------------------------- */
     addDatingText: async (
       parent,
-      { owner, postDate, text, xprivate }: datingTextNs.newText
+      { text: { owner, postDate, text, xprivate } }
     ) => {
       try {
         console.log(`owner`, owner);
