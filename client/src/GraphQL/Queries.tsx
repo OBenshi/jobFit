@@ -4,15 +4,17 @@ export const DATING_TEXT = gql`
 query Query {
   allTexts {
     _id
-    owner
+    owner {
+      username
+    }
+    text
     score
     postDate
-    comments{
-    text  
+    comments {
+      text
     }
     display
     private
-    text
   }
 }
 `;

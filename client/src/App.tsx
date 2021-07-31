@@ -19,8 +19,8 @@ function App() {
         <Switch>
           <Route exact path="/login" children={<LogIn />} />
             <Route exact path="/testing" children={<AAbla />} />
-            <Route exact path="/displayText" children={<DisplayText />} />
-            <Route exact path="/addDatingText" children={<AddDatingText />} />
+            <Route exact path="/displaytext" children={<DisplayText />} />
+            <Route exact path="/adddatingtext" children={<AddDatingText />} />
           <Route exact path="/signup" children={<SignUp />} />
            <Route exact path="/" children={<Home />} />
           </Switch>

@@ -26,10 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 interface IAddText {
-    owner: string
+    //owner: string
     text: string
-    postDate: string
-    xprivate: boolean
+   // postDate: string
+   // display: boolean
+   // private: boolean
 }
 
 const AddText: React.FC = (props) => {
@@ -40,28 +41,30 @@ const AddText: React.FC = (props) => {
     setSelectedDate(date);
   };
     const classes = useStyles();
-    const [addDatingText, { error }] = useMutation(ADD_DATING);
+    const [AddDatingTextMutation, { error }] = useMutation(ADD_DATING);
     const [datingText, setDatingText] = useState <IAddText>({
-    owner: "",
+    //owner: "",
     text: "",
-    postDate: new Date().toISOString(),
-    xprivate: false
+    //postDate: new Date().toISOString(),
+    //private: false,
+    //display: true
     })
 
-  const handleChange = (e: ChangeEvent<any>): void =>
-  setDatingText({ ...datingText, [e.target.name]: e.target.value }
+   const handleChange = (e: ChangeEvent<any>): void =>
+   setDatingText({ ...datingText, [e.target.name]: e.target.value }
     );
  
-    const handleCLick = (e: FormEvent<HTMLFormElement>) => {
-        console.log(datingText)
-        e.preventDefault();
-        addDatingText({
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      console.log(datingText);
+        AddDatingTextMutation({
           variables: {
-              "addDatingTextInput": {
-               "owner": datingText.owner,
+              "addDatingTextText": {
+               //"owner": datingText.owner,
                "text": datingText.text, 
-               "postDate": datingText.postDate,
-               "xprivate": datingText.xprivate, 
+               //"postDate": datingText.postDate,
+               //"private": datingText.private,
+               //"display": datingText.display
             }
           }
         })
@@ -70,21 +73,29 @@ const AddText: React.FC = (props) => {
         } else {
           console.log("text was uploaded")
       }
-  }
+      console.log(datingText.text)
+  } 
     return (
       <div>
-        <form className={classes.container} noValidate autoComplete="off" style ={{backgroundColor:" white"}} onSubmit={handleCLick}>
-        <TextareaAutosize aria-label="minimum height" minRows={10} placeholder="Add your own dating text here and click upload" name="text"
+        <form className={classes.container} noValidate autoComplete="off" style ={{backgroundColor:" white"}} onSubmit={handleSubmit}>
+          <TextareaAutosize
+            aria-label="minimum height"
+            minRows={10}
+            placeholder="Add your own dating text here and click upload"
+            name="text"
+            value={datingText.text}
         onChange={handleChange} />
-        <FormControlLabel
+        {/* <FormControlLabel
         control={
           <Checkbox
-            name="checkedB"
+            name="xprivate"
             color="primary"
+            value={datingText.private}
+            onChange={handleChange}
           />
         }
-        label="Private"
-                />
+            label="Private"
+                /> 
          <KeyboardDatePicker
           margin="normal"
           id="date-picker-dialog"
@@ -95,7 +106,7 @@ const AddText: React.FC = (props) => {
           KeyboardButtonProps={{
             'aria-label': 'change date',
           }}
-        />
+        /> */}
         <Button variant="contained" color="primary" type="submit">Upload your text for analyse</Button>
         </form>
         </div>

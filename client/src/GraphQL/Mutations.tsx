@@ -7,7 +7,20 @@ import { gql, useQuery } from "@apollo/client";
   }
 }
 `; */
-
+/* export const SIGN_UP_USER =  gql`
+  mutation Mutation($addUserInput: newUserInput!) {
+  addUser(input: $addUserInput) {
+    username
+  }
+}
+`; */
+/* export const ADD_DATING = gql`
+mutation Mutation($addDatingTextInput: newDTI) {
+  addDatingText(input: $addDatingTextInput) {
+    username
+  }
+}
+`; */
  export const LOGIN_USER = gql`
   mutation Mutation($logInEmail: String, $logInPassword: String) {
   logIn(email: $logInEmail, password: $logInPassword) {
@@ -16,13 +29,6 @@ import { gql, useQuery } from "@apollo/client";
 }
 `;
 
-/* export const SIGN_UP_USER =  gql`
-  mutation Mutation($addUserInput: newUserInput!) {
-  addUser(input: $addUserInput) {
-    username
-  }
-}
-`; */
 export const SIGN_UP_USER =  gql`
   mutation Mutation($addUserUser: newUserInput!) {
   addUser(user: $addUserUser) {
@@ -31,18 +37,19 @@ export const SIGN_UP_USER =  gql`
 }
 `; 
   
+
 export const ADD_DATING = gql`
-mutation Mutation($addDatingTextInput: newDTI) {
-  addDatingText(input: $addDatingTextInput) {
-    username
+mutation Mutation($addDatingTextText: newDTI) {
+  addDatingText(text: $addDatingTextText) {
+    text
   }
 }
 `;
 
 export const ADD_COMMENT = gql`
-query Query($aCommentId: ObjectID) {
-  aComment(_id: $aCommentId) {
-    text
+mutation AddCommentMutation($addCommentComment: newComment) {
+  addComment(comment: $addCommentComment) {
+   text
   }
 }
 `; 
