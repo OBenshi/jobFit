@@ -12,8 +12,6 @@ async function startApolloServer() {
     const server = new ApolloServer({
       schema,
       context: ({ req }) => {
-        // get the authorization from the request headers
-        // return a context obj with our token. if any!
         const auth = req.headers.authorization || "";
         return {
           auth,

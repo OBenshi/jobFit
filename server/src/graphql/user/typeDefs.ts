@@ -1,6 +1,7 @@
 import { gql } from "apollo-server-express";
 import { ObjectID } from "mongodb";
 // import { ObjectId } from "mongoose";
+
 import { GeneralNs, commentsNs } from "../../@types";
 import { DateTypeDefinition } from "graphql-scalars";
 export default gql`
@@ -10,13 +11,14 @@ export default gql`
     firstName: String
     lastName: String
     birthday: DateTime
-    email: String
+    email: EmailAddress
     password: String
     rank: Int
     avatar: String
     loggedIn: Boolean
     comments: [comment]
     datingTexts: [datingText]
+    token: String
   }
   input newUserInput {
     # _id: ObjectID
@@ -24,7 +26,7 @@ export default gql`
     firstName: String
     lastName: String
     birthday: DateTime
-    email: String
+    email: EmailAddress
     password: String
     # rank: Int
     avatar: String
@@ -34,7 +36,7 @@ export default gql`
   }
 
   input logInInput {
-    email: String
+    email: EmailAddress
     password: String
   }
 

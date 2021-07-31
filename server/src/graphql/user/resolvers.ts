@@ -1,9 +1,32 @@
-import { ApolloError, ApolloServer } from "apollo-server-express";
+//* ----------------------------- SECTION IMPORTS ---------------------------- */
+import {
+  ApolloError,
+  ApolloServer,
+  UserInputError,
+  AuthenticationError,
+} from "apollo-server-express";
+require("dotenv").config();
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import { UserNs } from "../../@types";
 import { ObjectID } from "mongodb";
-
 // import { sendConfirmationEmail } from "../../mailer/mailer";
 import userModel from "../../models/usersModel";
+
+//* --------------------------  !SECTION IMPORTS -------------------------- */
+
+const getToken = ({ _id, username, email }) =>
+  jwt.sign(
+    {
+      _id,
+      username,
+      email,
+    },
+    process.env.WOJCIECH,
+    { expiresIn: "1d" }
+  );
+
+//* ------------------------- SECTION USER RESOLVERS ------------------------- */
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
 
@@ -56,9 +79,10 @@ export const resolvers = {
 
     //* ------------------------------ SECTION LogIn ----------------------------- */
     logIn: async (_: any, args: { email: string; password: string }) => {
+      const { email, password } = args;
       try {
         //?STUB email&password from args
-        const { email, password } = args;
+
         console.log(`email`, email);
         //?STUB connecting to mongoDB
         const user = await userModel
@@ -76,8 +100,21 @@ export const resolvers = {
         if (user === null || !user) {
           throw new ApolloError("User not found", "204");
         } else {
-          //TODO token
-          return user;
+          const match = await bcrypt.compare(password, user.password);
+          if (!match) throw new AuthenticationError("wrong password!");
+          const token = jwt.sign(
+            {
+              id: user._id,
+            },
+            process.env.WOJCIECH,
+            {
+              expiresIn: "8h",
+            }
+          );
+          return {
+            ...user.toJSON(),
+            token,
+          };
         }
       } catch (err) {
         console.log(err);
@@ -122,6 +159,8 @@ export const resolvers = {
         },
       }
     ) => {
+      if (password.length < 8)
+        throw new UserInputError("Password must be at least 8 characters long");
       try {
         const existingUser = JSON.parse(
           JSON.stringify(
@@ -137,10 +176,11 @@ export const resolvers = {
             return new ApolloError("Email already exists", "409");
           }
         } else {
+          password = await bcrypt.hash(password, 10);
           const comments = [],
             datingTexts = [];
           console.log(`username`, username);
-          const newUser: UserNs.userSchemaData = new userModel({
+          const newUser = new userModel({
             email,
             username,
             password,
@@ -154,8 +194,19 @@ export const resolvers = {
             avatar,
           });
           const savedUser = await newUser.save();
-          //TODO email validation
-          return savedUser;
+          const token = jwt.sign(
+            {
+              id: savedUser._id,
+            },
+            process.env.WOJCIECH,
+            {
+              expiresIn: "8h",
+            }
+          );
+          return {
+            ...savedUser.toJSON(),
+            token,
+          };
         }
       } catch (err) {
         console.log(`err`, err);
@@ -166,3 +217,4 @@ export const resolvers = {
   },
   //* ---------------------------- !SECTION Mutation --------------------------- */
 };
+//* -----------------------  !SECTION USER RESOLVERS ---------------------- */

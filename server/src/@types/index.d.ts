@@ -15,7 +15,7 @@ export namespace GeneralNs {
 /** @namespace UserNs a Namespace for user related types */
 export namespace UserNs {
   interface userProfile {
-    // _id: ObjectId;
+    // _id: ObjectID;
     username: string;
     firstName: string;
     lastName: string;

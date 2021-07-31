@@ -1,15 +1,16 @@
-// import express from "express";
-// require("dotenv").config();
-// import { jwtStrategy } from "./passport";
+import { UserInputError, AuthenticationError } from "apollo-server-express";
+require("dotenv").config();
+import jwt from "jsonwebtoken";
 
-// export const context = (req:express.Request, res: express.Response) => {
-//   //? Get the user token from the headers.
-//   const token = req.headers.authorization || "";
+export const getUser = async (auth) => {
+  if (!auth) throw new AuthenticationError("you must be logged in!");
 
-//   //? Try to retrieve a user with the token
-//   const user =
+  const token = auth.split("Bearer ")[1];
+  if (!token) throw new AuthenticationError("you should provide a token!");
 
-//   //? Add the user to the context
-//   // return { user };
-//   return 0;
-// };
+  const user = await jwt.verify(token, process.env.WOJCIECH, (err, decoded) => {
+    if (err) throw new AuthenticationError("invalid token!");
+    return decoded;
+  });
+  return user;
+};
