@@ -15,17 +15,6 @@ import userModel from "../../models/usersModel";
 
 //* --------------------------  !SECTION IMPORTS -------------------------- */
 
-const getToken = ({ _id, username, email }) =>
-  jwt.sign(
-    {
-      _id,
-      username,
-      email,
-    },
-    process.env.WOJCIECH,
-    { expiresIn: "1d" }
-  );
-
 //* ------------------------- SECTION USER RESOLVERS ------------------------- */
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
@@ -81,18 +70,15 @@ export const resolvers = {
     logIn: async (_: any, args: { email: string; password: string }) => {
       const { email, password } = args;
       try {
-        //?STUB email&password from args
-
-        console.log(`email`, email);
         //?STUB connecting to mongoDB
         const user = await userModel
-          .findOneAndUpdate(
+          .findOne(
             {
               email: email,
-              password: password,
-            },
-            { $set: { loggedIn: true } },
-            { useFindAndModify: false }
+              // password: password,
+            }
+            // { $set: { loggedIn: true } },
+            // { useFindAndModify: false }
           )
           .populate({ path: "datingTexts" })
           .populate({ path: "comments" });
@@ -102,6 +88,8 @@ export const resolvers = {
         } else {
           const match = await bcrypt.compare(password, user.password);
           if (!match) throw new AuthenticationError("wrong password!");
+          user.loggedIn = true;
+          user.save();
           const token = jwt.sign(
             {
               id: user._id,

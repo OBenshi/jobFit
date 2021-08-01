@@ -1,13 +1,24 @@
-import { ApolloError, ApolloServer } from "apollo-server-express";
+import {
+  ApolloError,
+  ApolloServer,
+  AuthenticationError,
+} from "apollo-server-express";
 import { datingTextNs, UserNs } from "../../@types";
 import datingTextModel from "../../models/datingTextsModel";
 import { ObjectID } from "mongodb";
 import userModel from "../../models/usersModel";
+import { getUser } from "../../context";
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
 
   Query: {
-    allTexts: async () => {
+    allTexts: async (a, b, { auth }) => {
+      try {
+        const userAuth = await getUser(auth);
+        console.log(`userAuth`, userAuth);
+      } catch (err) {
+        return new AuthenticationError("UNAUTHORIZED");
+      }
       try {
         const datingTexts = await datingTextModel
           .find({})
@@ -58,8 +69,15 @@ export const resolvers = {
     //* ---------------------------- SECTION ADD TEXT ---------------------------- */
     addDatingText: async (
       parent,
-      { text: { owner, postDate, text, xprivate } }
+      { text: { owner, postDate, text, xprivate } },
+      { auth }
     ) => {
+      try {
+        const userAuth = await getUser(auth);
+        console.log(`userAuth`, userAuth);
+      } catch (err) {
+        return new AuthenticationError("UNAUTHORIZED");
+      }
       try {
         console.log(`owner`, owner);
         const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
