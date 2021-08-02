@@ -8,23 +8,23 @@ import SignUp from "./Views/SignUp";
 import DisplayText from "./Views/DisplayText";
 import AddDatingText from "./Views/AddDatingText";
 import AAbla from "./AAbla";
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 function App() {
   return (
     <div className="App">
       <Router>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Appbar />
-        <Switch>
-          <Route exact path="/login" children={<LogIn />} />
+          <Appbar />
+          <Switch>
+            <Route exact path="/login" children={<LogIn />} />
             <Route exact path="/testing" children={<AAbla />} />
             <Route exact path="/displaytext" children={<DisplayText />} />
             <Route exact path="/adddatingtext" children={<AddDatingText />} />
-          <Route exact path="/signup" children={<SignUp />} />
-           <Route exact path="/" children={<Home />} />
+            <Route exact path="/signup" children={<SignUp />} />
+            <Route exact path="/" children={<Home />} />
           </Switch>
-          </MuiPickersUtilsProvider>
+        </MuiPickersUtilsProvider>
       </Router>
     </div>
   );

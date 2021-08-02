@@ -1,4 +1,13 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { LOGOUT_USER as logoutUser } from "../GraphQL/Mutations";
+
+import {
+  Link as RouterLink,
+  NavLink,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -12,6 +21,7 @@ import {
   ListItemText,
   Divider,
   ListItemIcon,
+  Link,
 } from "@material-ui/core";
 
 import {
@@ -91,6 +101,17 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SearchAppBar() {
   const classes = useStyles();
   const [drawerState, setDrawerState] = useState<boolean>(false);
+  const [logOutMutation, { error }] = useMutation(logoutUser);
+  const handleLogout = async (
+    event: React.KeyboardEvent | React.MouseEvent
+  ) => {
+    event.preventDefault();
+    try {
+      await logOutMutation({ variables: { _id: 1 } });
+    } catch (err) {
+      console.log(`err`, err);
+    }
+  };
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -110,25 +131,56 @@ export default function SearchAppBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
+        {" "}
+        <Link component={RouterLink} to="/">
+          <ListItem button key={"home"}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+            <ListItemText primary={"Home"} />
+          </ListItem>{" "}
+        </Link>{" "}
+        <Link component={RouterLink} to="/login">
+          <ListItem button key={"login"}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Login"} />
+          </ListItem>{" "}
+        </Link>{" "}
+        <Link component={RouterLink} to="/testing">
+          <ListItem button key={"testing"}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={"testing"} />
+          </ListItem>{" "}
+        </Link>{" "}
+        <Link component={RouterLink} to="/displaytext">
+          <ListItem button key={"dating texts"}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Dating texts"} />
+          </ListItem>{" "}
+        </Link>{" "}
+        <Link component={RouterLink} to="/signup">
+          <ListItem button key={"signup"}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={"SignUp"} />
+          </ListItem>{" "}
+        </Link>
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key={"logout"} onClick={handleLogout}>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Logout"} />
+        </ListItem>
       </List>
     </div>
   );
@@ -154,7 +206,7 @@ export default function SearchAppBar() {
             {list()}
           </Drawer>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            SWAT
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

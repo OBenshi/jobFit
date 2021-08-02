@@ -21,51 +21,39 @@ mutation Mutation($addDatingTextInput: newDTI) {
   }
 }
 `; */
- export const LOGIN_USER = gql`
+export const LOGIN_USER = gql`
   mutation Mutation($logInEmail: String, $logInPassword: String) {
-  logIn(email: $logInEmail, password: $logInPassword) {
-    username
+    logIn(email: $logInEmail, password: $logInPassword) {
+      username
+    }
   }
-}
+`;
+export const LOGOUT_USER = gql`
+  mutation Mutation($logOutId: ObjectID) {
+    logOut(_id: $logOutId)
+  }
 `;
 
-export const SIGN_UP_USER =  gql`
+export const SIGN_UP_USER = gql`
   mutation Mutation($addUserUser: newUserInput!) {
-  addUser(user: $addUserUser) {
-    username
+    addUser(user: $addUserUser) {
+      username
+    }
   }
-}
-`; 
-  
+`;
 
 export const ADD_DATING = gql`
-mutation Mutation($addDatingTextText: newDTI) {
-  addDatingText(text: $addDatingTextText) {
-    text
+  mutation Mutation($addDatingTextText: newDTI) {
+    addDatingText(text: $addDatingTextText) {
+      text
+    }
   }
-}
 `;
 
 export const ADD_COMMENT = gql`
-mutation AddCommentMutation($addCommentComment: newComment) {
-  addComment(comment: $addCommentComment) {
-   text
+  mutation AddCommentMutation($addCommentComment: newComment) {
+    addComment(comment: $addCommentComment) {
+      text
+    }
   }
-}
-`; 
-
-//*Good morning dearest Nathalia,
-// if you are writing comments meant for me to read it would be better if you
-// would use anchor comments with any workspace scope
-// tag(TODO,REVIEW,FIXME,LINK,SECTION/!SECTION).
-// Like this:
-
-// REVIEW: mutation for login, 1. wrote for now "user" but it should be name of the
-// route from the back end. at the end I am returning only email//
-
-// if we combine it with the better comments extension behavior we could even
-// make it colorful(and more A.D.D friendly...) by adding */!/? like this:
-
-//* Nathalia is awesome
-//! WARNING Nathalia is too awesome
-//? can anyone be as awesome as Nathalia?
+`;
