@@ -70,6 +70,9 @@ const LogIn: React.FC = () => {
               "logInPassword": input.password
             }
         })
+       logIn().then(({ data }) => {
+                localStorage.setItem('token', data.logIn.token);
+        })
         if (error) {
           console.log(error)
         } else {

@@ -18,3 +18,24 @@ query Query {
   }
 }
 `;
+
+export const USER = gql `
+query Query($userId: ObjectID) {
+  user(_id: $userId) {
+    username
+    firstName
+    lastName
+    birthday
+    email
+    password
+    rank
+    avatar
+    loggedIn
+    datingTexts {
+      text
+      score
+    }
+    token
+  }
+}
+`;

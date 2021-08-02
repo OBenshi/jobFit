@@ -10,8 +10,10 @@ import AddDatingText from "./Views/AddDatingText";
 import AAbla from "./AAbla";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { AuthContextProvider } from './context/AuthContext';
 function App() {
   return (
+     <AuthContextProvider>
     <div className="App">
       <Router>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -26,7 +28,8 @@ function App() {
           </Switch>
         </MuiPickersUtilsProvider>
       </Router>
-    </div>
+      </div>
+      </AuthContextProvider>
   );
 }
 
