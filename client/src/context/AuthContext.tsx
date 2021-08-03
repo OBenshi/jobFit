@@ -48,9 +48,7 @@ export const AuthContextProvider: React.FC = ({children}) => {
     const [user, setUser] = useState(initAuthContext.user);
     const [isAuthenticated, setIsAuthenticated] = useState(initAuthContext.isAuthenticated);
     const token = window.localStorage.getItem("token");
-    const { error, loading, data } = useQuery(USER, {
-    //variables: { token   },
-  });
+    const { error, loading, data } = useQuery(USER);
 
     useEffect(() => {
       if (token !== null) {
