@@ -29,18 +29,24 @@ export const resolvers = {
         throw new ApolloError("Error retrieving all dating texts", "500");
       }
     },
-    aText: async (parent: any, args: ObjectID) => {
+    aText: async (parent: any, args: ObjectID, { auth }) => {
       try {
-        const datingText = await datingTextModel
-          .findById(args)
-          .populate({ path: "comments" });
-        if (datingText === null) {
-          return new ApolloError("Dating Text not found", "204");
+        const userAuth = await getUser(auth);
+        console.log(`userAuth`, userAuth);
+        try {
+          const datingText = await datingTextModel
+            .findById(args)
+            .populate({ path: "comments" });
+          if (datingText === null) {
+            return new ApolloError("Dating Text not found", "204");
+          }
+          return datingText;
+        } catch (err) {
+          console.log(`err`, err);
+          return new ApolloError("Error finding Dating text", "500");
         }
-        return datingText;
       } catch (err) {
-        console.log(`err`, err);
-        return new ApolloError("Error finding Dating text", "500");
+        return new AuthenticationError("UNAUTHORIZED");
       }
     },
   },
@@ -75,39 +81,39 @@ export const resolvers = {
       try {
         const userAuth = await getUser(auth);
         console.log(`userAuth`, userAuth);
+        try {
+          console.log(`owner`, owner);
+          const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
+            owner,
+            postDate,
+            text,
+            score: 0,
+            display: true,
+            private: xprivate,
+            comments: [],
+          });
+          if (newDT === null) {
+            return new ApolloError("failed to post text", "502");
+          }
+          const savedText = await newDT.save();
+          if (savedText === null) {
+            return new ApolloError("failed to save text", "503");
+          }
+          const user = await userModel.findByIdAndUpdate(
+            { _id: owner },
+            { $addToSet: { datingTexts: savedText._id } },
+            { useFindAndModify: false }
+          );
+          if (user === null) {
+            return new ApolloError("failed to save text to user", "504");
+          }
+          return savedText;
+        } catch (err) {
+          console.log(`err`, err);
+          throw new ApolloError("Could not create new Text", "500");
+        }
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
-      }
-      try {
-        console.log(`owner`, owner);
-        const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
-          owner,
-          postDate,
-          text,
-          score: 0,
-          display: true,
-          private: xprivate,
-          comments: [],
-        });
-        if (newDT === null) {
-          return new ApolloError("failed to post text", "502");
-        }
-        const savedText = await newDT.save();
-        if (savedText === null) {
-          return new ApolloError("failed to save text", "503");
-        }
-        const user = await userModel.findByIdAndUpdate(
-          { _id: owner },
-          { $addToSet: { datingTexts: savedText._id } },
-          { useFindAndModify: false }
-        );
-        if (user === null) {
-          return new ApolloError("failed to save text to user", "504");
-        }
-        return savedText;
-      } catch (err) {
-        console.log(`err`, err);
-        throw new ApolloError("Could not create new Text", "500");
       }
     },
     //* ---------------------------- !SECTION ADD TEXT --------------------------- */
@@ -116,29 +122,36 @@ export const resolvers = {
 
     editDatingText: async (
       parent: any,
-      { text, xprivate, display, _id }: datingTextNs.editText
+      { text, xprivate, display, _id }: datingTextNs.editText,
+      { auth }
     ) => {
       try {
-        const editDT = datingTextModel
-          .findByIdAndUpdate(
-            { _id: _id },
-            {
-              $set: {
-                text: text,
-                private: xprivate,
-                display: display,
+        const userAuth = await getUser(auth);
+        console.log(`userAuth`, userAuth);
+        try {
+          const editDT = datingTextModel
+            .findByIdAndUpdate(
+              { _id: _id },
+              {
+                $set: {
+                  text: text,
+                  private: xprivate,
+                  display: display,
+                },
               },
-            },
-            { useFindAndModify: false, new: true }
-          )
-          .populate({ path: "comments", populate: { path: "owner" } });
-        if (editDT === null) {
-          return new ApolloError("failed to edit text", "502");
+              { useFindAndModify: false, new: true }
+            )
+            .populate({ path: "comments", populate: { path: "owner" } });
+          if (editDT === null) {
+            return new ApolloError("failed to edit text", "502");
+          }
+          return editDT;
+        } catch (err) {
+          console.log(`err`, err);
+          throw new ApolloError("Could not edit Text", "500");
         }
-        return editDT;
       } catch (err) {
-        console.log(`err`, err);
-        throw new ApolloError("Could not edit Text", "500");
+        return new AuthenticationError("UNAUTHORIZED");
       }
     },
 

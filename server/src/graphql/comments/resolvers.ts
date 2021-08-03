@@ -1,9 +1,14 @@
-import { ApolloError, ApolloServer } from "apollo-server-express";
+import {
+  ApolloError,
+  ApolloServer,
+  AuthenticationError,
+} from "apollo-server-express";
 import { commentsNs, datingTextNs, UserNs } from "../../@types";
 import datingTextModel from "../../models/datingTextsModel";
 import { ObjectID } from "mongodb";
 import userModel from "../../models/usersModel";
 import commentsModel from "../../models/commentsModel";
+import { getUser } from "../../context";
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
 
@@ -56,50 +61,57 @@ export const resolvers = {
     //todo  TODO ranking!!!
     addComment: async (
       parent: any,
-      { comment: { owner, text, onText, score } }
+      { comment: { owner, text, onText, score } },
+      { auth }
     ) => {
       try {
-        console.log(`owner`, owner);
-        const newComment: commentsNs.commentsSchemaData = new commentsModel({
-          owner: owner,
-          onText,
-          postDate: new Date().toISOString(),
-          text,
-          score,
-          display: true,
-        });
-        if (newComment === null) {
-          return new ApolloError("failed to post comment", "502");
-        }
-        const savedComment = await newComment.save();
-        if (savedComment === null) {
-          return new ApolloError("failed to save text", "503");
-        }
-        const datingText = await datingTextModel.findOneAndUpdate(
-          { _id: onText },
-          { $addToSet: { comments: savedComment._id } },
-          { useFindAndModify: false, new: true }
-        );
-
-        console.log(`datingText`, datingText);
-        if (datingText === null) {
-          return new ApolloError(
-            "failed to save comment to dating text",
-            "504"
+        const userAuth = await getUser(auth);
+        console.log(`userAuth`, userAuth);
+        try {
+          console.log(`owner`, owner);
+          const newComment: commentsNs.commentsSchemaData = new commentsModel({
+            owner: owner,
+            onText,
+            postDate: new Date().toISOString(),
+            text,
+            score,
+            display: true,
+          });
+          if (newComment === null) {
+            return new ApolloError("failed to post comment", "502");
+          }
+          const savedComment = await newComment.save();
+          if (savedComment === null) {
+            return new ApolloError("failed to save text", "503");
+          }
+          const datingText = await datingTextModel.findOneAndUpdate(
+            { _id: onText },
+            { $addToSet: { comments: savedComment._id } },
+            { useFindAndModify: false, new: true }
           );
+
+          console.log(`datingText`, datingText);
+          if (datingText === null) {
+            return new ApolloError(
+              "failed to save comment to dating text",
+              "504"
+            );
+          }
+          const user = await userModel.findOneAndUpdate(
+            { _id: owner },
+            { $addToSet: { comments: savedComment._id } },
+            { useFindAndModify: false }
+          );
+          if (user === null) {
+            return new ApolloError("failed to save comment to user", "504");
+          }
+          return savedComment;
+        } catch (err) {
+          console.log(`err`, err);
+          throw new ApolloError("Could not create new Comment", "500");
         }
-        const user = await userModel.findOneAndUpdate(
-          { _id: owner },
-          { $addToSet: { comments: savedComment._id } },
-          { useFindAndModify: false }
-        );
-        if (user === null) {
-          return new ApolloError("failed to save comment to user", "504");
-        }
-        return savedComment;
       } catch (err) {
-        console.log(`err`, err);
-        throw new ApolloError("Could not create new Comment", "500");
+        return new AuthenticationError("UNAUTHORIZED");
       }
     },
     //* ---------------------------- !SECTION ADD COMMENT --------------------------- */
