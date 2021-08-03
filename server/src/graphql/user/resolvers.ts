@@ -12,6 +12,7 @@ import { UserNs } from "../../@types";
 import { ObjectID } from "mongodb";
 // import { sendConfirmationEmail } from "../../mailer/mailer";
 import userModel from "../../models/usersModel";
+import { getUser } from "../../context";
 
 //* --------------------------  !SECTION IMPORTS -------------------------- */
 
@@ -29,16 +30,21 @@ export const resolvers = {
         throw new ApolloError("Error retrieving all users", "400");
       }
     },
-    user: async (parent: any, args: ObjectID) => {
+    user: async (a, b, { auth }) => {
       try {
-        console.log(`args`, args);
-        const user = await userModel
-          .findOne(args)
-          .populate({ path: "datingTexts" })
-          .populate({ path: "comments", populate: { path: "onText" } });
-        return user;
+        const userAuth = await getUser(auth);
+        console.log(`userAuth`, userAuth);
+        try {
+          const user = await userModel
+            .findOne({ _id: userAuth.id })
+            .populate({ path: "datingTexts" })
+            .populate({ path: "comments", populate: { path: "onText" } });
+          return user;
+        } catch (err) {
+          console.log(`err`, err);
+        }
       } catch (err) {
-        console.log(`err`, err);
+        return new AuthenticationError("UNAUTHORIZED");
       }
     },
   },
