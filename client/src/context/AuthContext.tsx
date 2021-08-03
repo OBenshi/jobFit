@@ -5,6 +5,8 @@ export const initAuthContext = createContext<AuthContext>({
     user: "",
 })
 
+
+
 interface AuthContext {
     isAuthenticated: boolean,
     user: string
@@ -30,21 +32,6 @@ import React, { createContext, useState, useEffect } from "react";
 import { useQuery, gql } from '@apollo/client'
 import { USER } from '../GraphQL/Queries';
 
-/* interface IAuthContext {
-    user:
-    {
-        isAuthenticated: boolean,
-        user: string[],
-    };
-}
-
-const defaultStateValue: IAuthContext = {
-    user: {
-        isAuthenticated: false,
-        user: [],
-    }
-} */
-
  interface IAuthContext {
         isAuthenticated: boolean,
         user: string,
@@ -55,24 +42,23 @@ const initAuthContext:IAuthContext = {
         user: "",
 } 
 
-
 export const AuthContext = createContext(initAuthContext);
 
-//export const SetStateAuthContext = createContext<React.Dispatch<React.SetStateAction<IAuthContext>> | undefined>(undefined);
-
 export const AuthContextProvider: React.FC = ({children}) => {
-    //const [state, setState] = useState(defaultStateValue);
     const [user, setUser] = useState(initAuthContext.user);
     const [isAuthenticated, setIsAuthenticated] = useState(initAuthContext.isAuthenticated);
     const token = window.localStorage.getItem("token");
-    const { error, loading, data } = useQuery(USER);
+    const { error, loading, data } = useQuery(USER, {
+    //variables: { token   },
+  });
 
     useEffect(() => {
       if (token !== null) {
         console.log(token !== null, user);
-        const config = {
+        /* const config = {
           headers: { Authorization: `Bearer ${token}` },
-          };
+          }; */
+          //where do I place the config??
           console.log(data);
           setUser(data)
           setIsAuthenticated(false);

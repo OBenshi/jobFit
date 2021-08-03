@@ -124,6 +124,8 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                "avatar": sign.avatar
             }
           }
+        }).then(({ data }) => {
+                localStorage.setItem('token', data.addUser.token);
         })
         if (error) {
           console.log(error)

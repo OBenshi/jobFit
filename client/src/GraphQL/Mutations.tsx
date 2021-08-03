@@ -24,7 +24,15 @@ mutation Mutation($addDatingTextInput: newDTI) {
 export const LOGIN_USER = gql`
   mutation Mutation($logInEmail: String, $logInPassword: String) {
     logIn(email: $logInEmail, password: $logInPassword) {
-      username
+       _id
+    username
+    firstName
+    lastName
+    email
+    rank
+    avatar
+    loggedIn
+    token
     }
   }
 `;
@@ -37,7 +45,7 @@ export const LOGOUT_USER = gql`
 export const SIGN_UP_USER = gql`
   mutation Mutation($addUserUser: newUserInput!) {
     addUser(user: $addUserUser) {
-      username
+      token
     }
   }
 `;

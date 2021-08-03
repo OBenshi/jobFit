@@ -17,7 +17,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import background from '../img/background.jpg';
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -49,10 +48,12 @@ interface FormData {
 const LogIn: React.FC = () => {
   const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
-  const [input, setInput] = useState <FormData>({
+  const [user, setUser] = useState("");
+  const [input, setInput] = useState<FormData>({
     password: "",
-    email:""
-  })
+    email: ""
+  });
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setInput({ ...input, [e.target.name]: e.target.value });
 
@@ -64,15 +65,20 @@ const LogIn: React.FC = () => {
     ) {
        alert("Enter email and password!");
       } else {
+        console.log(input.email);
         logIn({
           variables: {
               "logInEmail": input.email,
               "logInPassword": input.password
             }
-        })
-       logIn().then(({ data }) => {
-                localStorage.setItem('token', data.logIn.token);
-        })
+        }).then(({ data }) => {
+          localStorage.setItem('token', data.logIn.token);
+          console.log(data);
+          setUser(data.logIn);
+          console.log(data.logIn);
+        }).catch(error => {
+          console.log(error);
+        });
         if (error) {
           console.log(error)
         } else {
