@@ -53,10 +53,6 @@ export const AuthContextProvider: React.FC = ({children}) => {
     useEffect(() => {
       if (token !== null) {
         console.log(token !== null, user);
-        /* const config = {
-          headers: { Authorization: `Bearer ${token}` },
-          }; */
-          //where do I place the config??
           console.log(data);
           setUser(data)
           setIsAuthenticated(false);

@@ -16,6 +16,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import background from '../img/background.jpg';
+import { AuthContext } from '../context/AuthContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,6 +50,7 @@ const LogIn: React.FC = () => {
   const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
   const [user, setUser] = useState("");
+   // const {user, setUser} = useContext(AuthContext);
   const [input, setInput] = useState<FormData>({
     password: "",
     email: ""
