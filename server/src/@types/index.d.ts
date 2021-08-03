@@ -49,6 +49,12 @@ export namespace UserNs {
     _id: ObjectID;
   }
 
+  interface logInUser {
+    id: ObjectID;
+    iat: number;
+    exp: number;
+  }
+
   interface userSchemaData extends userProfile, Document {}
 }
 export namespace datingTextNs {
