@@ -16,17 +16,21 @@ export const resolvers = {
       try {
         const userAuth = await getUser(auth);
         console.log(`userAuth`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
+        try {
+          console.log("you should not be seeing this");
+          const datingTexts = await datingTextModel
+            .find({})
+            .populate({ path: "comments", populate: { path: "owner" } });
+          return datingTexts;
+        } catch (err) {
+          console.error("¡error! : ", err);
+          throw new ApolloError("Error retrieving all dating texts", "500");
+        }
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
-      }
-      try {
-        const datingTexts = await datingTextModel
-          .find({})
-          .populate({ path: "comments", populate: { path: "owner" } });
-        return datingTexts;
-      } catch (err) {
-        console.error("¡error! : ", err);
-        throw new ApolloError("Error retrieving all dating texts", "500");
       }
     },
     aText: async (parent: any, args: ObjectID, { auth }) => {

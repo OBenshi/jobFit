@@ -31,10 +31,10 @@ export const AuthContextProvider: React.FC = ({children}) => {
 import React, { createContext, useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { USER } from "../GraphQL/Queries";
-import { ObjectID } from "mongodb";
+import { ObjectId } from "mongodb";
 import { datingTextNs, commentsNs } from "../../../server/src/@types";
 interface userProfile {
-  _id: ObjectID;
+  _id: ObjectId;
   username: string;
   firstName: string;
   lastName: string;
