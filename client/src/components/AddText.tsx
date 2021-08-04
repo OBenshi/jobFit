@@ -1,4 +1,5 @@
 import React, {
+  useContext,
   useState,
   ChangeEvent,
   FormEvent,
@@ -12,7 +13,8 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox, { CheckboxProps } from '@material-ui/core/Checkbox';
 import { useMutation } from "@apollo/client";
-import {ADD_DATING} from '../GraphQL/Mutations'
+import { ADD_DATING } from '../GraphQL/Mutations';
+import { AuthContext } from '../context/AuthContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,6 +43,7 @@ const AddText: React.FC = (props) => {
     setSelectedDate(date);
   };
     const classes = useStyles();
+    const {user, setUser} = useContext(AuthContext);
     const [AddDatingTextMutation, { error }] = useMutation(ADD_DATING);
     const [datingText, setDatingText] = useState <IAddText>({
     //owner: "",
@@ -73,11 +76,12 @@ const AddText: React.FC = (props) => {
         } else {
           console.log("text was uploaded")
       }
-      console.log(datingText.text)
-  } 
+      console.log(datingText.text);
+  }
+  console.log(user);
     return (
       <div>
-        <form className={classes.container} noValidate autoComplete="off" style ={{backgroundColor:" white"}} onSubmit={handleSubmit}>
+        <form className={classes.container} noValidate autoComplete="off" style={{ backgroundColor: " white" }} onSubmit={handleSubmit}>
           <TextareaAutosize
             aria-label="minimum height"
             minRows={10}

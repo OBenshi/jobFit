@@ -86,7 +86,7 @@ const LogIn: React.FC = () => {
         } else {
           console.log("user logged in")
         }
-      }
+    }
   }  
  
   const backgroundStyles = {

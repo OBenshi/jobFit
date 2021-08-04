@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@types/material-ui": "^0.21.9",
+    "@types/mongodb": "^4.0.7",
     "@types/react-router": "^5.1.16",
     "@types/react-router-dom": "^5.1.8"
   }

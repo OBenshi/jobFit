@@ -31,10 +31,10 @@ export const AuthContextProvider: React.FC = ({children}) => {
 import React, { createContext, useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { USER } from "../GraphQL/Queries";
-import { ObjectID } from "mongodb";
 import { datingTextNs, commentsNs } from "../../../server/src/@types";
+import { ObjectId } from "mongoose";
 interface userProfile {
-  _id: ObjectID;
+  _id: ObjectId;
   username: string;
   firstName: string;
   lastName: string;
@@ -83,7 +83,10 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     } else {
       // isAuthenticated(true);
     }
+    //console.log(user!==null && user.username);
   }, [data]);
+
+ 
 
   return (
     <AuthContext.Provider
