@@ -21,13 +21,18 @@ export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
 
   Query: {
-    users: async () => {
+    users: async (a, b, { auth }) => {
       try {
-        const users = await userModel.find({});
-        return users;
+        const userAuth = await getUser(auth);
+        try {
+          const users = await userModel.find({});
+          return users;
+        } catch (err) {
+          console.error("users error", err);
+          throw new ApolloError("Error retrieving all users", "400");
+        }
       } catch (err) {
-        console.error("users error", err);
-        throw new ApolloError("Error retrieving all users", "400");
+        return new AuthenticationError("UNAUTHORIZED");
       }
     },
     user: async (a, b, { auth }) => {
@@ -118,22 +123,26 @@ export const resolvers = {
     //* ----------------------------- !SECTION LogIn ----------------------------- */
 
     //* ----------------------------- SECTION LogOut ----------------------------- */
-    logOut: async (parent: any, args: { _id: ObjectID }) => {
-      const { _id } = args;
+    logOut: async (parent: any, args: any, { auth }) => {
       try {
-        const user = await userModel.findByIdAndUpdate(
-          { _id: _id },
-          { $set: { loggedIn: false } },
-          { useFindAndModify: false }
-        );
-        if (user === null || !user) {
-          throw new ApolloError("User not found", "204");
-        } else {
-          return { status: 200, msg: "LogOut successful" };
+        const userAuth = await getUser(auth);
+        try {
+          const user = await userModel.findByIdAndUpdate(
+            { _id: userAuth.id },
+            { $set: { loggedIn: false } },
+            { useFindAndModify: false }
+          );
+          if (user === null || !user) {
+            throw new ApolloError("User not found", "204");
+          } else {
+            return { status: 200, msg: "LogOut successful" };
+          }
+        } catch (err) {
+          console.log(err);
+          return new ApolloError("LogOut Failed", "501");
         }
       } catch (err) {
-        console.log(err);
-        return new ApolloError("LogOut Failed", "501");
+        return new AuthenticationError("UNAUTHORIZED");
       }
     },
     //* ----------------------------- !SECTION LogOut ---------------------------- */

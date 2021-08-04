@@ -50,7 +50,7 @@ export default gql`
   }
   extend type Mutation {
     logIn(email: String, password: String): User!
-    logOut(_id: ObjectID): JSON!
+    logOut: JSON!
     addUser(user: newUserInput!): User!
     UpdateAllUsers(input: String): JSON!
   }

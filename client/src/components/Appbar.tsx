@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useMutation } from "@apollo/client";
+import { AuthContext } from "../context/AuthContext";
 import { LOGOUT_USER as logoutUser } from "../GraphQL/Mutations";
-
 import {
   Link as RouterLink,
   NavLink,
@@ -100,6 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SearchAppBar() {
   const classes = useStyles();
+  const { user } = useContext(AuthContext);
   const [drawerState, setDrawerState] = useState<boolean>(false);
   const [logOutMutation, { error }] = useMutation(logoutUser);
   const handleLogout = async (
@@ -184,7 +185,9 @@ export default function SearchAppBar() {
       </List>
     </div>
   );
-
+  useEffect(() => {
+    console.log(`user`, user);
+  }, []);
   return (
     <div className={classes.root}>
       <AppBar position="static">

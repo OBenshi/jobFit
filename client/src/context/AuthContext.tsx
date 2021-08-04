@@ -29,8 +29,8 @@ export const AuthContextProvider: React.FC = ({children}) => {
 //NOTE need to check if the Context is created correctly. Also we need query on the back for the single user to query it from here. We need it for names by the comments ect.//
 
 import React, { createContext, useState, useEffect } from "react";
-import { useQuery, gql } from '@apollo/client'
-import { USER } from '../GraphQL/Queries';
+import { useQuery, gql } from "@apollo/client";
+import { USER } from "../GraphQL/Queries";
 
  interface IAuthContext {
     isAuthenticated: boolean,
@@ -51,27 +51,29 @@ const initAuthContext: IAuthContext = {
 
 export const AuthContext = createContext<IAuthContext>(initAuthContext);
 
-export const AuthContextProvider: React.FC = ({children}) => {
-    //const [user, setUser] = useState(initAuthContext.user);
-    const [user, setUser] = useState(initAuthContext.user);
-    const [isAuthenticated, setIsAuthenticated] = useState(initAuthContext.isAuthenticated);
-    const token = window.localStorage.getItem("token");
-    const { error, loading, data } = useQuery(USER);
+export const AuthContextProvider: React.FC = ({ children }) => {
+  const [user, setUser] = useState(initAuthContext.user);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    initAuthContext.isAuthenticated
+  );
+  const token = window.localStorage.getItem("token");
+  const { error, loading, data } = useQuery(USER);
 
-    useEffect(() => {
-      if (token !== null) {
-        console.log(token !== null, user);
-          console.log(data);
-          setUser(data)
-          setIsAuthenticated(false);
-      } else {
-         // isAuthenticated(true);
-      }
-    }, [data]);
+  useEffect(() => {
+    if (token !== null) {
+      console.log(token !== null, user);
+      console.log(data);
+      setUser(data);
+      setIsAuthenticated(false);
+    } else {
+      // isAuthenticated(true);
+    }
+  }, [data]);
 
-
-    return (
-        <AuthContext.Provider value={{user, setUser, isAuthenticated, setIsAuthenticated}}> {children}</AuthContext.Provider> 
-    )
-
-}
+  return (
+    <AuthContext.Provider value={{ user, setUser, setIsAuthenticated, isAuthenticated }}>
+      {" "}
+      {children}
+    </AuthContext.Provider>
+  );
+};
