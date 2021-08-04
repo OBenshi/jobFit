@@ -197,8 +197,8 @@ export default function SearchAppBar() {
     </div>
   );
   useEffect(() => {
-    user !== null && console.log(`user`, user.birthday);
-    console.log(`isAuthenticated`, isAuthenticated);
+    // user !== null && console.log(`user`, user.birthday);
+    // console.log(`isAuthenticated`, isAuthenticated);
   }, [isAuthenticated]);
   return (
     <div className={classes.root}>

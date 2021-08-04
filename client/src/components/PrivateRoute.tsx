@@ -23,7 +23,8 @@ const PrivateRoute: React.FC<{
   exact: boolean;
 }> = (props) => {
   const { user, isAuthenticated } = useContext(AuthContext);
-  const condition = user !== null && isAuthenticated ? true : false;
+  const token = window.localStorage.getItem("token");
+  const condition = token ? true : false;
 
   return condition ? (
     <Route path={props.path} exact={props.exact} component={props.component} />

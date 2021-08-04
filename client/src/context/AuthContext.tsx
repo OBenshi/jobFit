@@ -77,8 +77,8 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (token !== null) {
       console.log(token !== null, user);
-      console.log(data);
-      setUser(data);
+      console.log("data", data.user);
+      setUser(data.user);
       setIsAuthenticated(true);
     } else {
       // isAuthenticated(true);

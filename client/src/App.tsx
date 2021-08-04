@@ -12,6 +12,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { AuthContextProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import Dashboard from "./Views/Dashboard";
 function App() {
   return (
     <AuthContextProvider>
@@ -23,6 +24,7 @@ function App() {
               <Route exact path="/login" children={<LogIn />} />
               <Route exact path="/testing" children={<AAbla />} />
               <PrivateRoute path="/displaytext" component={DisplayText} exact />
+              <PrivateRoute path="/dashboard" component={Dashboard} exact />
               {/* <Route exact path="/displaytext" children={<DisplayText />} /> */}
               {/* <Route exact path="/adddatingtext" children={<AddDatingText />} /> */}
               <PrivateRoute
