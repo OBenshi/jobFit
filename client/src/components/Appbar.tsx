@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SearchAppBar() {
   const classes = useStyles();
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [drawerState, setDrawerState] = useState<boolean>(false);
   const [logOutMutation, { error }] = useMutation(logoutUser);
   const handleLogout = async (
@@ -132,7 +132,7 @@ export default function SearchAppBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {" "}
+        {user && <p>{user.username}</p>}
         <Link component={RouterLink} to="/">
           <ListItem button key={"home"}>
             <ListItemIcon>
@@ -186,7 +186,7 @@ export default function SearchAppBar() {
     </div>
   );
   useEffect(() => {
-    console.log(`user`, user);
+    user !== null && console.log(`user`, user.birthday);
   }, []);
   return (
     <div className={classes.root}>

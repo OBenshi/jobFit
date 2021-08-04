@@ -31,20 +31,35 @@ export const AuthContextProvider: React.FC = ({children}) => {
 import React, { createContext, useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { USER } from "../GraphQL/Queries";
-
- interface IAuthContext {
-    isAuthenticated: boolean,
-     user: object,
-     setUser: React.Dispatch<React.SetStateAction<object>>,
-     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+import { ObjectID } from "mongodb";
+import { datingTextNs, commentsNs } from "../../../server/src/@types";
+interface userProfile {
+  _id: ObjectID;
+  username: string;
+  firstName: string;
+  lastName: string;
+  birthday: string;
+  email: string;
+  password: string;
+  rank: number;
+  avatar?: string;
+  loggedIn: boolean;
+  datingTexts: Array<datingTextNs.datingText>;
+  comments: Array<commentsNs.comment>;
+}
+interface IAuthContext {
+  isAuthenticated: boolean;
+  user: userProfile | null;
+  setUser: React.Dispatch<React.SetStateAction<userProfile | null>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const initAuthContext: IAuthContext = {
-    isAuthenticated: false,
-    user: {},
-    setUser: () => {},
-    setIsAuthenticated: () =>{}
-} 
+  isAuthenticated: false,
+  user: null,
+  setUser: () => {},
+  setIsAuthenticated: () => {},
+};
 
 //export const AuthContext = createContext(initAuthContext);
 //export const AuthContext = createContext<React.Dispatch<React.SetStateAction<IAuthContext>> | undefined>(undefined);
@@ -71,7 +86,9 @@ export const AuthContextProvider: React.FC = ({ children }) => {
   }, [data]);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, setIsAuthenticated, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ user, setUser, setIsAuthenticated, isAuthenticated }}
+    >
       {" "}
       {children}
     </AuthContext.Provider>
