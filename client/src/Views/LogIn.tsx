@@ -49,8 +49,8 @@ interface FormData {
 const LogIn: React.FC = () => {
   const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
-  const [user, setUser] = useState("");
-   // const {user, setUser} = useContext(AuthContext);
+  //const [user, setUser] = useState("");
+  const {user, setUser} = useContext(AuthContext);
   const [input, setInput] = useState<FormData>({
     password: "",
     email: ""

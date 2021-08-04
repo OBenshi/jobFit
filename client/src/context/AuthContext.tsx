@@ -33,18 +33,26 @@ import { useQuery, gql } from '@apollo/client'
 import { USER } from '../GraphQL/Queries';
 
  interface IAuthContext {
-        isAuthenticated: boolean,
-        user: string,
+    isAuthenticated: boolean,
+     user: object,
+     setUser: React.Dispatch<React.SetStateAction<object>>,
+     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const initAuthContext:IAuthContext = {
-        isAuthenticated: false,
-        user: "",
+const initAuthContext: IAuthContext = {
+    isAuthenticated: false,
+    user: {},
+    setUser: () => {},
+    setIsAuthenticated: () =>{}
 } 
 
-export const AuthContext = createContext(initAuthContext);
+//export const AuthContext = createContext(initAuthContext);
+//export const AuthContext = createContext<React.Dispatch<React.SetStateAction<IAuthContext>> | undefined>(undefined);
+
+export const AuthContext = createContext<IAuthContext>(initAuthContext);
 
 export const AuthContextProvider: React.FC = ({children}) => {
+    //const [user, setUser] = useState(initAuthContext.user);
     const [user, setUser] = useState(initAuthContext.user);
     const [isAuthenticated, setIsAuthenticated] = useState(initAuthContext.isAuthenticated);
     const token = window.localStorage.getItem("token");
@@ -63,7 +71,7 @@ export const AuthContextProvider: React.FC = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={{user, isAuthenticated}}> {children}</AuthContext.Provider> 
+        <AuthContext.Provider value={{user, setUser, isAuthenticated, setIsAuthenticated}}> {children}</AuthContext.Provider> 
     )
 
 }
