@@ -19,22 +19,22 @@ import { getUser } from "../../context";
 //* ------------------------- SECTION USER RESOLVERS ------------------------- */
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
-
   Query: {
+    //* ------------------------- SECTION ALL USERS Query ------------------------ */
+
     users: async (a, b, { auth }) => {
       try {
-        const userAuth = await getUser(auth);
-        try {
-          const users = await userModel.find({});
-          return users;
-        } catch (err) {
-          console.error("users error", err);
-          throw new ApolloError("Error retrieving all users", "400");
-        }
+        const users = await userModel.find({});
+        return users;
       } catch (err) {
-        return new AuthenticationError("UNAUTHORIZED");
+        console.error("users error", err);
+        throw new ApolloError("Error retrieving all users", "400");
       }
     },
+    //* ------------------------- END !SECTION ALL USERS ------------------------- */
+
+    //* ----------------------------- SECTION A USER ----------------------------- */
+
     user: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
@@ -47,11 +47,13 @@ export const resolvers = {
           return user;
         } catch (err) {
           console.log(`err`, err);
+          return new ApolloError("Error retrieving user info", "501");
         }
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
       }
     },
+    //* --------------------------- END !SECTION A USER -------------------------- */
   },
 
   //* ----------------------------- !SECTION Query ----------------------------- */
@@ -123,26 +125,22 @@ export const resolvers = {
     //* ----------------------------- !SECTION LogIn ----------------------------- */
 
     //* ----------------------------- SECTION LogOut ----------------------------- */
-    logOut: async (parent: any, args: any, { auth }) => {
+    logOut: async (parent: any, args: { _id: ObjectID }) => {
+      const { _id } = args;
       try {
-        const userAuth = await getUser(auth);
-        try {
-          const user = await userModel.findByIdAndUpdate(
-            { _id: userAuth.id },
-            { $set: { loggedIn: false } },
-            { useFindAndModify: false }
-          );
-          if (user === null || !user) {
-            throw new ApolloError("User not found", "204");
-          } else {
-            return { status: 200, msg: "LogOut successful" };
-          }
-        } catch (err) {
-          console.log(err);
-          return new ApolloError("LogOut Failed", "501");
+        const user = await userModel.findByIdAndUpdate(
+          { _id: _id },
+          { $set: { loggedIn: false } },
+          { useFindAndModify: false }
+        );
+        if (user === null || !user) {
+          throw new ApolloError("User not found", "204");
+        } else {
+          return { status: 200, msg: "LogOut successful" };
         }
       } catch (err) {
-        return new AuthenticationError("UNAUTHORIZED");
+        console.log(err);
+        return new ApolloError("LogOut Failed", "501");
       }
     },
     //* ----------------------------- !SECTION LogOut ---------------------------- */

@@ -5,7 +5,8 @@ import { UserNs } from "./@types";
 
 export const getUser: any = async (auth) => {
   try {
-    if (!auth) return new AuthenticationError("you must be logged in!");
+    if (!auth) return null;
+    //   new AuthenticationError("you must be logged in!");
     const token = auth.split("Bearer ")[1];
     if (!token) throw new AuthenticationError("you should provide a token!");
     const user = await jwt.verify(

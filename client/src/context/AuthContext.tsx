@@ -31,6 +31,10 @@ export const AuthContextProvider: React.FC = ({children}) => {
 import React, { createContext, useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { USER } from "../GraphQL/Queries";
+<<<<<<< HEAD
+=======
+import { ObjectId } from "mongodb";
+>>>>>>> 71c5b8b809decc23467d3e16788e79d97554e9c6
 import { datingTextNs, commentsNs } from "../../../server/src/@types";
 import { ObjectId } from "mongoose";
 interface userProfile {
