@@ -110,6 +110,7 @@ export default function SearchAppBar() {
     event.preventDefault();
     try {
       await logOutMutation();
+      window.localStorage.removeItem("token");
       await setUser(null);
       await setIsAuthenticated(false);
     } catch (err) {
@@ -196,7 +197,7 @@ export default function SearchAppBar() {
     </div>
   );
   useEffect(() => {
-    // user !== null && console.log(`user`, user.birthday);
+    user !== null && console.log(`user`, user.birthday);
     console.log(`isAuthenticated`, isAuthenticated);
   }, [isAuthenticated]);
   return (
