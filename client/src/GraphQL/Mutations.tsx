@@ -24,21 +24,21 @@ mutation Mutation($addDatingTextInput: newDTI) {
 export const LOGIN_USER = gql`
   mutation Mutation($logInEmail: String, $logInPassword: String) {
     logIn(email: $logInEmail, password: $logInPassword) {
-       _id
-    username
-    firstName
-    lastName
-    email
-    rank
-    avatar
-    loggedIn
-    token
+      _id
+      username
+      firstName
+      lastName
+      email
+      rank
+      avatar
+      loggedIn
+      token
     }
   }
 `;
 export const LOGOUT_USER = gql`
-  mutation Mutation($logOutId: ObjectID) {
-    logOut(_id: $logOutId)
+  mutation Mutation {
+    logOut
   }
 `;
 

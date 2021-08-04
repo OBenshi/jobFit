@@ -100,7 +100,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SearchAppBar() {
   const classes = useStyles();
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, isAuthenticated, setIsAuthenticated } =
+    useContext(AuthContext);
   const [drawerState, setDrawerState] = useState<boolean>(false);
   const [logOutMutation, { error }] = useMutation(logoutUser);
   const handleLogout = async (
@@ -108,7 +109,9 @@ export default function SearchAppBar() {
   ) => {
     event.preventDefault();
     try {
-      await logOutMutation({ variables: { _id: 1 } });
+      await logOutMutation();
+      await setUser(null);
+      await setIsAuthenticated(false);
     } catch (err) {
       console.log(`err`, err);
     }
@@ -132,7 +135,6 @@ export default function SearchAppBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {user && <p>{user.username}</p>}
         <Link component={RouterLink} to="/">
           <ListItem button key={"home"}>
             <ListItemIcon>
@@ -141,14 +143,16 @@ export default function SearchAppBar() {
             <ListItemText primary={"Home"} />
           </ListItem>{" "}
         </Link>{" "}
-        <Link component={RouterLink} to="/login">
-          <ListItem button key={"login"}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Login"} />
-          </ListItem>{" "}
-        </Link>{" "}
+        {!isAuthenticated && (
+          <Link component={RouterLink} to="/login">
+            <ListItem button key={"login"}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Login"} />
+            </ListItem>
+          </Link>
+        )}
         <Link component={RouterLink} to="/testing">
           <ListItem button key={"testing"}>
             <ListItemIcon>
@@ -157,37 +161,44 @@ export default function SearchAppBar() {
             <ListItemText primary={"testing"} />
           </ListItem>{" "}
         </Link>{" "}
-        <Link component={RouterLink} to="/displaytext">
-          <ListItem button key={"dating texts"}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Dating texts"} />
-          </ListItem>{" "}
-        </Link>{" "}
-        <Link component={RouterLink} to="/signup">
-          <ListItem button key={"signup"}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"SignUp"} />
-          </ListItem>{" "}
-        </Link>
+        {isAuthenticated && (
+          <Link component={RouterLink} to="/displaytext">
+            <ListItem button key={"dating texts"}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Dating texts"} />
+            </ListItem>
+          </Link>
+        )}
+        {!isAuthenticated && (
+          <Link component={RouterLink} to="/signup">
+            <ListItem button key={"signup"}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"SignUp"} />
+            </ListItem>
+          </Link>
+        )}
       </List>
       <Divider />
-      <List>
-        <ListItem button key={"logout"} onClick={handleLogout}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Logout"} />
-        </ListItem>
-      </List>
+      {isAuthenticated && (
+        <List>
+          <ListItem button key={"logout"} onClick={handleLogout}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
+          </ListItem>
+        </List>
+      )}
     </div>
   );
   useEffect(() => {
-    user !== null && console.log(`user`, user.birthday);
-  }, []);
+    // user !== null && console.log(`user`, user.birthday);
+    console.log(`isAuthenticated`, isAuthenticated);
+  }, [isAuthenticated]);
   return (
     <div className={classes.root}>
       <AppBar position="static">

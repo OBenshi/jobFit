@@ -37,6 +37,9 @@ export const resolvers = {
       try {
         const userAuth = await getUser(auth);
         console.log(`userAuth`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           const datingText = await datingTextModel
             .findById(args)
@@ -85,6 +88,9 @@ export const resolvers = {
       try {
         const userAuth = await getUser(auth);
         console.log(`userAuth`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           console.log(`owner`, owner);
           const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
@@ -132,6 +138,9 @@ export const resolvers = {
       try {
         const userAuth = await getUser(auth);
         console.log(`userAuth`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           const editDT = datingTextModel
             .findByIdAndUpdate(
