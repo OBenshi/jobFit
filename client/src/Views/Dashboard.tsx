@@ -11,22 +11,6 @@ import {
   Grid,
 } from "@material-ui/core";
 import { useStyles, backgroundStyles } from "../style/useStyles";
-import { ObjectId } from "mongoose";
-import { datingTextNs, commentsNs } from "../../../server/src/@types";
-interface userProfile {
-  _id: ObjectId;
-  username: string;
-  firstName: string;
-  lastName: string;
-  birthday: string;
-  email: string;
-  password: string;
-  rank: number;
-  avatar?: string;
-  loggedIn: boolean;
-  datingTexts: Array<datingTextNs.datingText>;
-  comments: Array<commentsNs.comment>;
-}
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
