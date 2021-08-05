@@ -136,6 +136,7 @@ export default function SearchAppBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
+        {user ? <p>{user?.firstName}</p> : <p>6</p>}
         <Link component={RouterLink} to="/">
           <ListItem button key={"home"}>
             <ListItemIcon>

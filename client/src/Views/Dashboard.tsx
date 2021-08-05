@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  ChangeEvent,
+  FormEvent,
+} from "react";
 import { AuthContext } from "../context/AuthContext";
 import {
   Typography,
@@ -10,17 +16,87 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
+import { useMutation } from "@apollo/client";
 import { useStyles, backgroundStyles } from "../style/useStyles";
+import { userNs, toolsNs } from "../@types";
+import { UPDATE_USER } from "../GraphQL/Mutations";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const classes = useStyles();
+  const [updateUserProfileUser, { error }] = useMutation(UPDATE_USER);
+  const [passErr, setPassErr] = useState<Array<toolsNs.error>>();
+  const [update, setUpdate] = useState<userNs.updateProfile | null>(null);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    update && setUpdate({ ...update, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(`update`, update);
+    const updateErr: Array<toolsNs.error> = [];
+    if (update?.password && update?.password !== user?.password) {
+      if (update?.password.length < 8) {
+        updateErr.push({
+          code: 901,
+          msg: "Password must be at least 8 characters long",
+        });
+      }
+    }
+    if (update?.username && update?.username !== user?.username) {
+      update?.username.length < 3 &&
+        updateErr.push({
+          code: 902,
+          msg: "username must be at least 3 characters long",
+        });
+    }
+    if (update?.firstName && update?.firstName !== user?.firstName) {
+      update?.firstName.length < 3 &&
+        updateErr.push({
+          code: 903,
+          msg: "first name must be at least 3 characters long",
+        });
+    }
+    // updateUserProfileUser({
+    //   variables: {
+    //     addUserUser: {
+    //       firstName: update.firstName,
+    //       lastName: sign.lastName,
+    //       password: sign.password,
+    //       birthday: sign.birthday,
+    //       email: sign.email,
+    //       username: sign.username,
+    //       avatar: sign.avatar,
+    //     },
+    //   },
+    // }).then(({ data }) => {
+    //   localStorage.setItem("token", data.addUser.token);
+    // });
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("user signed up");
+    }
+  };
+
   useEffect(() => {
-    console.info(user);
+    console.info(update);
+    user &&
+      setUpdate({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        password: user.password,
+        email: user.email,
+        username: user.username,
+        avatar: user.avatar,
+      });
+    console.log(`update`, update);
   }, [user]);
+
   return (
     <div style={backgroundStyles}>
-      (
+      <button onClick={() => console.log(update)}>show update</button>
       <Typography
         component="h1"
         variant="h4"
@@ -35,7 +111,7 @@ const Dashboard = () => {
           className={classes.container}
           noValidate
           autoComplete="off"
-          // onSubmit={handleCLick}
+          onSubmit={handleUpdate}
         >
           <Card className={classes.card}>
             <CardHeader className={classes.header} title="your info" />
@@ -50,7 +126,7 @@ const Dashboard = () => {
                   defaultValue={`${user?.firstName}`}
                   margin="normal"
                   name="firstName"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 />
                 <TextField
                   fullWidth
@@ -61,7 +137,7 @@ const Dashboard = () => {
                   defaultValue={`${user?.lastName}`}
                   margin="normal"
                   name="lastName"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 />
                 <TextField
                   fullWidth
@@ -72,7 +148,7 @@ const Dashboard = () => {
                   defaultValue={`${user?.username}`}
                   margin="normal"
                   name="username"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 />
                 <TextField
                   fullWidth
@@ -83,7 +159,7 @@ const Dashboard = () => {
                   defaultValue={user?.email}
                   margin="normal"
                   name="email"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 />
                 <TextField
                   fullWidth
@@ -93,9 +169,9 @@ const Dashboard = () => {
                   placeholder="Password"
                   margin="normal"
                   name="password"
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 />
-                <label htmlFor="img">
+                {/* <label htmlFor="img">
                   <input
                     accept="image/*"
                     type="file"
@@ -113,7 +189,7 @@ const Dashboard = () => {
                   // onClick={() => uploadImage()}
                 >
                   Upload avatar
-                </Button>
+                </Button> */}
               </div>
             </CardContent>
             <CardActions>
@@ -131,7 +207,6 @@ const Dashboard = () => {
           </Card>
         </form>
       )}
-      )
     </div>
   );
 };
