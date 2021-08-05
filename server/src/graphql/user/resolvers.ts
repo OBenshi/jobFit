@@ -38,7 +38,8 @@ export const resolvers = {
     user: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
-        console.log(`userAuth`, userAuth);
+        console.log('auth is...', auth);
+        console.log(`userAuth in user`, userAuth);
         try {
           const user = await userModel
             .findOne({ _id: userAuth.id })
@@ -62,20 +63,20 @@ export const resolvers = {
   Mutation: {
     //*--------------------------- SECTION User MAINTENANCE -------------------------- */
 
-    // UpdateAllUsers: async (parent, args) => {
-    //   try {
-    //     sendConfirmationEmail("bob", "benshi.code@gmail.com");
-    //     // const users = await userModel.updateMany(
-    //     //   {},
-    //     //   { $set: { loggedIn: true } },
-    //     //   { useFindAndModify: false }
-    //     // );
-    //     return { status: 200, msg: "LogOut successful" };
-    //   } catch (err) {
-    //     console.log(`err`, err);
-    //     throw new ApolloError("shit", "69");
-    //   }
-    // },
+    UpdateAllUsers: async (parent, args) => {
+      try {
+        const users = await userModel.updateMany(
+          {},
+          { $set: { } },
+          { useFindAndModify: false }
+        );
+        return { status: 200, msg: "LogOut successful" };
+      } catch (err) {
+        console.log(`err`, err);
+        throw new ApolloError("shit", "69");
+      }
+    },
+    //set WATSON feature for all users
 
     //*-------------------------- !SECTION User MAINTENANCE -------------------------- */
 
