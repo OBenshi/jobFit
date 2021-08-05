@@ -82,16 +82,6 @@ const LogIn: React.FC = () => {
         .catch((error) => {
           console.log(error);
         });
-<<<<<<< HEAD
-        if (error) {
-          console.log(error)
-        } else {
-          console.log("user logged in")
-        }
-    }
-  }  
- 
-=======
       if (error) {
         console.log(error);
       } else {
@@ -100,7 +90,6 @@ const LogIn: React.FC = () => {
     }
   };
 
->>>>>>> 897ceab90a2d0593b5b9a0d13541db30d14f12da
   const backgroundStyles = {
     backgroundImage: `url(${background})`,
     backgroundPosition: "center",
