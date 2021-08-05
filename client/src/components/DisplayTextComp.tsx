@@ -51,30 +51,6 @@ const DisplayTextComp: React.FC = (props) => {
 
   console.log(data);
   
-const handleChange =  (e: ChangeEvent<any>) =>
-  setComment({ ...comment, [e.target.name]: e.target.value }
-    ); 
- const handleSubmit =  (e: FormEvent<HTMLFormElement>)=> {
-   e.preventDefault();
-        AddCommentMutation({
-          variables: {
-            "addCommentComment": {
-             //"owner": comment.owner,
-             "text": comment.text,
-             //"score": comment.score,
-             //"onText": comment.onText
-          }
-            }
-          }
-        )
-        if (error) {
-          console.log(error)
-        } else {
-          console.log("success")
-   }
-    console.log(comment);
-      }  
-  
     return (
       <div>
      {loading && <p>loading</p>}
