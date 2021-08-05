@@ -35,7 +35,7 @@ const DisplayText: React.FC = () => {
         </Box>
       </Typography>
       <DisplayTextComp />
-      <AddComment /> 
+        <AddComment />
     </div>
   );
 };
