@@ -53,7 +53,9 @@ export const SIGN_UP_USER = gql`
 export const ADD_DATING = gql`
   mutation Mutation($addDatingTextText: newDTI) {
     addDatingText(text: $addDatingTextText) {
-      text
+      text,
+      postDate,
+      xprivate
     }
   }
 `;

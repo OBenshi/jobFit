@@ -104,7 +104,7 @@ export const resolvers = {
             return new ApolloError("failed to save text", "503");
           }
           const user = await userModel.findByIdAndUpdate(
-            { _id: owner },
+            { _id: userAuth.id },
             { $addToSet: { datingTexts: savedText._id } },
             { useFindAndModify: false }
           );

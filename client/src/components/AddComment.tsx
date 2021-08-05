@@ -6,8 +6,6 @@ import React, {
   FormEvent,
   useContext,
 } from "react";
-import { useQuery, gql } from '@apollo/client'
-import { DATING_TEXT } from '../GraphQL/Queries';
 import { useMutation } from "@apollo/client";
 import {ADD_COMMENT} from '../GraphQL/Mutations'
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,19 +36,15 @@ interface IAddText {
    // onText: string
 }
 
-const DisplayTextComp: React.FC = (props) => {
+const AddComment: React.FC = (props) => {
   const classes = useStyles();
-  const { error, loading, data } = useQuery(DATING_TEXT);
-  const [AddCommentMutation] = useMutation(ADD_COMMENT);
+  const [AddCommentMutation, error] = useMutation(ADD_COMMENT);
   const [comment, setComment] = useState<IAddText>({
     //owner: "",
     text: "",
     //score: "",
     //onText: ""
   });
-
-  console.log(data);
-  
 const handleChange =  (e: ChangeEvent<any>) =>
   setComment({ ...comment, [e.target.name]: e.target.value }
     ); 
@@ -77,20 +71,19 @@ const handleChange =  (e: ChangeEvent<any>) =>
   
     return (
       <div>
-     {loading && <p>loading</p>}
-      {error !== undefined && <p>{error.message}</p>}
-      {data !== undefined && data.allTexts.map((allText: any) => {
-        return <Paper className={classes.root}>
-            <Typography variant="h6" gutterBottom>{allText.text}</Typography> 
-            <Typography variant="caption" display="block" gutterBottom> {allText.postDate} </Typography><hr></hr>
-              {allText.comments.map((comment: any) => {
-                return <Typography variant="body2" style={{backgroundColor: "#FFD700"}}>{comment.text}</Typography>
-              })}
-        </Paper>
-      })}
+        <form noValidate autoComplete="off" onSubmit={handleSubmit} style={{display: "flex",
+            flexDirection: 'column', justifyContent: "space-between"
+          }}>
+            <TextareaAutosize
+              aria-label="minimum height"
+              minRows={2} placeholder="your comment"
+              name="text"
+              value={comment.text}
+              onChange={handleChange} />
+            <Button size="small" variant="contained" style={{ backgroundColor: "#FFD700", color: '#FFFFFF' }} type="submit">Add a comment</Button>
+          </form>
         </div> 
   )
 }
-export default DisplayTextComp;
+export default AddComment;
 
-///TODO here once we got mutation to add a comment, need to check again the fetch and uncomment the events
