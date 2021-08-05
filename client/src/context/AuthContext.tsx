@@ -78,10 +78,8 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     if (token !== null) {
       console.log(token !== null, user);
       console.log(data);
-      setUser(data);
-      setIsAuthenticated(false);
-    } else {
-      // isAuthenticated(true);
+      data && setUser(data.user);
+      setIsAuthenticated(true);
     }
     //console.log(user!==null && user.username);
   }, [data]);
