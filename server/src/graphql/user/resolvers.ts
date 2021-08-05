@@ -38,7 +38,9 @@ export const resolvers = {
     user: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
-        console.log(`userAuth`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           const user = await userModel
             .findOne({ _id: userAuth.id })
@@ -125,11 +127,14 @@ export const resolvers = {
     //* ----------------------------- !SECTION LogIn ----------------------------- */
 
     //* ----------------------------- SECTION LogOut ----------------------------- */
-    logOut: async (parent: any, args: { _id: ObjectID }) => {
-      const { _id } = args;
+    logOut: async (parent: any, args: any, { auth }) => {
+      const userAuth = await getUser(auth);
+      if (userAuth === null) {
+        return new AuthenticationError("UNAUTHORIZED");
+      }
       try {
         const user = await userModel.findByIdAndUpdate(
-          { _id: _id },
+          { _id: userAuth.id },
           { $set: { loggedIn: false } },
           { useFindAndModify: false }
         );
