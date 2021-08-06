@@ -22,17 +22,26 @@ export default gql`
   }
   input newUserInput {
     # _id: ObjectID
-    username: String
-    firstName: String
-    lastName: String
+    username: String!
+    firstName: String!
+    lastName: String!
     birthday: DateTime
-    email: EmailAddress
-    password: String
+    email: EmailAddress!
+    password: String!
     # rank: Int
-    avatar: String
+    avatar: String!
     # loggedIn: Boolean
     # comments: [comment]
     # datingTexts: [datingText]
+  }
+  input updateUserInput {
+    # _id: ObjectID
+    username: String
+    firstName: String
+    lastName: String
+    email: EmailAddress
+    password: String
+    avatar: String
   }
 
   input logInInput {
@@ -53,5 +62,6 @@ export default gql`
     logOut: JSON!
     addUser(user: newUserInput!): User!
     UpdateAllUsers(input: String): JSON!
+    updateUserProfile(user: updateUserInput!): User!
   }
 `;

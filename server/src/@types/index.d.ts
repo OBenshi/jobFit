@@ -35,12 +35,26 @@ export namespace UserNs {
     birthday: string;
     email: string;
     password: string;
-    // rank: number;
     avatar?: string;
-    // loggedIn: boolean;
-    // datingTexts: Array<ObjectId>;
-    // comments: Array<ObjectId>;
   }
+  interface updateBlock {
+    username?: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    avatar?: string;
+  }
+
+  interface updateUser {
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    avatar: string;
+  }
+
   interface logInInput {
     email: string;
     password: string;
