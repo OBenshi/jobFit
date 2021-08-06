@@ -17,7 +17,10 @@ type Comments = Comment[]
 interface Owner {
   username: string
 }
-import { datingTextNs, commentsNs } from "../../../server/src/@types";
+
+///TODO please Oded change the your types so they look like mine. Here you do not have to export anything, just write your interfaces. I had to comment yours because my views were not compiling because of this file.
+
+/* import { datingTextNs, commentsNs } from "../../../server/src/@types";
 
 export namespace toolsNs {
   interface error {
@@ -64,3 +67,4 @@ export namespace auth {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   }
 }
+ */
