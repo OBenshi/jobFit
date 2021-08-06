@@ -102,11 +102,12 @@ export const resolvers = {
             display: true,
             private: xprivate,
             comments: [],
+            toneResults: toneResult
           });
           if (newDT === null) {
             return new ApolloError("failed to post text", "502");
           }
-          const savedText = await newDT.save();
+          const savedText: datingTextNs.datingTextSchemaData = await newDT.save();
           if (savedText === null) {
             return new ApolloError("failed to save text", "503");
           }
