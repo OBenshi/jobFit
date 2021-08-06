@@ -4,6 +4,7 @@ import React, {
   useState,
   ChangeEvent,
   FormEvent,
+  useRef,
 } from "react";
 import { AuthContext } from "../context/AuthContext";
 import {
@@ -16,68 +17,67 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import { useMutation } from "@apollo/client";
 import { useStyles, backgroundStyles } from "../style/useStyles";
-import { userNs, toolsNs } from "../@types";
+// import { userNs, toolsNs } from "@types";
 import { UPDATE_USER } from "../GraphQL/Mutations";
+import { ApolloError } from "@apollo/react-hooks";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
   const classes = useStyles();
+
+  const { user, setUser } = useContext(AuthContext);
+
   const [updateUserProfileUser, { error }] = useMutation(UPDATE_USER);
-  const [passErr, setPassErr] = useState<Array<toolsNs.error>>();
+
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [firstNameErr, setFirstNameErr] = useState<string | null>(null);
+  const [lastNameErr, setLastNameErr] = useState<string | null>(null);
+  const [emailErr, setEmailErr] = useState<string | null>(null);
+  const [passwordErr, setPasswordErr] = useState<string | null>(null);
+  const [passwordConfirmErr, setPasswordConfirmErr] = useState<string | null>(
+    null
+  );
+  const [usernameErr, setUsernameErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(
+    !firstNameErr &&
+      !lastNameErr &&
+      !emailErr &&
+      !passwordErr &&
+      !passwordConfirmErr &&
+      !usernameErr
+      ? false
+      : true
+  );
   const [update, setUpdate] = useState<userNs.updateProfile | null>(null);
+
+  const emailRegEx: RegExp =
+    /^(([^<>()\[\]\\.,;:\s\W@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     update && setUpdate({ ...update, [e.target.name]: e.target.value });
   };
 
-  const handleUpdate = (e: FormEvent<HTMLFormElement>) => {
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`update`, update);
-    const updateErr: Array<toolsNs.error> = [];
-    if (update?.password && update?.password !== user?.password) {
-      if (update?.password.length < 8) {
-        updateErr.push({
-          code: 901,
-          msg: "Password must be at least 8 characters long",
-        });
+    setLoading(true);
+    setUsernameErr(null);
+    try {
+      const updatedUser = await updateUserProfileUser({
+        variables: {
+          updateUserProfileUser: update,
+        },
+      });
+      setUser(updatedUser.data.updateUserProfile);
+    } catch (err) {
+      console.log(err);
+      if (err.message.indexOf("username")) {
+        setUsernameErr(err.message);
       }
     }
-    if (update?.username && update?.username !== user?.username) {
-      update?.username.length < 3 &&
-        updateErr.push({
-          code: 902,
-          msg: "username must be at least 3 characters long",
-        });
-    }
-    if (update?.firstName && update?.firstName !== user?.firstName) {
-      update?.firstName.length < 3 &&
-        updateErr.push({
-          code: 903,
-          msg: "first name must be at least 3 characters long",
-        });
-    }
-    // updateUserProfileUser({
-    //   variables: {
-    //     addUserUser: {
-    //       firstName: update.firstName,
-    //       lastName: sign.lastName,
-    //       password: sign.password,
-    //       birthday: sign.birthday,
-    //       email: sign.email,
-    //       username: sign.username,
-    //       avatar: sign.avatar,
-    //     },
-    //   },
-    // }).then(({ data }) => {
-    //   localStorage.setItem("token", data.addUser.token);
-    // });
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("user signed up");
-    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -97,15 +97,20 @@ const Dashboard = () => {
   return (
     <div style={backgroundStyles}>
       <button onClick={() => console.log(update)}>show update</button>
-      <Typography
-        component="h1"
-        variant="h4"
-        align="center"
-        color="textPrimary"
-        gutterBottom
-      >
-        Manage your Profile
-      </Typography>
+      {user?.username && (
+        <Typography
+          component="h1"
+          variant="h4"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+        >
+          The{" "}
+          {user?.username &&
+            user?.username[0].toUpperCase() + user.username.slice(1)}{" "}
+          Zone
+        </Typography>
+      )}
       {user !== null && (
         <form
           className={classes.container}
@@ -117,6 +122,7 @@ const Dashboard = () => {
             <CardHeader className={classes.header} title="your info" />
             <CardContent>
               <div>
+                {firstNameErr && <Alert severity="error">{firstNameErr}</Alert>}
                 <TextField
                   fullWidth
                   id="firstName"
@@ -126,8 +132,18 @@ const Dashboard = () => {
                   defaultValue={`${user?.firstName}`}
                   margin="normal"
                   name="firstName"
-                  onChange={handleChange}
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    if (event.target.value.length < 2) {
+                      setFirstNameErr(
+                        "first name must be at least 2 characters long"
+                      );
+                    } else {
+                      setFirstNameErr(null);
+                      handleChange(event);
+                    }
+                  }}
                 />
+                {lastNameErr && <Alert severity="error">{lastNameErr}</Alert>}
                 <TextField
                   fullWidth
                   id="lastName"
@@ -137,8 +153,18 @@ const Dashboard = () => {
                   defaultValue={`${user?.lastName}`}
                   margin="normal"
                   name="lastName"
-                  onChange={handleChange}
+                  onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                    if (eve.target.value.length < 2) {
+                      setLastNameErr(
+                        "Last name must be at least 2 characters long"
+                      );
+                    } else {
+                      setLastNameErr(null);
+                      handleChange(eve);
+                    }
+                  }}
                 />
+                {usernameErr && <Alert severity="error">{usernameErr}</Alert>}
                 <TextField
                   fullWidth
                   id="username"
@@ -148,19 +174,36 @@ const Dashboard = () => {
                   defaultValue={`${user?.username}`}
                   margin="normal"
                   name="username"
-                  onChange={handleChange}
+                  onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                    if (eve.target.value.length < 3) {
+                      setUsernameErr(
+                        "Username must be at least 3 characters long"
+                      );
+                    } else {
+                      setUsernameErr(null);
+                      handleChange(eve);
+                    }
+                  }}
                 />
+                {emailErr && <Alert severity="error">{emailErr}</Alert>}
                 <TextField
                   fullWidth
                   id="email"
                   type="email"
                   label="Email"
-                  // placeholder="123"
                   defaultValue={user?.email}
                   margin="normal"
                   name="email"
-                  onChange={handleChange}
+                  onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                    if (!emailRegEx.test(eve.target.value)) {
+                      setEmailErr("Please enter a valid email address.");
+                    } else {
+                      setEmailErr(null);
+                      handleChange(eve);
+                    }
+                  }}
                 />
+                {passwordErr && <Alert severity="error">{passwordErr}</Alert>}
                 <TextField
                   fullWidth
                   id="password"
@@ -168,8 +211,46 @@ const Dashboard = () => {
                   label="Password"
                   placeholder="Password"
                   margin="normal"
+                  name="passwordConfirm"
+                  inputRef={passwordRef}
+                  onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                    if (eve.target.value.length < 8) {
+                      setPasswordErr(
+                        "Password must be at least 8 characters long."
+                      );
+                    } else {
+                      setPasswordErr(null);
+                    }
+                  }}
+                />
+                {passwordConfirmErr && (
+                  <Alert severity="error">{passwordConfirmErr}</Alert>
+                )}
+                <TextField
+                  fullWidth
+                  id="passwordConfirm"
+                  type="password"
+                  label="Confirm Password"
+                  placeholder="Password"
+                  margin="normal"
                   name="password"
-                  onChange={handleChange}
+                  onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                    console.log(`object`, passwordRef.current?.value);
+                    if (
+                      !passwordRef ||
+                      eve.target.value !==
+                        passwordRef?.current?.value.toString()
+                    ) {
+                      console.log(
+                        `eve.target.value===passwordRef?.current?.value.toString()`,
+                        eve.target.value ===
+                          passwordRef?.current?.value.toString()
+                      );
+                      setPasswordConfirmErr("Passwords do not match");
+                    } else {
+                      setPasswordConfirmErr(null);
+                    }
+                  }}
                 />
                 {/* <label htmlFor="img">
                   <input
@@ -199,6 +280,7 @@ const Dashboard = () => {
                   size="large"
                   type="submit"
                   style={{ backgroundColor: "#FFD700", color: "#FFFFFF" }}
+                  disabled={loading}
                 >
                   Update
                 </Button>
@@ -212,41 +294,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-//   {/* <Search /> */}
-//   {!loading ? (
-//     // ((<ScrollToTopOnMount />),
-//     menus.length !== 0 ? (
-//       <Grid container spacing={1} className={classes.menusContainer}>
-//         {menus.map((menu, index) => {
-//           return <Menu menu={menu} key={`${index}-${menu.sponsor}`} />;
-//         })}
-//         {resultPage < totalPages && (
-//           <Grid
-//             container
-//             justify="center"
-//             align="center"
-//             className={classes.loadMore}
-//           >
-//             <Grid item xs={12}>
-//               <Fab color="secondary" size="large" aria-label="add">
-//                 <AddCircleIcon
-//                   className={classes.fabiIcon}
-//                   onClick={(e) => {
-//                     console.log(window.screenX, window.screenY);
-//                     e.preventDefault();
-//                     setDoNotFetch(false);
-//                     setResultPage(resultPage + 1);
-//                   }}
-//                 />
-//               </Fab>
-//             </Grid>
-//           </Grid>
-//         )}
-//       </Grid>
-//     ) : (
-//       <p>no results</p>
-//     )
-//   ) : (
-//     <Loading />
-//   )}

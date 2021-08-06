@@ -13,7 +13,6 @@ import { ObjectID } from "mongodb";
 // import { sendConfirmationEmail } from "../../mailer/mailer";
 import userModel from "../../models/usersModel";
 import { getUser } from "../../context";
-import { updateBlock } from "typescript";
 
 //* --------------------------  !SECTION IMPORTS -------------------------- */
 
@@ -92,14 +91,9 @@ export const resolvers = {
       try {
         //?STUB connecting to mongoDB
         const user = await userModel
-          .findOne(
-            {
-              email: email,
-              // password: password,
-            }
-            // { $set: { loggedIn: true } },
-            // { useFindAndModify: false }
-          )
+          .findOne({
+            email: email,
+          })
           .populate({ path: "datingTexts" })
           .populate({ path: "comments" });
         console.log(`user`, user);
@@ -238,21 +232,42 @@ export const resolvers = {
         return new AuthenticationError("UNAUTHORIZED");
       }
       try {
+        const token = auth.split("Bearer ")[1];
+        console.log(`auth2`, token);
         const { user } = args;
+        if (user.username) {
+          const existingUser = await userModel.findOne({
+            username: user.username,
+          });
+          if (existingUser !== null) {
+            console.log(`existingUser`, existingUser);
+            const bob = new ApolloError("Username already taken", "950");
+            const bib = bob.code;
+            // console.log(bob.);
+            return bob;
+          }
+        }
         if (user.password) {
           user.password = await bcrypt.hash(user.password, 10);
         }
-        const updatedUser = await userModel.findByIdAndUpdate(
-          { _id: userAuth.id },
-          {
-            $set: user,
-          },
-          { useFindAndModify: false, new: true }
-        );
+        const updatedUser = await userModel
+          .findByIdAndUpdate(
+            { _id: userAuth.id },
+            {
+              $set: user,
+            },
+            { useFindAndModify: false, new: true }
+          )
+          .populate({ path: "datingTexts" })
+          .populate({ path: "comments" });
         if (updatedUser === null || !updatedUser) {
           throw new ApolloError("User not found", "204");
         } else {
-          return updatedUser;
+          // return updatedUser;
+          return {
+            ...updatedUser.toJSON(),
+            token,
+          };
         }
       } catch (err) {
         return new ApolloError("Failed to update user", "69");

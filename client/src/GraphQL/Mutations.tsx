@@ -63,6 +63,7 @@ export const UPDATE_USER = gql`
       password
       rank
       avatar
+      token
     }
   }
 `;
@@ -79,10 +80,10 @@ export const ADD_DATING = gql`
 
 export const ADD_COMMENT = gql`
   mutation Mutation($addCommentComment: newComment) {
-  addComment(comment: $addCommentComment) {
-    text,
-    owner,
-    score
+    addComment(comment: $addCommentComment) {
+      text
+      owner
+      score
+    }
   }
-}
 `;
