@@ -61,9 +61,11 @@ export const ADD_DATING = gql`
 `;
 
 export const ADD_COMMENT = gql`
-  mutation AddCommentMutation($addCommentComment: newComment) {
-    addComment(comment: $addCommentComment) {
-      text
-    }
+  mutation Mutation($addCommentComment: newComment) {
+  addComment(comment: $addCommentComment) {
+    text,
+    owner,
+    score
   }
+}
 `;

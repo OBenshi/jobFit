@@ -11,6 +11,9 @@ query Query {
     score
     postDate
     comments {
+     owner {
+        username
+      }
       text
     }
     display

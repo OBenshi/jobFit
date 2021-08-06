@@ -17,6 +17,10 @@ import Typography from '@material-ui/core/Typography';
 import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles({
   root: {
@@ -31,40 +35,76 @@ const useStyles = makeStyles({
   },
 });
 
-interface IAddText {
+interface IAddComment {
    //owner: string,
     text: string,
    //score: string,
    // onText: string
 }
 
-const DisplayTextComp: React.FC = (props) => {
+
+const DisplayTextComp: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { error, loading, data } = useQuery(DATING_TEXT);
-  const [AddCommentMutation] = useMutation(ADD_COMMENT);
-  const [comment, setComment] = useState<IAddText>({
+  const [addComment] = useMutation(ADD_COMMENT);
+  const [comment, setComment] = useState<IAddComment>({
     //owner: "",
     text: "",
     //score: "",
     //onText: ""
   });
-
+  const handleChange =  (e: ChangeEvent<any>) =>
+  setComment({ ...comment, [e.target.name]: e.target.value }
+    ); 
+ const handleSubmit =  (e: FormEvent<HTMLFormElement>)=> {
+   e.preventDefault();
+        addComment({
+          variables: {
+            "addCommentComment": {
+             //"owner": comment.owner,
+             "text": comment.text,
+             //"score": comment.score,
+             //"onText": comment.onText
+          }
+            }
+          }
+        )
+        if (error) {
+          console.log(error)
+        } else {
+          console.log("success")
+   }
+      }  
   console.log(data);
-  
+  //console.log(props.allText.owner.username);
+  console.log(props.allText.postDate);
     return (
-      <div>
-     {loading && <p>loading</p>}
-      {error !== undefined && <p>{error.message}</p>}
-      {data !== undefined && data.allTexts.map((allText: any) => {
-        return <Paper className={classes.root}>
-            <Typography variant="h6" gutterBottom>{allText.text}</Typography> 
-            <Typography variant="caption" display="block" gutterBottom> {allText.postDate} </Typography><hr></hr>
-              {allText.comments.map((comment: any) => {
-                return <Typography variant="body2" style={{backgroundColor: "#FFD700"}}>{comment.text}</Typography>
-              })}
-        </Paper>
-      })}
-        </div> 
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography gutterBottom variant="caption" display="block" style={{ textAlign: "left" }} >Owner {/* {props.allText.owner.username} */}</Typography>
+          <Typography gutterBottom variant="h6">{props.allText.text}</Typography>
+          <Typography gutterBottom variant="caption" display="block" style={{textAlign:"left"}}>{props.allText.postDate}</Typography>
+         {data !== undefined && props.allText.comments.map((comment: any) => {
+           return <div style={{ backgroundColor: "#FFFF00", border: "2px solid red" }}>
+             <Typography variant="caption" display="block" gutterBottom style={{textAlign:"left"}}>owner</Typography>
+             <Typography variant="body2">{comment.text}</Typography><div>
+            <Typography variant="caption" display="block" gutterBottom style={{textAlign:"right"}}>date </Typography>
+           </div></div>
+         })}
+          <hr></hr>
+        </CardContent>
+        <CardActions>
+          <form noValidate autoComplete="off" onSubmit={handleSubmit} style={{display: "flex", alignItems:"center"}}>
+          <TextareaAutosize
+            aria-label="minimum height"
+              minRows={6} placeholder="your comment"
+              name="text"
+              value={comment.text}
+              onChange={handleChange} /><hr></hr>
+            <Button size="small" variant="contained" style={{ backgroundColor: "#FFD700", color: '#FFFFFF' }} type="submit">Add a comment</Button>
+            </form>
+      </CardActions>
+      </Card>
   )
 }
 export default DisplayTextComp;

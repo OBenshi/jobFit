@@ -1,12 +1,16 @@
 import React from "react";
 import bg from "../img/bg2.jpg";
 import DisplayTextComp from "../components/DisplayTextComp";
-import AddComment from "../components/AddComment";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
+import { useQuery, gql } from '@apollo/client'
+import { DATING_TEXT } from '../GraphQL/Queries';
 
-const DisplayText: React.FC = () => {
+const DisplayText: React.FC= () => {
+
+  const { error, loading, data } = useQuery(DATING_TEXT);
+  
   const backgroundStyles = {
     backgroundImage: `url(${bg})`,
     backgroundPosition: "center",
@@ -34,9 +38,14 @@ const DisplayText: React.FC = () => {
           SWAT
         </Box>
       </Typography>
-      <DisplayTextComp />
-        <AddComment />
-    </div>
-  );
+      
+
+      {loading && <p>loading</p>}
+      {error !== undefined && <p>{error.message}</p>}
+      {data !== undefined && data.allTexts.map((allText: any, index:number) => {
+        return <DisplayTextComp key={index} allText={allText} />
+ })} 
+      </div>
+      );
 };
 export default DisplayText;
