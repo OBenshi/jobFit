@@ -13,11 +13,9 @@ const DisplayText: React.FC= () => {
   
   const backgroundStyles = {
     backgroundImage: `url(${bg})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    width: "100vw",
-    height: "100vh",
+    width: undefined,
+    height: undefined,
+    resizeMode: 'stretch',
   };
   return (
     <div style={backgroundStyles}>

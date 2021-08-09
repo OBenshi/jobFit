@@ -35,6 +35,7 @@ const Dashboard = () => {
         indicatorColor="primary"
         textColor="primary"
         centered
+        variant="fullWidth"
       >
         <Tab
           label="your texts"

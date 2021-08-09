@@ -15,6 +15,7 @@ query Query {
         username
       }
       text
+      postDate
     }
     display
     private

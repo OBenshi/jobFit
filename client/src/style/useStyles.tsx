@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: "center",
-      background: "#FFD700",
+      background: theme.palette.secondary.main,
       color: "#fff",
     },
     card: {
