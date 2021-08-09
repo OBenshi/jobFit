@@ -137,7 +137,7 @@ export default function SearchAppBar() {
     >
       <List>
         {user ? <p>{user?.firstName}</p> : <p>6</p>}
-        <Link component={RouterLink} to="/">
+        <Link component={RouterLink} to="/" color="textPrimary">
           <ListItem button key={"home"}>
             <ListItemIcon>
               <InboxIcon />
@@ -146,7 +146,7 @@ export default function SearchAppBar() {
           </ListItem>{" "}
         </Link>{" "}
         {!isAuthenticated && (
-          <Link component={RouterLink} to="/login">
+          <Link component={RouterLink} to="/login" color="textPrimary">
             <ListItem button key={"login"}>
               <ListItemIcon>
                 <InboxIcon />
@@ -155,7 +155,7 @@ export default function SearchAppBar() {
             </ListItem>
           </Link>
         )}
-        <Link component={RouterLink} to="/testing">
+        <Link component={RouterLink} to="/testing" color="textPrimary">
           <ListItem button key={"testing"}>
             <ListItemIcon>
               <InboxIcon />
@@ -164,12 +164,22 @@ export default function SearchAppBar() {
           </ListItem>{" "}
         </Link>{" "}
         {isAuthenticated && (
-          <Link component={RouterLink} to="/displaytext">
+          <Link component={RouterLink} to="/displaytext" color="textPrimary">
             <ListItem button key={"dating texts"}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary={"Dating texts"} />
+            </ListItem>
+          </Link>
+        )}{" "}
+        {isAuthenticated && (
+          <Link component={RouterLink} to="/dashboard" color="textPrimary">
+            <ListItem button key={`${user?.username} Zone`}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={`${user?.username} Zone`} />
             </ListItem>
           </Link>
         )}
@@ -203,7 +213,7 @@ export default function SearchAppBar() {
   }, [isAuthenticated]);
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="secondary">
         <Toolbar>
           <IconButton
             edge="start"
