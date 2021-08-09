@@ -12,6 +12,8 @@ interface DatingText {
 }
 interface Comment {
   text: string;
+  owner: string;
+  date: Date
 }
 type Comments = Comment[];
 interface Owner {
