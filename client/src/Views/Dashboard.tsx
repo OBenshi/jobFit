@@ -41,6 +41,7 @@ const Dashboard = () => {
     null
   );
   const [usernameErr, setUsernameErr] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(
     !firstNameErr &&
       !lastNameErr &&
@@ -71,6 +72,7 @@ const Dashboard = () => {
         },
       });
       setUser(updatedUser.data.updateUserProfile);
+      setSuccessMsg("Profile updated successfully!");
     } catch (err) {
       console.log(err);
       if (err.message.indexOf("username")) {
@@ -96,18 +98,17 @@ const Dashboard = () => {
 
   return (
     <div style={backgroundStyles}>
-      <button onClick={() => console.log(update)}>show update</button>
       {user?.username && (
         <Typography
-          component="h1"
+          component="h4"
           variant="h4"
           align="center"
           color="textPrimary"
           gutterBottom
         >
-          The{" "}
+          The
           {user?.username &&
-            user?.username[0].toUpperCase() + user.username.slice(1)}{" "}
+            user?.username[0].toUpperCase() + user.username.slice(1)}
           Zone
         </Typography>
       )}
@@ -122,6 +123,7 @@ const Dashboard = () => {
             <CardHeader className={classes.header} title="your info" />
             <CardContent>
               <div>
+                {successMsg && <Alert severity="success">{successMsg}</Alert>}
                 {firstNameErr && <Alert severity="error">{firstNameErr}</Alert>}
                 <TextField
                   fullWidth
@@ -241,11 +243,6 @@ const Dashboard = () => {
                       eve.target.value !==
                         passwordRef?.current?.value.toString()
                     ) {
-                      console.log(
-                        `eve.target.value===passwordRef?.current?.value.toString()`,
-                        eve.target.value ===
-                          passwordRef?.current?.value.toString()
-                      );
                       setPasswordConfirmErr("Passwords do not match");
                     } else {
                       setPasswordConfirmErr(null);
