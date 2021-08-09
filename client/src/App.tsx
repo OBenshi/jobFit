@@ -13,30 +13,40 @@ import DateFnsUtils from "@date-io/date-fns";
 import { AuthContextProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./Views/Dashboard";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { theme } from "./style/theme";
+
 function App() {
   return (
     <AuthContextProvider>
       <div className="App">
-        <Router>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Appbar />
-            <Switch>
-              <Route exact path="/login" children={<LogIn />} />
-              <Route exact path="/testing" children={<AAbla />} />
-              <PrivateRoute path="/displaytext" component={DisplayText} exact />
-              <PrivateRoute path="/dashboard" component={Dashboard} exact />
-              {/* <Route exact path="/displaytext" children={<DisplayText />} /> */}
-              {/* <Route exact path="/adddatingtext" children={<AddDatingText />} /> */}
-              <PrivateRoute
-                path="/adddatingtext"
-                component={AddDatingText}
-                exact
-              />
-              <Route exact path="/signup" children={<SignUp />} />
-              <Route exact path="/" children={<Home />} />
-            </Switch>
-          </MuiPickersUtilsProvider>
-        </Router>
+        <CssBaseline />
+        <ThemeProvider theme={theme}>
+          <Router>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Appbar />
+              <Switch>
+                <Route exact path="/login" children={<LogIn />} />
+                <Route exact path="/testing" children={<AAbla />} />
+                <PrivateRoute
+                  path="/displaytext"
+                  component={DisplayText}
+                  exact
+                />
+                <PrivateRoute path="/dashboard" component={Dashboard} exact />
+                {/* <Route exact path="/displaytext" children={<DisplayText />} /> */}
+                {/* <Route exact path="/adddatingtext" children={<AddDatingText />} /> */}
+                <PrivateRoute
+                  path="/adddatingtext"
+                  component={AddDatingText}
+                  exact
+                />
+                <Route exact path="/signup" children={<SignUp />} />
+                <Route exact path="/" children={<Home />} />
+              </Switch>
+            </MuiPickersUtilsProvider>
+          </Router>
+        </ThemeProvider>
       </div>
     </AuthContextProvider>
   );
