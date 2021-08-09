@@ -7,7 +7,7 @@ import Home from "./Views/Home";
 import SignUp from "./Views/SignUp";
 import DisplayText from "./Views/DisplayText";
 import AddDatingText from "./Views/AddDatingText";
-import AAbla from "./AAbla";
+// import AAbla from "./AAbla";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { AuthContextProvider } from "./context/AuthContext";
@@ -18,6 +18,7 @@ import { theme } from "./style/theme";
 
 function App() {
   return (
+
     <AuthContextProvider>
       <div className="App">
         <CssBaseline />

@@ -13,6 +13,7 @@ export default gql`
     comments: [comment]
     display: Boolean
     private: Boolean
+    toneResults: [String]
   }
   input newDTI {
     owner: ObjectID
@@ -20,6 +21,7 @@ export default gql`
     postDate: DateTime
     display: Boolean
     xprivate: Boolean
+    toneResults: [String]
   }
   input editText {
     _id: ObjectID
@@ -36,6 +38,7 @@ export default gql`
   extend type Query {
     allTexts: [datingText!]!
     aText(_id: ObjectID): datingText!
+    aTone(text: newDTI): [String]
   }
   extend type Mutation {
     # logIn(input: logInInput): User!

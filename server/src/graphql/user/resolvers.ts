@@ -38,6 +38,9 @@ export const resolvers = {
     user: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
+        console.log('auth is...', auth);
+        console.log(`userAuth in user`, userAuth);
+
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }
@@ -63,6 +66,21 @@ export const resolvers = {
   //* ---------------------------- SECTION Mutation ---------------------------- */
   Mutation: {
     //*--------------------------- SECTION User MAINTENANCE -------------------------- */
+
+    // UpdateAllUsers: async (parent, args) => {
+    //   try {
+    //     const users = await userModel.updateMany(
+    //       {},
+    //       { $set: { } },
+    //       { useFindAndModify: false }
+    //     );
+    //     return { status: 200, msg: "LogOut successful" };
+    //   } catch (err) {
+    //     console.log(`err`, err);
+    //     throw new ApolloError("shit", "69");
+    //   }
+    // },
+    //set WATSON feature for all users
 
     // UpdateAllUsers: async (parent, args, { auth }) => {
     //   const userAuth = await getUser(auth);

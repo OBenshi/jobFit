@@ -23,6 +23,16 @@ query Query {
 }
 `;
 
+export const TONE_OF_TEXT = gql`
+query Query($aToneText: newDTI) {
+  aTone(text: $aToneText){
+    text
+  }
+}
+
+
+`;
+
 export const USER = gql `
 query Query($userId: ObjectID) {
   user(_id: $userId) {

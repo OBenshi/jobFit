@@ -80,6 +80,7 @@ export namespace datingTextNs {
     comments: Array<ObjectID>;
     display: boolean;
     xprivate: boolean;
+    toneResults: string[];
   }
   interface newText {
     text: string;

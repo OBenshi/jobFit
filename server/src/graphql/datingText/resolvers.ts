@@ -8,6 +8,9 @@ import datingTextModel from "../../models/datingTextsModel";
 import { ObjectID } from "mongodb";
 import userModel from "../../models/usersModel";
 import { getUser } from "../../context";
+import watsonTA from '../../watson';
+
+
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
 
@@ -15,7 +18,7 @@ export const resolvers = {
     allTexts: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
-        console.log(`userAuth`, userAuth);
+        console.log(`userAuth in allTexts`, userAuth);
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }
@@ -36,7 +39,8 @@ export const resolvers = {
     aText: async (parent: any, args: ObjectID, { auth }) => {
       try {
         const userAuth = await getUser(auth);
-        console.log(`userAuth`, userAuth);
+
+        console.log(`userAuth in aText`, userAuth);
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }
@@ -56,6 +60,25 @@ export const resolvers = {
         return new AuthenticationError("UNAUTHORIZED");
       }
     },
+    aTone: async (parent: any, args: string, {auth}) => {
+      try{
+        const userAuth = await getUser(auth);
+        console.log(`userAuth in aText`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
+        try{
+          const toneResult: string[] = await watsonTA(args);
+          console.log('toneResult', toneResult);
+          return toneResult;
+        }catch(err){
+          return new Error(err);
+        }
+
+      }catch(err){
+        return new AuthenticationError("UNAUTHORIZED");
+      }
+    }
   },
 
   //* ----------------------------- !SECTION Query ----------------------------- */
@@ -86,8 +109,12 @@ export const resolvers = {
       { auth }
     ) => {
       try {
+        
+        const toneResult: string[] = await watsonTA(text);
+        console.log('Confirm toneResult', toneResult);
+
         const userAuth = await getUser(auth);
-        console.log(`userAuth`, userAuth);
+        console.log(`userAuth in addText`, userAuth);
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }
@@ -101,11 +128,12 @@ export const resolvers = {
             display: true,
             private: xprivate,
             comments: [],
+            toneResults: toneResult
           });
           if (newDT === null) {
             return new ApolloError("failed to post text", "502");
           }
-          const savedText = await newDT.save();
+          const savedText: datingTextNs.datingTextSchemaData = await newDT.save();
           if (savedText === null) {
             return new ApolloError("failed to save text", "503");
           }
@@ -137,7 +165,8 @@ export const resolvers = {
     ) => {
       try {
         const userAuth = await getUser(auth);
-        console.log(`userAuth`, userAuth);
+
+        console.log(`userAuth in edit`, userAuth);
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }

@@ -66,6 +66,7 @@ export const resolvers = {
     ) => {
       try {
         const userAuth = await getUser(auth);
+        console.log(`userAuth in addComment`, userAuth);
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }
