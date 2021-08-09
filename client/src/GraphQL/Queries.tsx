@@ -11,12 +11,25 @@ query Query {
     score
     postDate
     comments {
+     owner {
+        username
+      }
       text
     }
     display
     private
   }
 }
+`;
+
+export const TONE_OF_TEXT = gql`
+query Query($aToneText: newDTI) {
+  aTone(text: $aToneText){
+    text
+  }
+}
+
+
 `;
 
 export const USER = gql `

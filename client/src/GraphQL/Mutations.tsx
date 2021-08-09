@@ -24,21 +24,22 @@ mutation Mutation($addDatingTextInput: newDTI) {
 export const LOGIN_USER = gql`
   mutation Mutation($logInEmail: String, $logInPassword: String) {
     logIn(email: $logInEmail, password: $logInPassword) {
-       _id
-    username
-    firstName
-    lastName
-    email
-    rank
-    avatar
-    loggedIn
-    token
+      _id
+      username
+      firstName
+      lastName
+      email
+      rank
+      avatar
+      loggedIn
+      token
     }
   }
 `;
+
 export const LOGOUT_USER = gql`
-  mutation Mutation($logOutId: ObjectID) {
-    logOut(_id: $logOutId)
+  mutation Mutation {
+    logOut
   }
 `;
 
@@ -50,18 +51,39 @@ export const SIGN_UP_USER = gql`
   }
 `;
 
+export const UPDATE_USER = gql`
+  mutation UpdateUserProfileMutation($updateUserProfileUser: updateUserInput!) {
+    updateUserProfile(user: $updateUserProfileUser) {
+      _id
+      username
+      firstName
+      lastName
+      birthday
+      email
+      password
+      rank
+      avatar
+      token
+    }
+  }
+`;
+
 export const ADD_DATING = gql`
   mutation Mutation($addDatingTextText: newDTI) {
     addDatingText(text: $addDatingTextText) {
       text
+      postDate
+      xprivate
     }
   }
 `;
 
 export const ADD_COMMENT = gql`
-  mutation AddCommentMutation($addCommentComment: newComment) {
+  mutation Mutation($addCommentComment: newComment) {
     addComment(comment: $addCommentComment) {
       text
+      owner
+      score
     }
   }
 `;

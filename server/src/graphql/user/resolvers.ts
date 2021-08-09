@@ -1,9 +1,9 @@
 //* ----------------------------- SECTION IMPORTS ---------------------------- */
 import {
-  ApolloError,
   ApolloServer,
   UserInputError,
   AuthenticationError,
+  ApolloError,
 } from "apollo-server-express";
 require("dotenv").config();
 import jwt from "jsonwebtoken";
@@ -40,6 +40,10 @@ export const resolvers = {
         const userAuth = await getUser(auth);
         console.log('auth is...', auth);
         console.log(`userAuth in user`, userAuth);
+
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           const user = await userModel
             .findOne({ _id: userAuth.id })
@@ -63,20 +67,39 @@ export const resolvers = {
   Mutation: {
     //*--------------------------- SECTION User MAINTENANCE -------------------------- */
 
-    UpdateAllUsers: async (parent, args) => {
-      try {
-        const users = await userModel.updateMany(
-          {},
-          { $set: { } },
-          { useFindAndModify: false }
-        );
-        return { status: 200, msg: "LogOut successful" };
-      } catch (err) {
-        console.log(`err`, err);
-        throw new ApolloError("shit", "69");
-      }
-    },
+    // UpdateAllUsers: async (parent, args) => {
+    //   try {
+    //     const users = await userModel.updateMany(
+    //       {},
+    //       { $set: { } },
+    //       { useFindAndModify: false }
+    //     );
+    //     return { status: 200, msg: "LogOut successful" };
+    //   } catch (err) {
+    //     console.log(`err`, err);
+    //     throw new ApolloError("shit", "69");
+    //   }
+    // },
     //set WATSON feature for all users
+
+    // UpdateAllUsers: async (parent, args, { auth }) => {
+    //   const userAuth = await getUser(auth);
+    //   if (userAuth === null) {
+    //     return new AuthenticationError("UNAUTHORIZED");
+    //   }
+    //   try {
+    //     const password = await bcrypt.hash("testing1", 10);
+    //     const users = await userModel.findByIdAndUpdate(
+    //       { _id: userAuth.id },
+    //       { $set: { password: password } },
+    //       { useFindAndModify: false }
+    //     );
+    //     return { status: 200, msg: "LogOut successful" };
+    //   } catch (err) {
+    //     console.log(`err`, err);
+    //     throw new ApolloError("shit", "69");
+    //   }
+    // },
 
     //*-------------------------- !SECTION User MAINTENANCE -------------------------- */
 
@@ -86,14 +109,9 @@ export const resolvers = {
       try {
         //?STUB connecting to mongoDB
         const user = await userModel
-          .findOne(
-            {
-              email: email,
-              // password: password,
-            }
-            // { $set: { loggedIn: true } },
-            // { useFindAndModify: false }
-          )
+          .findOne({
+            email: email,
+          })
           .populate({ path: "datingTexts" })
           .populate({ path: "comments" });
         console.log(`user`, user);
@@ -110,7 +128,7 @@ export const resolvers = {
             },
             process.env.WOJCIECH,
             {
-              expiresIn: "8h",
+              expiresIn: "8d",
             }
           );
           return {
@@ -126,11 +144,14 @@ export const resolvers = {
     //* ----------------------------- !SECTION LogIn ----------------------------- */
 
     //* ----------------------------- SECTION LogOut ----------------------------- */
-    logOut: async (parent: any, args: { _id: ObjectID }) => {
-      const { _id } = args;
+    logOut: async (parent: any, args: any, { auth }) => {
+      const userAuth = await getUser(auth);
+      if (userAuth === null) {
+        return new AuthenticationError("UNAUTHORIZED");
+      }
       try {
         const user = await userModel.findByIdAndUpdate(
-          { _id: _id },
+          { _id: userAuth.id },
           { $set: { loggedIn: false } },
           { useFindAndModify: false }
         );
@@ -216,6 +237,62 @@ export const resolvers = {
       }
     },
     //* ---------------------------- !SECTION ADD USER --------------------------- */
+
+    //* ----------------------- SECTION UPDATE USER PROFILE ---------------------- */
+
+    updateUserProfile: async (
+      _: any,
+      args: { user: UserNs.updateUser },
+      { auth }: any
+    ) => {
+      const userAuth = await getUser(auth);
+      if (userAuth === null) {
+        return new AuthenticationError("UNAUTHORIZED");
+      }
+      try {
+        const token = auth.split("Bearer ")[1];
+        console.log(`auth2`, token);
+        const { user } = args;
+        if (user.username) {
+          const existingUser = await userModel.findOne({
+            username: user.username,
+          });
+          if (existingUser !== null) {
+            console.log(`existingUser`, existingUser);
+            const bob = new ApolloError("Username already taken", "950");
+            const bib = bob.code;
+            // console.log(bob.);
+            return bob;
+          }
+        }
+        if (user.password) {
+          user.password = await bcrypt.hash(user.password, 10);
+        }
+        const updatedUser = await userModel
+          .findByIdAndUpdate(
+            { _id: userAuth.id },
+            {
+              $set: user,
+            },
+            { useFindAndModify: false, new: true }
+          )
+          .populate({ path: "datingTexts" })
+          .populate({ path: "comments" });
+        if (updatedUser === null || !updatedUser) {
+          throw new ApolloError("User not found", "204");
+        } else {
+          // return updatedUser;
+          return {
+            ...updatedUser.toJSON(),
+            token,
+          };
+        }
+      } catch (err) {
+        return new ApolloError("Failed to update user", "69");
+      }
+    },
+
+    //* -------------------- END !SECTION UPDATE USER PROFILE -------------------- */
   },
   //* ---------------------------- !SECTION Mutation --------------------------- */
 };

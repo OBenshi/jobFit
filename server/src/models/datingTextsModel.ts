@@ -2,12 +2,12 @@ import mongoose, { Schema, connect, Model } from "mongoose";
 import { datingTextNs } from "../@types/index";
 
 const datingTextSchema: Schema = new Schema({
-  owner: { type: Schema.Types.ObjectId, required: true },
-  postDate: { type: Date, required: true },
-  text: { type: String, required: true },
-  score: { type: Number, required: true },
-  display: { type: Boolean, required: true },
-  private: { type: Boolean, required: true },
+  owner: { type: Schema.Types.ObjectId, required: false },
+  postDate: { type: Date, required: false },
+  text: { type: String, required: false },
+  score: { type: Number, required: false },
+  display: { type: Boolean, required: false },
+  private: { type: Boolean, required: false },
   comments: [{ type: Schema.Types.ObjectId, ref: "comment" }],
   toneResults: [{ type: String }],
 });

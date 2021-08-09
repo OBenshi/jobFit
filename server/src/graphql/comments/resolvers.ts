@@ -67,6 +67,9 @@ export const resolvers = {
       try {
         const userAuth = await getUser(auth);
         console.log(`userAuth in addComment`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           console.log(`owner`, owner);
           const newComment: commentsNs.commentsSchemaData = new commentsModel({

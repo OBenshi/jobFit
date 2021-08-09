@@ -38,6 +38,7 @@ export default gql`
   extend type Query {
     allTexts: [datingText!]!
     aText(_id: ObjectID): datingText!
+    aTone(text: newDTI): [String]
   }
   extend type Mutation {
     # logIn(input: logInInput): User!

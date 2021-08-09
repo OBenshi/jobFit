@@ -39,7 +39,11 @@ export const resolvers = {
     aText: async (parent: any, args: ObjectID, { auth }) => {
       try {
         const userAuth = await getUser(auth);
+
         console.log(`userAuth in aText`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           const datingText = await datingTextModel
             .findById(args)
@@ -56,6 +60,25 @@ export const resolvers = {
         return new AuthenticationError("UNAUTHORIZED");
       }
     },
+    aTone: async (parent: any, args: string, {auth}) => {
+      try{
+        const userAuth = await getUser(auth);
+        console.log(`userAuth in aText`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
+        try{
+          const toneResult: string[] = await watsonTA(args);
+          console.log('toneResult', toneResult);
+          return toneResult;
+        }catch(err){
+          return new Error(err);
+        }
+
+      }catch(err){
+        return new AuthenticationError("UNAUTHORIZED");
+      }
+    }
   },
 
   //* ----------------------------- !SECTION Query ----------------------------- */
@@ -88,10 +111,13 @@ export const resolvers = {
       try {
         
         const toneResult: string[] = await watsonTA(text);
-        console.log('toneResult', toneResult);
+        console.log('Confirm toneResult', toneResult);
+
         const userAuth = await getUser(auth);
         console.log(`userAuth in addText`, userAuth);
-        
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           console.log(`owner`, owner);
           const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
@@ -119,7 +145,6 @@ export const resolvers = {
           if (user === null) {
             return new ApolloError("failed to save text to user", "504");
           }
-          console.log("saved Text is...", savedText);
           return savedText;
         } catch (err) {
           console.log(`err`, err);
@@ -140,7 +165,11 @@ export const resolvers = {
     ) => {
       try {
         const userAuth = await getUser(auth);
+
         console.log(`userAuth in edit`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
         try {
           const editDT = datingTextModel
             .findByIdAndUpdate(
