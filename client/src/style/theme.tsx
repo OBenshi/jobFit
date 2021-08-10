@@ -18,6 +18,9 @@ export const theme = createTheme({
       main: "#d4af37",
       dark: "#B99727",
     },
+    text: {
+      //   secondary: "#ffffff",
+    },
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',

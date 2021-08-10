@@ -15,6 +15,7 @@ import {
   CardHeader,
   Button,
   Grid,
+  Typography,
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { useMutation } from "@apollo/client";
@@ -238,10 +239,10 @@ const UpdateProfile: React.FC = (props) => {
                   variant="contained"
                   size="large"
                   type="submit"
-                  style={{ backgroundColor: "#FFD700", color: "#FFFFFF" }}
+                  color="secondary"
                   disabled={loading}
                 >
-                  Update
+                  <Typography color="inherit">Update</Typography>
                 </Button>
               </Grid>
             </CardActions>
