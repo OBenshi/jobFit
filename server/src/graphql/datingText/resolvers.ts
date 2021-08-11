@@ -68,11 +68,11 @@ export const resolvers = {
         }
         try {
           console.log(`args`, args);
-          const toneResult: string[] = await watsonTA(args);
+          const toneResult = await watsonTA(args);
           console.log("toneResult", toneResult);
           return toneResult;
         } catch (err) {
-          return new Error(err);
+          return new ApolloError(err);
         }
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
