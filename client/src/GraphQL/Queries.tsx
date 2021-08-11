@@ -1,55 +1,51 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const DATING_TEXT = gql`
-query Query {
-  allTexts {
-    _id
-    owner {
-      username
-    }
-    text
-    score
-    postDate
-    comments {
-     owner {
+  query Query {
+    allTexts {
+      _id
+      owner {
         username
       }
       text
+      score
       postDate
+      comments {
+        owner {
+          username
+        }
+        text
+        postDate
+      }
+      display
+      private
     }
-    display
-    private
   }
-}
 `;
 
 export const TONE_OF_TEXT = gql`
-query Query($aToneText: newDTI) {
-  aTone(text: $aToneText){
-    text
+  query Query($aToneText: String!) {
+    aTone(text: $aToneText)
   }
-}
-
-
 `;
 
-export const USER = gql `
-query Query($userId: ObjectID) {
-  user(_id: $userId) {
-    username
-    firstName
-    lastName
-    birthday
-    email
-    password
-    rank
-    avatar
-    loggedIn
-    datingTexts {
-      text
-      score
+export const USER = gql`
+  query Query($userId: ObjectID) {
+    user(_id: $userId) {
+      username
+      firstName
+      lastName
+      birthday
+      email
+      password
+      rank
+      avatar
+      loggedIn
+      datingTexts {
+        text
+        score
+      }
+      token
     }
-    token
   }
-}
 `;

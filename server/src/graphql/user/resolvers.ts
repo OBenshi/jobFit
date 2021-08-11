@@ -38,7 +38,7 @@ export const resolvers = {
     user: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
-        console.log('auth is...', auth);
+        console.log("auth is...", auth);
         console.log(`userAuth in user`, userAuth);
 
         if (userAuth === null) {
@@ -90,7 +90,7 @@ export const resolvers = {
     //   try {
     //     const password = await bcrypt.hash("testing1", 10);
     //     const users = await userModel.findByIdAndUpdate(
-    //       { _id: userAuth.id },
+    //       { _id: "610688be5e49c31464c742d7" },
     //       { $set: { password: password } },
     //       { useFindAndModify: false }
     //     );

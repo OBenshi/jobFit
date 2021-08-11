@@ -8,8 +8,7 @@ import datingTextModel from "../../models/datingTextsModel";
 import { ObjectID } from "mongodb";
 import userModel from "../../models/usersModel";
 import { getUser } from "../../context";
-import watsonTA from '../../watson';
-
+import watsonTA from "../../watson";
 
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
@@ -60,25 +59,25 @@ export const resolvers = {
         return new AuthenticationError("UNAUTHORIZED");
       }
     },
-    aTone: async (parent: any, args: string, {auth}) => {
-      try{
+    aTone: async (parent: any, args: string, { auth }) => {
+      try {
         const userAuth = await getUser(auth);
         console.log(`userAuth in aText`, userAuth);
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }
-        try{
+        try {
+          console.log(`args`, args);
           const toneResult: string[] = await watsonTA(args);
-          console.log('toneResult', toneResult);
+          console.log("toneResult", toneResult);
           return toneResult;
-        }catch(err){
+        } catch (err) {
           return new Error(err);
         }
-
-      }catch(err){
+      } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
       }
-    }
+    },
   },
 
   //* ----------------------------- !SECTION Query ----------------------------- */
@@ -109,9 +108,8 @@ export const resolvers = {
       { auth }
     ) => {
       try {
-        
         const toneResult: string[] = await watsonTA(text);
-        console.log('Confirm toneResult', toneResult);
+        console.log("Confirm toneResult", toneResult);
 
         const userAuth = await getUser(auth);
         console.log(`userAuth in addText`, userAuth);
@@ -128,12 +126,13 @@ export const resolvers = {
             display: true,
             private: xprivate,
             comments: [],
-            toneResults: toneResult
+            toneResults: toneResult,
           });
           if (newDT === null) {
             return new ApolloError("failed to post text", "502");
           }
-          const savedText: datingTextNs.datingTextSchemaData = await newDT.save();
+          const savedText: datingTextNs.datingTextSchemaData =
+            await newDT.save();
           if (savedText === null) {
             return new ApolloError("failed to save text", "503");
           }
