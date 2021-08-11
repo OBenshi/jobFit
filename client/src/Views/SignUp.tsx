@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  ChangeEvent,
-  FormEvent,
-} from "react";
+import React, { useState, ChangeEvent, FormEvent, useRef } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -10,10 +6,10 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
-import background from '../img/background.jpg';
+import background from "../img/background.jpg";
 import { useMutation } from "@apollo/client";
-import { SIGN_UP_USER } from '../GraphQL/Mutations'
-
+import { SIGN_UP_USER } from "../GraphQL/Mutations";
+import Alert from "@material-ui/lab/Alert";
 import { DatePicker } from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,128 +35,105 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SignUp {
-  firstName: string,
-  lastName: string,
-  username: string,
-  password: string,
-  birthday: string,
-  email: string,
-  avatar: string,
-}
-
-const LogIn: React.FC = () => {
-
+const SignUp: React.FC = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date('2014-08-18T21:11:54'),
+    new Date("2014-08-18T21:11:54")
   );
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
-
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const emailRegEx: RegExp =
+    /^(([^<>()\[\]\\.,;:\s\W@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const classes = useStyles();
+  const [firstNameErr, setFirstNameErr] = useState<string | null>(null);
+  const [lastNameErr, setLastNameErr] = useState<string | null>(null);
+  const [emailErr, setEmailErr] = useState<string | null>(null);
+  const [passwordErr, setPasswordErr] = useState<string | null>(null);
+  const [passwordConfirmErr, setPasswordConfirmErr] = useState<string | null>(
+    null
+  );
+  const [usernameErr, setUsernameErr] = useState<string | null>(null);
   const [addUser, { error }] = useMutation(SIGN_UP_USER);
-   const [imageSelected, setImageSelected] = useState("");
-  const [url, setUrl] = useState("");
   const [sign, setSign] = useState<SignUp>({
     firstName: "",
     lastName: "",
-    password: "",
     birthday: new Date().toISOString(),
     email: "",
+    password: "",
     username: "",
-    avatar: "",
-  })
+  });
 
-const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-  setSign({ ...sign, [e.target.name]: e.target.value }
-    );
-  console.log(sign.birthday)
-  
-
- const uploadImage = () => {
-    const data = new FormData();
-    data.append("file", imageSelected);
-    data.append("upload_preset", "swat-app");
-   data.append("cloud_name", "dtcs8hj99");
-    fetch("	https://api.cloudinary.com/v1_1/dtcs8hj99/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUrl(data.url)
-        console.log(data.url)
-        setSign({ ...sign, avatar: data.url})
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }; 
-
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setSign({ ...sign, [e.target.name]: e.target.value });
 
   const handleCLick = (e: FormEvent<HTMLFormElement>) => {
-   console.log(sign)
     e.preventDefault();
-      if (
-        !sign.firstName||
-        !sign.lastName ||
-         !sign.email ||
-         !sign.username ||
-        !sign.password ||
-        !sign.avatar
+    console.log(sign);
+    if (
+      !sign.firstName ||
+      !sign.lastName ||
+      !sign.email ||
+      !sign.username ||
+      !sign.password
     ) {
-       alert("Enter your details!");
+      alert("Enter your details!");
+    } else {
+      addUser({
+        variables: {
+          addUserUser: {
+            firstName: sign.firstName,
+            lastName: sign.lastName,
+            password: sign.password,
+            birthday: sign.birthday,
+            email: sign.email,
+            username: sign.username,
+          },
+        },
+      }).then(({ data }) => {
+        localStorage.setItem("token", data.addUser.token);
+      });
+      if (error) {
+        console.log(error);
       } else {
-        addUser({
-          variables: {
-            "addUserUser": {
-               "firstName": sign.firstName,
-               "lastName": sign.lastName, 
-               "password": sign.password,
-               "birthday": sign.birthday, 
-               "email": sign.email,
-               "username": sign.username, 
-               "avatar": sign.avatar
-            }
-          }
-        }).then(({ data }) => {
-                localStorage.setItem('token', data.addUser.token);
-        })
-        if (error) {
-          console.log(error)
-        } else {
-          console.log("user signed up")
-        }
+        console.log("user signed up");
       }
-  }
- 
+    }
+  };
   const backgroundStyles = {
-        backgroundImage: `url(${background})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        width: '100vw',
-        height: '100vh'
-};
+    backgroundImage: `url(${background})`,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    width: "100vw",
+    height: "100vh",
+  };
   return (
     <>
       <div style={backgroundStyles}>
-      <form className={classes.container} noValidate autoComplete="off" onSubmit={handleCLick}>
-        <Card className={classes.card}>
-          <CardHeader className={classes.header} title="Sign Up to your SWAT" />
-          <CardContent>
-              <div>
-                                        <DatePicker
-        disableFuture
-        openTo="year"
-        format="dd/MM/yyyy"
-        label="Date of birth"
-        views={["year", "month", "date"]}
-        value={selectedDate}
-        onChange={handleDateChange}
-      />
-                 <TextField
+        <form
+          className={classes.container}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleCLick}
+        >
+          <Card className={classes.card}>
+            <CardHeader
+              className={classes.header}
+              title="Sign Up to your SWAT"
+            />
+            <CardContent>
+              <DatePicker
+                disableFuture
+                openTo="year"
+                format="dd/MM/yyyy"
+                label="Date of birth"
+                views={["year", "month", "date"]}
+                value={selectedDate}
+                onChange={handleDateChange}
+              />
+              {firstNameErr && <Alert severity="error">{firstNameErr}</Alert>}
+              <TextField
                 fullWidth
                 id="firstName"
                 type="firstName"
@@ -168,9 +141,19 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 placeholder="First Name"
                 margin="normal"
                 name="firstName"
-                onChange={handleChange}
-                />
-                 <TextField
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (eve.target.value.length < 2) {
+                    setFirstNameErr(
+                      "first name must be at least 2 characters long"
+                    );
+                  } else {
+                    setFirstNameErr(null);
+                    handleChange(eve);
+                  }
+                }}
+              />
+              {lastNameErr && <Alert severity="error">{lastNameErr}</Alert>}
+              <TextField
                 fullWidth
                 id="lastName"
                 type="lastName"
@@ -178,9 +161,19 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 placeholder="Last Name"
                 margin="normal"
                 name="lastName"
-                onChange={handleChange}
-                />
-                  <TextField
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (eve.target.value.length < 2) {
+                    setLastNameErr(
+                      "Last name must be at least 2 characters long"
+                    );
+                  } else {
+                    setLastNameErr(null);
+                    handleChange(eve);
+                  }
+                }}
+              />
+              {usernameErr && <Alert severity="error">{usernameErr}</Alert>}
+              <TextField
                 fullWidth
                 id="username"
                 type="username"
@@ -188,8 +181,18 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 placeholder="Username"
                 margin="normal"
                 name="username"
-                onChange={handleChange}
-                />
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (eve.target.value.length < 3) {
+                    setUsernameErr(
+                      "Username must be at least 3 characters long"
+                    );
+                  } else {
+                    setUsernameErr(null);
+                    handleChange(eve);
+                  }
+                }}
+              />
+              {emailErr && <Alert severity="error">{emailErr}</Alert>}
               <TextField
                 fullWidth
                 id="email"
@@ -198,8 +201,16 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 placeholder="Email"
                 margin="normal"
                 name="email"
-                onChange={handleChange}
-                              />
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (!emailRegEx.test(eve.target.value)) {
+                    setEmailErr("Please enter a valid email address.");
+                  } else {
+                    setEmailErr(null);
+                    handleChange(eve);
+                  }
+                }}
+              />
+              {passwordErr && <Alert severity="error">{passwordErr}</Alert>}
               <TextField
                 fullWidth
                 id="password"
@@ -208,31 +219,56 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                 placeholder="Password"
                 margin="normal"
                 name="password"
-                onChange={handleChange}
-                />
-                 <label htmlFor="img">
-                  <input
-                    accept="image/*"
-                    type="file"
-                    id="imgInp"
-                    name="avatar"
-                    onChange={(e: ChangeEvent<any>)=> setImageSelected(e.target.files[0])} />
-                </label>
-                <Button variant="contained" size="large" style={{backgroundColor: "#FFD700", color: '#FFFFFF'}} onClick={() => uploadImage()}>
-              Upload avatar
-            </Button>
-            </div>
-          </CardContent>
-          <CardActions>
-             <Button variant="contained" size="large" type="submit" style={{backgroundColor: "#FFD700", color: '#FFFFFF'}}>
-              Sign Up
-            </Button>
-          </CardActions>
-        </Card>
+                inputRef={passwordRef}
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (eve.target.value.length < 8) {
+                    setPasswordErr(
+                      "Password must be at least 8 characters long."
+                    );
+                  } else {
+                    setPasswordErr(null);
+                  }
+                }}
+              />
+              {passwordConfirmErr && (
+                <Alert severity="error">{passwordConfirmErr}</Alert>
+              )}
+              <TextField
+                fullWidth
+                id="passwordConfirm"
+                type="password"
+                label="Confirm Password"
+                placeholder="Password"
+                margin="normal"
+                name="password"
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (
+                    !passwordRef ||
+                    eve.target.value !== passwordRef?.current?.value.toString()
+                  ) {
+                    setPasswordConfirmErr("Passwords do not match");
+                  } else {
+                    setPasswordConfirmErr(null);
+                    handleChange(eve);
+                  }
+                }}
+              />
+            </CardContent>
+            <CardActions>
+              <Button
+                variant="contained"
+                size="large"
+                type="submit"
+                style={{ backgroundColor: "#FFD700", color: "#FFFFFF" }}
+              >
+                Sign Up
+              </Button>
+            </CardActions>
+          </Card>
         </form>
-        </div>
+      </div>
     </>
   );
 };
 
-export default LogIn;
+export default SignUp;

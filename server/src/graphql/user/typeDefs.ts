@@ -41,7 +41,7 @@ export default gql`
     lastName: String
     email: EmailAddress
     password: String
-    avatar: String
+    # avatar: String
   }
 
   input logInInput {

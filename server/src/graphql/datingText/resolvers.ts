@@ -104,7 +104,7 @@ export const resolvers = {
     //* ---------------------------- SECTION ADD TEXT ---------------------------- */
     addDatingText: async (
       parent,
-      { text: { owner, postDate, text, xprivate, toneResult } },
+      args: { text: datingTextNs.newText },
       { auth }
     ) => {
       try {
@@ -117,6 +117,8 @@ export const resolvers = {
           return new AuthenticationError("UNAUTHORIZED");
         }
         try {
+          const { owner, postDate, text, toneResults, xprivate } = args.text;
+          console.log(`tones`, toneResults);
           console.log(`owner`, owner);
           const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
             owner,
@@ -126,7 +128,7 @@ export const resolvers = {
             display: true,
             private: xprivate,
             comments: [],
-            toneResults: toneResult,
+            toneResults: toneResults,
           });
           if (newDT === null) {
             return new ApolloError("failed to post text", "502");

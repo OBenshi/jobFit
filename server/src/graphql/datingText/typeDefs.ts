@@ -16,12 +16,12 @@ export default gql`
     toneResults: JSON
   }
   input newDTI {
-    owner: ObjectID
-    text: String
-    postDate: DateTime
-    display: Boolean
-    xprivate: Boolean
-    toneResults: JSON
+    owner: ObjectID!
+    text: String!
+    postDate: DateTime!
+    display: Boolean!
+    xprivate: Boolean!
+    toneResults: JSON!
   }
   input editText {
     _id: ObjectID
@@ -41,7 +41,7 @@ export default gql`
   extend type Mutation {
     # logIn(input: logInInput): User!
     # logOut(input: logOutInput): JSON!
-    addDatingText(text: newDTI): datingText!
+    addDatingText(text: newDTI!): datingText!
     editDatingText(input: editText!): datingText!
   }
 `;

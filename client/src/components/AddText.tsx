@@ -54,61 +54,80 @@ const AddText: React.FC = (props) => {
     private: false,
     display: true,
   });
+  const [textAnal, setTextAnal] = useState<string>("");
   const {
-    loading,
+    loading: toneLoading,
     data: toneData,
     refetch: toneRefetch,
     error: toneErr,
   } = useQuery(TONE_OF_TEXT, {
     variables: {
-      aToneText: datingText.text,
+      aToneText: textAnal,
     },
   });
 
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: FormEvent | MouseEvent<HTMLFormElement | HTMLButtonElement>
+  ) => {
+    e.stopPropagation();
     e.preventDefault();
+    console.log(toneData);
     console.log(datingText);
-    await AddDatingTextMutation({
-      variables: {
-        addDatingTextText: {
-          owner: datingText.owner,
-          text: datingText.text,
-          postDate: datingText.postDate,
-          xprivate: datingText.private,
-          display: datingText.display,
-          toneResults: { Joy: 0.737 },
+    try {
+      Object.keys(toneData.aTone).length === 0 &&
+        (await setTextAnal(datingText.text));
+      console.log(`datingText.text`, toneData.aTone);
+      await AddDatingTextMutation({
+        variables: {
+          addDatingTextText: {
+            owner: datingText.owner,
+            text: datingText.text,
+            postDate: datingText.postDate,
+            xprivate: datingText.private,
+            display: datingText.display,
+            toneResults: toneData.aTone,
+          },
         },
-      },
-    });
-    if (addTextErr) {
-      console.log(addTextErr);
-    } else {
+      });
       console.log("text was uploaded");
+    } catch (err) {
+      if (addTextErr) {
+        console.log(addTextErr);
+      }
+      console.log(`err`, err);
     }
+
     console.log(datingText.text);
   };
-  const handleAnalyze = async (e: PointerEvent | MouseEvent<any>) => {
-    e.preventDefault();
 
-    try {
-      await toneRefetch();
-      console.log(
-        `toneData`,
-        Object.prototype.toString
-          .call(toneData.aTone)
-          .slice(8, -1)
-          .toLowerCase()
-      );
-    } catch (err) {
-      console.log(`e`, err, toneErr);
-    }
+  const handleAnalyze = async (
+    e: PointerEvent | MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(toneData, 666);
+    // console.log()
+    // try {
+    //   await toneRefetch();
+    //   console.log(
+    //     `toneData`,
+    //     Object.prototype.toString
+    //       .call(toneData.aTone)
+    //       .slice(8, -1)
+    //       .toLowerCase()
+    //   );
+    //   console.log(`toneData`, toneData);
+    //   return;
+    // } catch (err) {
+    //   console.log(`e`, err, toneErr);
+    // }
   };
-  useEffect(() => {
-    console.log(`data`, toneData);
-  }, []);
+  // useEffect(() => {
+  //   console.log(`data`, toneData);
+  // }, []);
   return (
     <div>
       <form
@@ -116,7 +135,7 @@ const AddText: React.FC = (props) => {
         noValidate
         autoComplete="off"
         style={{ backgroundColor: " white" }}
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
       >
         <TextareaAutosize
           aria-label="minimum height"
@@ -153,8 +172,10 @@ const AddText: React.FC = (props) => {
           variant="contained"
           color="primary"
           type="button"
-          onClick={(e) => {
-            handleAnalyze(e);
+          name="update_button2"
+          onClick={async (e) => {
+            await setTextAnal(datingText.text);
+            await handleAnalyze(e);
           }}
         >
           <Typography>
@@ -162,11 +183,19 @@ const AddText: React.FC = (props) => {
           </Typography>
         </Button>
         {/* {data !== undefined && props.aTone} */}
-        <Button variant="contained" color="primary" type="submit">
-          <Typography>
+
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          name="update_button"
+          onClick={(e) => {
+            handleSubmit(e);
+          }}
+        >
           Upload your text
-          </Typography>
-        </Button>
+        </Button>{" "}
+
       </form>
     </div>
   );

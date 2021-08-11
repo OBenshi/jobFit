@@ -37,7 +37,7 @@ namespace userNs {
     email: string;
     password: string;
     rank: number;
-    avatar?: string;
+    // avatar?: string;
     loggedIn: boolean;
     datingTexts: Array<datingTextNs.datingText>;
     comments: Array<commentsNs.comment>;
@@ -49,7 +49,7 @@ namespace userNs {
     lastName: string;
     email: string;
     password: string;
-    avatar?: string;
+    // avatar?: string;
   }
 }
 namespace auth {
@@ -59,6 +59,18 @@ namespace auth {
     setUser: React.Dispatch<React.SetStateAction<userProfile | null>>;
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   }
+}
+interface SignUp {
+  firstName: string,
+  lastName: string,
+  username: string,
+  password: string,
+  birthday: string,
+  email: string,
+}
+interface FormData {
+  password: string;
+  email: string;
 }
 // interface Dic {
 //   [key: string | number]: object_type;
