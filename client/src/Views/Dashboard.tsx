@@ -1,9 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Typography, AppBar, Tab, Tabs, Box } from "@material-ui/core";
-import { useStyles, backgroundStyles } from "../style/useStyles";
+import { backgroundStyles } from "../style/useStyles";
+import {
+  createStyles,
+  alpha,
+  Theme,
+  makeStyles,
+} from "@material-ui/core/styles";
 import UpdateProfile from "../components/UpdateProfile";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    title: {
+      flexGrow: 1,
+      margin: 20
+    },
+  })
+);
 const Dashboard = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(AuthContext);
@@ -17,16 +34,19 @@ const Dashboard = () => {
     <div style={backgroundStyles}>
       {user?.username && (
         <Typography
+          className={classes.title}
           component="h4"
           variant="h4"
           align="center"
           color="textPrimary"
           gutterBottom
         >
-          The &nbsp;
+          <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
+          👤 The &nbsp;
           {user?.username &&
             user?.username[0].toUpperCase() + user.username.slice(1)}
-          &nbsp; Zone
+          &nbsp; Zone 👥
+          </Box>
         </Typography>
       )}
       <Tabs
@@ -56,7 +76,7 @@ const Dashboard = () => {
       >
         {tabValue === 0 && (
           <Box p={3}>
-            <Typography>your texts</Typography>
+            <Typography>your texts 📝</Typography>
           </Box>
         )}
       </div>

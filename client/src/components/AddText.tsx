@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import Typography from '@material-ui/core/Typography';
 import { useMutation, useQuery } from "@apollo/client";
 import { ADD_DATING } from "../GraphQL/Mutations";
 import { TONE_OF_TEXT } from "../GraphQL/Queries";
@@ -64,7 +65,6 @@ const AddText: React.FC = (props) => {
       aToneText: textAnal,
     },
   });
-  const [buttonNum, setButtonNum] = useState<number>(1);
 
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
@@ -167,6 +167,7 @@ const AddText: React.FC = (props) => {
             "aria-label": "change date",
           }}
         />
+        <br></br>
         <Button
           variant="contained"
           color="primary"
@@ -177,9 +178,12 @@ const AddText: React.FC = (props) => {
             await handleAnalyze(e);
           }}
         >
-          Let's analyze your text
+          <Typography>
+          Analyze your text
+          </Typography>
         </Button>
         {/* {data !== undefined && props.aTone} */}
+
         <Button
           variant="contained"
           color="primary"
@@ -191,6 +195,7 @@ const AddText: React.FC = (props) => {
         >
           Upload your text
         </Button>{" "}
+
       </form>
     </div>
   );

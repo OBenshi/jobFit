@@ -69,7 +69,12 @@ const Home: React.FC = () => {
                 color="textSecondary"
                 paragraph
               >
-                Here can be the description of the app
+                <Box
+                  fontSize={100}
+                  letterSpacing={10}
+                >
+                👤💯🖋<br></br>➡🔜<br></br> 🫂❤️‍🔥
+                </Box>
               </Typography>
             </Container>
           </div>
