@@ -14,7 +14,7 @@ export default gql`
     email: EmailAddress
     password: String
     rank: Int
-    avatar: String
+    # avatar: String
     loggedIn: Boolean
     comments: [comment]
     datingTexts: [datingText]
@@ -29,7 +29,7 @@ export default gql`
     email: EmailAddress!
     password: String!
     # rank: Int
-    avatar: String!
+    # avatar: String!
     # loggedIn: Boolean
     # comments: [comment]
     # datingTexts: [datingText]
