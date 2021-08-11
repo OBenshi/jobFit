@@ -104,12 +104,12 @@ export const resolvers = {
     //* ---------------------------- SECTION ADD TEXT ---------------------------- */
     addDatingText: async (
       parent,
-      { text: { owner, postDate, text, xprivate } },
+      { text: { owner, postDate, text, xprivate, toneResult } },
       { auth }
     ) => {
       try {
-        const toneResult: string[] = await watsonTA(text);
-        console.log("Confirm toneResult", toneResult);
+        // const toneResult: string[] = await watsonTA(text);
+        // console.log("Confirm toneResult", toneResult);
 
         const userAuth = await getUser(auth);
         console.log(`userAuth in addText`, userAuth);
