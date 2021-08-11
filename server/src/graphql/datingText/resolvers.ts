@@ -68,11 +68,11 @@ export const resolvers = {
         }
         try {
           console.log(`args`, args);
-          const toneResult: string[] = await watsonTA(args);
+          const toneResult = await watsonTA(args);
           console.log("toneResult", toneResult);
           return toneResult;
         } catch (err) {
-          return new Error(err);
+          return new ApolloError(err);
         }
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
@@ -104,12 +104,12 @@ export const resolvers = {
     //* ---------------------------- SECTION ADD TEXT ---------------------------- */
     addDatingText: async (
       parent,
-      { text: { owner, postDate, text, xprivate } },
+      { text: { owner, postDate, text, xprivate, toneResult } },
       { auth }
     ) => {
       try {
-        const toneResult: string[] = await watsonTA(text);
-        console.log("Confirm toneResult", toneResult);
+        // const toneResult: string[] = await watsonTA(text);
+        // console.log("Confirm toneResult", toneResult);
 
         const userAuth = await getUser(auth);
         console.log(`userAuth in addText`, userAuth);

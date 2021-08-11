@@ -13,7 +13,7 @@ interface DatingText {
 interface Comment {
   text: string;
   owner: string;
-  date: Date
+  date: Date;
 }
 type Comments = Comment[];
 interface Owner {
@@ -60,3 +60,6 @@ namespace auth {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   }
 }
+// interface Dic {
+//   [key: string | number]: object_type;
+// }
