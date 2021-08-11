@@ -46,7 +46,6 @@ interface SignUp {
   password: string,
   birthday: string,
   email: string,
-  avatar: string,
 }
 
 const LogIn: React.FC = () => {
@@ -77,28 +76,6 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     );
   console.log(sign.birthday)
   
-
- const uploadImage = () => {
-    const data = new FormData();
-    data.append("file", imageSelected);
-    data.append("upload_preset", "swat-app");
-   data.append("cloud_name", "dtcs8hj99");
-    fetch("	https://api.cloudinary.com/v1_1/dtcs8hj99/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUrl(data.url)
-        console.log(data.url)
-        setSign({ ...sign, avatar: data.url})
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }; 
-
-
   const handleCLick = (e: FormEvent<HTMLFormElement>) => {
    console.log(sign)
     e.preventDefault();
@@ -121,7 +98,6 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
                "birthday": sign.birthday, 
                "email": sign.email,
                "username": sign.username, 
-               "avatar": sign.avatar
             }
           }
         }).then(({ data }) => {
