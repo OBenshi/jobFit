@@ -178,7 +178,7 @@ export const resolvers = {
           birthday,
           firstName,
           lastName,
-          // avatar,
+          avatar,
         },
       }
     ) => {
@@ -214,7 +214,7 @@ export const resolvers = {
             comments: [],
             datingTexts: [],
             rank: 1,
-            // avatar,
+            avatar,
           });
           const savedUser = await newUser.save();
           const token = jwt.sign(

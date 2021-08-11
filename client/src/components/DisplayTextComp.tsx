@@ -103,7 +103,8 @@ const DisplayTextComp: React.FC<Props> = (props) => {
   console.log(data);
   console.log(props.allText.postDate);
   return (
- <div><Box className={classes.big}>
+  <div>
+    <Box className={classes.big}>
         <Box display="flex"ml={1} >
         <FavoriteIcon style={{padding:"4px"}}/>
             <Box display="flex">
@@ -121,7 +122,8 @@ const DisplayTextComp: React.FC<Props> = (props) => {
     </Box>
     {/* 2nd  */}
     {data !== undefined && props.allText.comments.map((comment: any) => {
-      return <Box className={classes.small}>
+      return (
+        <Box className={classes.small}>
           <Box display="flex" >
           <StarRateIcon/>
             <Box display="flex">
@@ -134,9 +136,10 @@ const DisplayTextComp: React.FC<Props> = (props) => {
         <Box ml={5}>
           <Typography variant="caption" display="block" className={classes.grey}>{comment.postDate}</Typography>
         </Box>
-      </Box>
-      <Typography variant="body2">{comment.text}</Typography>
-    </Box>
+        </Box>
+        <Typography variant="body2">{comment.text}</Typography>
+        </Box>
+      )
     })}
       <Box>
           <form noValidate autoComplete="off" onSubmit={handleSubmit}>
