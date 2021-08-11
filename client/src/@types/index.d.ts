@@ -37,7 +37,7 @@ namespace userNs {
     email: string;
     password: string;
     rank: number;
-    avatar?: string;
+    // avatar?: string;
     loggedIn: boolean;
     datingTexts: Array<datingTextNs.datingText>;
     comments: Array<commentsNs.comment>;
@@ -49,7 +49,7 @@ namespace userNs {
     lastName: string;
     email: string;
     password: string;
-    avatar?: string;
+    // avatar?: string;
   }
 }
 namespace auth {

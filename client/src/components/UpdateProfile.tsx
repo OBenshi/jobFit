@@ -88,7 +88,7 @@ const UpdateProfile: React.FC = (props) => {
         password: user.password,
         email: user.email,
         username: user.username,
-        avatar: user.avatar,
+        // avatar: user.avatar,
       });
   }, [user]);
 

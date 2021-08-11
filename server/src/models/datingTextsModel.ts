@@ -9,7 +9,7 @@ const datingTextSchema: Schema = new Schema({
   display: { type: Boolean, required: false },
   private: { type: Boolean, required: false },
   comments: [{ type: Schema.Types.ObjectId, ref: "comment" }],
-  toneResults: { type: Object },
+  toneResults: { type: Schema.Types.Mixed },
 });
 const datingTextModel: Model<datingTextNs.datingTextSchemaData> =
   mongoose.model("datingText", datingTextSchema);

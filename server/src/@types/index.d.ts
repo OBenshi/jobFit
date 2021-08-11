@@ -23,7 +23,7 @@ export namespace UserNs {
     email: string;
     password: string;
     rank: number;
-    avatar?: string;
+    // avatar?: string;
     loggedIn: boolean;
     datingTexts: Array<datingTextNs.datingText>;
     comments: Array<commentsNs.comment>;
@@ -35,7 +35,7 @@ export namespace UserNs {
     birthday: string;
     email: string;
     password: string;
-    avatar?: string;
+    // avatar?: string;
   }
   interface updateBlock {
     username?: string;
@@ -43,7 +43,7 @@ export namespace UserNs {
     lastName?: string;
     email?: string;
     password?: string;
-    avatar?: string;
+    // avatar?: string;
   }
 
   interface updateUser {
@@ -52,7 +52,7 @@ export namespace UserNs {
     lastName: string;
     email: string;
     password: string;
-    avatar: string;
+    // avatar: string;
   }
 
   interface logInInput {
@@ -80,17 +80,19 @@ export namespace datingTextNs {
     comments: Array<ObjectID>;
     display: boolean;
     xprivate: boolean;
-    toneResults: string[];
+    toneResults: object;
   }
   interface newText {
     text: string;
     postDate: Date;
     owner: ObjectID;
+    toneResults: object;
     xprivate: boolean;
   }
   interface editText {
     _id: ObjectID;
     text: string;
+    toneResults: object;
     display: boolean;
     xprivate: boolean;
   }

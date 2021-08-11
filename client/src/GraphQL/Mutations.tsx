@@ -30,7 +30,7 @@ export const LOGIN_USER = gql`
       lastName
       email
       rank
-      avatar
+      # avatar
       loggedIn
       token
     }
@@ -62,18 +62,18 @@ export const UPDATE_USER = gql`
       email
       password
       rank
-      avatar
+      # avatar
       token
     }
   }
 `;
 
 export const ADD_DATING = gql`
-  mutation Mutation($addDatingTextText: newDTI) {
+  mutation Mutation($addDatingTextText: newDTI!) {
     addDatingText(text: $addDatingTextText) {
       text
       postDate
-      xprivate
+      private
     }
   }
 `;
