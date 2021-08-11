@@ -60,6 +60,18 @@ namespace auth {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   }
 }
+interface SignUp {
+  firstName: string,
+  lastName: string,
+  username: string,
+  password: string,
+  birthday: string,
+  email: string,
+}
+interface FormData {
+  password: string;
+  email: string;
+}
 // interface Dic {
 //   [key: string | number]: object_type;
 // }

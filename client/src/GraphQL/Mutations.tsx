@@ -46,7 +46,12 @@ export const LOGOUT_USER = gql`
 export const SIGN_UP_USER = gql`
   mutation Mutation($addUserUser: newUserInput!) {
     addUser(user: $addUserUser) {
-      token
+      username
+    firstName
+    lastName
+    email
+    password
+    token
     }
   }
 `;

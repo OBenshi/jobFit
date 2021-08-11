@@ -39,7 +39,6 @@ export const USER = gql`
       email
       password
       rank
-      # avatar
       loggedIn
       datingTexts {
         text
