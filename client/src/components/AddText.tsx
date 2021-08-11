@@ -37,7 +37,7 @@ interface IAddText {
 
 const AddText: React.FC = (props) => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    new Date()
   );
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -56,7 +56,7 @@ const AddText: React.FC = (props) => {
   const {
     loading,
     data: toneData,
-    refetch,
+    refetch: toneRefetch,
     error: toneErr,
   } = useQuery(TONE_OF_TEXT, {
     variables: {
@@ -68,17 +68,18 @@ const AddText: React.FC = (props) => {
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(datingText);
-    AddDatingTextMutation({
+    await AddDatingTextMutation({
       variables: {
         addDatingTextText: {
           owner: datingText.owner,
           text: datingText.text,
           postDate: datingText.postDate,
-          private: datingText.private,
+          xprivate: datingText.private,
           display: datingText.display,
+          toneResults: { Joy: 0.737 },
         },
       },
     });
@@ -93,8 +94,14 @@ const AddText: React.FC = (props) => {
     e.preventDefault();
 
     try {
-      await refetch();
-      console.log(`toneData`, toneData);
+      await toneRefetch();
+      console.log(
+        `toneData`,
+        Object.prototype.toString
+          .call(toneData.aTone)
+          .slice(8, -1)
+          .toLowerCase()
+      );
     } catch (err) {
       console.log(`e`, err, toneErr);
     }
@@ -145,7 +152,7 @@ const AddText: React.FC = (props) => {
           variant="contained"
           color="primary"
           type="button"
-          onClick={(e: PointerEvent | MouseEvent) => {
+          onClick={(e) => {
             handleAnalyze(e);
           }}
         >

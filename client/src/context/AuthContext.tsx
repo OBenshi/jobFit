@@ -72,17 +72,17 @@ export const AuthContextProvider: React.FC = ({ children }) => {
     initAuthContext.isAuthenticated
   );
   const token = window.localStorage.getItem("token");
-  const { error, loading, data } = useQuery(USER);
+  const { error, loading, data: userData } = useQuery(USER);
 
   useEffect(() => {
     if (token !== null) {
       console.log(token !== null, user);
-      console.log(data);
-      data && setUser(data.user);
+      console.log(userData);
+      userData && setUser(userData.user);
       setIsAuthenticated(true);
     }
     //console.log(user!==null && user.username);
-  }, [data]);
+  }, [userData]);
 
   return (
     <AuthContext.Provider
