@@ -3,13 +3,30 @@ import bg from "../img/bg2.jpg";
 import DisplayTextComp from "../components/DisplayTextComp";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-
+import {
+  createStyles,
+  Theme,
+  makeStyles,
+} from "@material-ui/core/styles";
 import { useQuery, gql } from '@apollo/client'
 import { DATING_TEXT } from '../GraphQL/Queries';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    title: {
+      flexGrow: 1,
+      margin: 20
+    },
+  })
+);
 
 const DisplayText: React.FC= () => {
 
   const { error, loading, data } = useQuery(DATING_TEXT);
+  const classes = useStyles();
   
   const backgroundStyles = {
     backgroundImage: `url(${bg})`,
@@ -36,13 +53,26 @@ const DisplayText: React.FC= () => {
           SWAT
         </Box>
       </Typography>
+      <Typography
+          className={classes.title}
+          component="h4"
+          variant="h4"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+      >
+        <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
+          Dating Texts... 📪
+        </Box>
+      </Typography>
+      
       
 
       {loading && <p>loading</p>}
       {error !== undefined && <p>{error.message}</p>}
       {data !== undefined && data.allTexts.map((allText: any, index:number) => {
         return <DisplayTextComp key={index} allText={allText} />
- })} 
+      })} 
       </div>
       );
 };

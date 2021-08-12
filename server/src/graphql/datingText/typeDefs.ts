@@ -29,12 +29,10 @@ export default gql`
     display: Boolean
     xprivate: Boolean
   }
-
   input showHideInput {
     user: ID
     datingText: ObjectID
   }
-
   extend type Query {
     allTexts: [datingText!]!
     aText(_id: ObjectID): datingText!

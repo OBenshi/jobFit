@@ -34,7 +34,15 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import clsx from "clsx";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import HomeIcon from '@material-ui/icons/Home';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import FaceIcon from '@material-ui/icons/Face';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import CreateIcon from '@material-ui/icons/Create';
+import InputIcon from '@material-ui/icons/Input';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -46,7 +54,8 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       display: "none",
-      [theme.breakpoints.up("sm")]: {
+      fontWeight: 500,
+      [theme.breakpoints.up("xs")]: {
         display: "block",
       },
     },
@@ -58,10 +67,10 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: alpha(theme.palette.common.white, 0.25),
       },
       marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(1),
-        width: "auto",
+      width: "30%",
+      [theme.breakpoints.up("xs")]: {
+        marginLeft: theme.spacing(2),
+        width: "30%",
       },
     },
     searchIcon: {
@@ -100,6 +109,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function SearchAppBar() {
   const classes = useStyles();
+  const history = useHistory();
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
   const [drawerState, setDrawerState] = useState<boolean>(false);
@@ -136,11 +146,12 @@ export default function SearchAppBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {user ? <p>{user?.firstName}</p> : <p>6</p>}
+        {user ? <Typography variant="h6">  💐 Hello, {user?.firstName} </Typography> : <Typography>Please login🔐</Typography>}
+        <Divider />
         <Link component={RouterLink} to="/" color="textPrimary">
           <ListItem button key={"home"}>
             <ListItemIcon>
-              <InboxIcon />
+              <HomeIcon />
             </ListItemIcon>
             <ListItemText primary={"Home"} />
           </ListItem>{" "}
@@ -149,7 +160,7 @@ export default function SearchAppBar() {
           <Link component={RouterLink} to="/login" color="textPrimary">
             <ListItem button key={"login"}>
               <ListItemIcon>
-                <InboxIcon />
+                <VpnKeyIcon />
               </ListItemIcon>
               <ListItemText primary={"Login"} />
             </ListItem>
@@ -167,9 +178,19 @@ export default function SearchAppBar() {
           <Link component={RouterLink} to="/displaytext" color="textPrimary">
             <ListItem button key={"dating texts"}>
               <ListItemIcon>
-                <InboxIcon />
+                <ListAltIcon />
               </ListItemIcon>
               <ListItemText primary={"Dating texts"} />
+            </ListItem>
+          </Link>
+        )}{" "}
+        {isAuthenticated && (
+          <Link component={RouterLink} to="/adddatingtext" color="textPrimary">
+            <ListItem button key={"add dating text"}>
+              <ListItemIcon>
+                <CreateIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Add Dating text"} />
             </ListItem>
           </Link>
         )}{" "}
@@ -177,7 +198,7 @@ export default function SearchAppBar() {
           <Link component={RouterLink} to="/dashboard" color="textPrimary">
             <ListItem button key={`${user?.username} Zone`}>
               <ListItemIcon>
-                <InboxIcon />
+                <FaceIcon />
               </ListItemIcon>
               <ListItemText primary={`${user?.username} Zone`} />
             </ListItem>
@@ -187,7 +208,7 @@ export default function SearchAppBar() {
           <Link component={RouterLink} to="/signup">
             <ListItem button key={"signup"}>
               <ListItemIcon>
-                <InboxIcon />
+                <InputIcon />
               </ListItemIcon>
               <ListItemText primary={"SignUp"} />
             </ListItem>
@@ -199,7 +220,7 @@ export default function SearchAppBar() {
         <List>
           <ListItem button key={"logout"} onClick={handleLogout}>
             <ListItemIcon>
-              <InboxIcon />
+              <MeetingRoomIcon />
             </ListItemIcon>
             <ListItemText primary={"Logout"} />
           </ListItem>
@@ -231,8 +252,10 @@ export default function SearchAppBar() {
           >
             {list()}
           </Drawer>
-          <Typography className={classes.title} variant="h6" noWrap>
-            SWAT
+          <Typography className={classes.title} variant="h5" onClick={()=>{
+            history.push('/');
+          }} noWrap>
+            🖋 SWAT 💘
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>

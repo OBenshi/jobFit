@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import Typography from "@material-ui/core/Typography";
 import { useMutation, useQuery } from "@apollo/client";
 import { ADD_DATING } from "../GraphQL/Mutations";
 import { TONE_OF_TEXT } from "../GraphQL/Queries";
@@ -67,7 +68,6 @@ const AddText: React.FC = (props) => {
       aToneText: textAnal,
     },
   });
-  const [buttonNum, setButtonNum] = useState<number>(1);
 
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
@@ -158,6 +158,7 @@ const AddText: React.FC = (props) => {
             "aria-label": "change date",
           }}
         />
+        <br></br>
         <Button
           variant="contained"
           color="primary"
@@ -167,22 +168,9 @@ const AddText: React.FC = (props) => {
             setTextAnal(datingText.text);
           }}
         >
-          Let's analyze your text
+          <Typography>Analyze your text</Typography>
         </Button>
         {/* {data !== undefined && props.aTone} */}
-        {textAnal !== "" &&
-          (toneData?.aTone && Object.keys(toneData.aTone).length !== 0 ? (
-            Object.entries(toneData.aTone).map(([key, value]) => (
-              <p>
-                {key}:{value}
-              </p>
-            ))
-          ) : !toneLoading ? (
-            <p>text too short</p>
-          ) : (
-            <p>loading</p>
-          ))}
-        {/* {!toneData ? <p>no data</p> : <p>data</p>} */}
         <Button
           variant="contained"
           color="primary"

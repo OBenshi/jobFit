@@ -3,7 +3,24 @@ import bg from "../img/bg2.jpg";
 import AddText from "../components/AddText";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import {
+  createStyles,
+  Theme,
+  makeStyles,
+} from "@material-ui/core/styles";
 interface Props {}
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    title: {
+      flexGrow: 1,
+      margin: 20
+    },
+  })
+);
 
 const AddDatingText: React.FC = () => {
   const backgroundStyles = {
@@ -14,6 +31,7 @@ const AddDatingText: React.FC = () => {
     width: "100vw",
     height: "100vh",
   };
+  const classes = useStyles();
   return (
     <div style={backgroundStyles}>
       <Typography
@@ -33,6 +51,19 @@ const AddDatingText: React.FC = () => {
           SWAT
         </Box>
       </Typography>
+      <Typography
+          className={classes.title}
+          component="h5"
+          variant="h5"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+      >
+        <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
+           Add Dating Texts ✏️
+        </Box>
+      </Typography>
+      
       <AddText />
     </div>
   );
