@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useRef,
   useEffect,
   ChangeEvent,
   FormEvent,
@@ -53,7 +54,9 @@ const AddText: React.FC = (props) => {
     private: false,
     display: true,
   });
-  const [textAnal, setTextAnal] = useState<string>("");
+  const [submit, setSubmit] = useState<boolean>(false);
+  const textRef = useRef<HTMLInputElement>(null);
+  const [textAnal, setTextAnal] = React.useState<string>("");
   const {
     loading: toneLoading,
     data: toneData,
@@ -69,29 +72,22 @@ const AddText: React.FC = (props) => {
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (
-    e: FormEvent | MouseEvent<HTMLFormElement | HTMLButtonElement>
-  ) => {
-    e.stopPropagation();
-    e.preventDefault();
+  const handleSubmit = async () => {
     console.log(toneData);
     console.log(datingText);
     try {
-      Object.keys(toneData.aTone).length === 0 &&
-        (await setTextAnal(datingText.text));
-      console.log(`datingText.text`, toneData.aTone);
-      await AddDatingTextMutation({
-        variables: {
-          addDatingTextText: {
-            owner: datingText.owner,
-            text: datingText.text,
-            postDate: datingText.postDate,
-            xprivate: datingText.private,
-            display: datingText.display,
-            toneResults: toneData.aTone,
-          },
-        },
-      });
+      // await AddDatingTextMutation({
+      //   variables: {
+      //     addDatingTextText: {
+      //       owner: datingText.owner,
+      //       text: datingText.text,
+      //       postDate: datingText.postDate,
+      //       xprivate: datingText.private,
+      //       display: datingText.display,
+      //       toneResults: toneData.aTone,
+      //     },
+      //   },
+      // });
       console.log("text was uploaded");
     } catch (err) {
       if (addTextErr) {
@@ -103,31 +99,26 @@ const AddText: React.FC = (props) => {
     console.log(datingText.text);
   };
 
-  const handleAnalyze = async (
-    e: PointerEvent | MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log(toneData, 666);
-    // console.log()
-    // try {
-    //   await toneRefetch();
-    //   console.log(
-    //     `toneData`,
-    //     Object.prototype.toString
-    //       .call(toneData.aTone)
-    //       .slice(8, -1)
-    //       .toLowerCase()
-    //   );
-    //   console.log(`toneData`, toneData);
-    //   return;
-    // } catch (err) {
-    //   console.log(`e`, err, toneErr);
-    // }
-  };
-  // useEffect(() => {
-  //   console.log(`data`, toneData);
-  // }, []);
+  // const handleAnalyze = async () => {
+  //   // e.preventDefault();
+  //   // e.stopPropagation();
+
+  //   setTextAnal(datingText.text);
+
+  //   console.log(999, textAnal);
+  //   // await toneRefetch();
+  //   console.log(toneData, 666);
+  // };
+  useEffect(() => {
+    // console.log(`toneData from Ue`, toneData);
+    // console.log(`datingText.text===''`, datingText.text === "");
+  }, [toneData]);
+  useEffect(() => {
+    // console.log(`toneData from Ue`, toneData);
+    submit && handleSubmit();
+    // console.log(`datingText.text===''`, datingText.text === "");
+  }, [submit]);
+
   return (
     <div>
       <form
@@ -173,20 +164,36 @@ const AddText: React.FC = (props) => {
           type="button"
           name="update_button2"
           onClick={async (e) => {
-            await setTextAnal(datingText.text);
-            await handleAnalyze(e);
+            setTextAnal(datingText.text);
           }}
         >
           Let's analyze your text
         </Button>
         {/* {data !== undefined && props.aTone} */}
+        {textAnal !== "" &&
+          (toneData?.aTone && Object.keys(toneData.aTone).length !== 0 ? (
+            Object.entries(toneData.aTone).map(([key, value]) => (
+              <p>
+                {key}:{value}
+              </p>
+            ))
+          ) : !toneLoading ? (
+            <p>text too short</p>
+          ) : (
+            <p>loading</p>
+          ))}
+        {/* {!toneData ? <p>no data</p> : <p>data</p>} */}
         <Button
           variant="contained"
           color="primary"
           type="button"
           name="update_button"
-          onClick={(e) => {
-            handleSubmit(e);
+          onClick={async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setTextAnal(datingText.text);
+            setSubmit(true);
+            await toneData.aTone;
           }}
         >
           Upload your text
