@@ -1,20 +1,10 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  ChangeEvent,
-  FormEvent,
-  MouseEvent,
-  TouchEvent,
-} from "react";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import { useMutation, useQuery } from "@apollo/client";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Typography from "@material-ui/core/Typography";
-import { useMutation, useQuery } from "@apollo/client";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ADD_DATING } from "../GraphQL/Mutations";
 import { TONE_OF_TEXT } from "../GraphQL/Queries";
 
@@ -76,18 +66,18 @@ const AddText: React.FC = (props) => {
     console.log(toneData);
     console.log(datingText);
     try {
-      // await AddDatingTextMutation({
-      //   variables: {
-      //     addDatingTextText: {
-      //       owner: datingText.owner,
-      //       text: datingText.text,
-      //       postDate: datingText.postDate,
-      //       xprivate: datingText.private,
-      //       display: datingText.display,
-      //       toneResults: toneData.aTone,
-      //     },
-      //   },
-      // });
+      await AddDatingTextMutation({
+        variables: {
+          addDatingTextText: {
+            owner: datingText.owner,
+            text: datingText.text,
+            postDate: datingText.postDate,
+            xprivate: datingText.private,
+            display: datingText.display,
+            toneResults: toneData.aTone,
+          },
+        },
+      });
       console.log("text was uploaded");
     } catch (err) {
       if (addTextErr) {
@@ -99,24 +89,9 @@ const AddText: React.FC = (props) => {
     console.log(datingText.text);
   };
 
-  // const handleAnalyze = async () => {
-  //   // e.preventDefault();
-  //   // e.stopPropagation();
-
-  //   setTextAnal(datingText.text);
-
-  //   console.log(999, textAnal);
-  //   // await toneRefetch();
-  //   console.log(toneData, 666);
-  // };
+  useEffect(() => {}, [toneData]);
   useEffect(() => {
-    // console.log(`toneData from Ue`, toneData);
-    // console.log(`datingText.text===''`, datingText.text === "");
-  }, [toneData]);
-  useEffect(() => {
-    // console.log(`toneData from Ue`, toneData);
     submit && handleSubmit();
-    // console.log(`datingText.text===''`, datingText.text === "");
   }, [submit]);
 
   return (
