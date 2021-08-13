@@ -1,6 +1,13 @@
 interface Props {
   allText: DatingText;
 }
+interface IAddText {
+  owner: string;
+  text: string;
+  postDate: string;
+  display: boolean;
+  private: boolean;
+}
 interface DatingText {
   text: string;
   postDate: Date;
@@ -61,12 +68,12 @@ namespace auth {
   }
 }
 interface SignUp {
-  firstName: string,
-  lastName: string,
-  username: string,
-  password: string,
-  birthday: string,
-  email: string,
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  birthday: string;
+  email: string;
 }
 interface FormData {
   password: string;
