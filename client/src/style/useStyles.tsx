@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       color: "#fff",
     },
     card: {
-      marginTop: theme.spacing(10),
+      marginTop: theme.spacing(5),
     },
   })
 );

@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       margin: 20
     },
+    footer: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(6),
+    },
   })
 );
 const Dashboard = () => {
@@ -31,6 +35,7 @@ const Dashboard = () => {
   };
   useEffect(() => {}, [user]);
   return (
+    <>
     <div style={backgroundStyles}>
       {user?.username && (
         <Typography
@@ -89,6 +94,12 @@ const Dashboard = () => {
         {tabValue === 1 && <UpdateProfile />}
       </div>
     </div>
+    <footer className={classes.footer}>
+      <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+      ❤️‍🔥 SWAT 2021 All rights reserved ©
+      </Typography>
+    </footer>
+    </>
   );
 };
 
