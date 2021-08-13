@@ -1,13 +1,21 @@
 import { useMutation, useQuery } from "@apollo/client";
 import Button from "@material-ui/core/Button";
+import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import Typography from "@material-ui/core/Typography";
 import { KeyboardDatePicker } from "@material-ui/pickers";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  TouchEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { ADD_DATING } from "../GraphQL/Mutations";
 import { TONE_OF_TEXT } from "../GraphQL/Queries";
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -19,13 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-interface IAddText {
-  owner: string;
-  text: string;
-  postDate: string;
-  display: boolean;
-  private: boolean;
-}
 
 const AddText: React.FC = (props) => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
@@ -37,7 +38,6 @@ const AddText: React.FC = (props) => {
   const classes = useStyles();
   const [AddDatingTextMutation, { error: addTextErr }] =
     useMutation(ADD_DATING);
-
   const [datingText, setDatingText] = useState<IAddText>({
     owner: "610aab87b019d20496f334c8",
     text: "",
@@ -52,18 +52,16 @@ const AddText: React.FC = (props) => {
     loading: toneLoading,
     data: toneData,
     refetch: toneRefetch,
-    error: toneErr,
   } = useQuery(TONE_OF_TEXT, {
     variables: {
       aToneText: textAnal,
     },
   });
-
+  const [buttonNum, setButtonNum] = useState<number>(1);
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
-
   const handleSubmit = async () => {
-    console.log(toneData);
+    console.log(123, toneData);
     console.log(datingText);
     try {
       await AddDatingTextMutation({
@@ -85,15 +83,18 @@ const AddText: React.FC = (props) => {
       }
       console.log(`err`, err);
     }
-
     console.log(datingText.text);
   };
 
-  useEffect(() => {}, [toneData]);
   useEffect(() => {
+    console.log(`toneData from Ue`, toneData);
+    const thv = async () => {
+      await toneData;
+    };
+    thv();
     submit && handleSubmit();
-  }, [submit]);
-
+    console.log("submit", submit);
+  }, [toneData]);
   return (
     <div>
       <form
@@ -133,7 +134,6 @@ const AddText: React.FC = (props) => {
             "aria-label": "change date",
           }}
         />
-        <br></br>
         <Button
           variant="contained"
           color="primary"
@@ -143,9 +143,20 @@ const AddText: React.FC = (props) => {
             setTextAnal(datingText.text);
           }}
         >
-          <Typography>Analyze your text</Typography>
+          Let's analyze your text
         </Button>
-        {/* {data !== undefined && props.aTone} */}
+        {textAnal !== "" &&
+          (toneData?.aTone && Object.keys(toneData.aTone).length !== 0 ? (
+            Object.entries(toneData.aTone).map(([key, value]) => (
+              <p>
+                {key}:{value}
+              </p>
+            ))
+          ) : !toneLoading ? (
+            <p>text too short</p>
+          ) : (
+            <p>loading</p>
+          ))}
         <Button
           variant="contained"
           color="primary"
@@ -154,9 +165,8 @@ const AddText: React.FC = (props) => {
           onClick={async (e) => {
             e.preventDefault();
             e.stopPropagation();
-            setTextAnal(datingText.text);
-            setSubmit(true);
-            await toneData.aTone;
+            await setTextAnal(datingText.text);
+            await setSubmit(true);
           }}
         >
           Upload your text
@@ -165,7 +175,5 @@ const AddText: React.FC = (props) => {
     </div>
   );
 };
-
 export default AddText;
-
 ///TODO watson and edit your dating text.
