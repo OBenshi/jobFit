@@ -15,8 +15,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-
-
 import { borders } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
 import StarRateIcon from '@material-ui/icons/StarRate';
@@ -61,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IAddComment {
-   //owner: string,
+   owner: string,
     text: string,
    //score: string,
    // onText: string
@@ -73,7 +71,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
   const { error, loading, data } = useQuery(DATING_TEXT);
   const [addComment] = useMutation(ADD_COMMENT);
   const [comment, setComment] = useState<IAddComment>({
-    //owner: "",
+    owner: "",
     text: "",
     //score: "",
     //onText: ""
@@ -86,7 +84,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
         addComment({
           variables: {
             "addCommentComment": {
-             //"owner": comment.owner,
+             "owner": comment.owner,
              "text": comment.text,
              //"score": comment.score,
              //"onText": comment.onText
@@ -100,8 +98,9 @@ const DisplayTextComp: React.FC<Props> = (props) => {
           console.log("success")
    }
       }  
-  console.log(data);
-  console.log(props.allText.postDate);
+  //console.log(data);
+  console.log(comment);
+  //console.log(props.allText.postDate);
   return (
   <div>
     <Box className={classes.big}>
