@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../GraphQL/Mutations";
+import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -54,6 +55,7 @@ const LogIn: React.FC = () => {
   const history = useHistory();
   const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
+  const history = useHistory();
   //const [user, setUser] = useState("");
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
@@ -83,6 +85,7 @@ const LogIn: React.FC = () => {
           setUser(data.logIn);
           setIsAuthenticated(true);
           console.log(data.logIn);
+          history.push('/');
         })
         .catch((error) => {
           console.log(error);

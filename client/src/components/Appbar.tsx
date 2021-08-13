@@ -23,7 +23,7 @@ import {
   ListItemIcon,
   Link,
 } from "@material-ui/core";
-
+import Box from "@material-ui/core/Box";
 import {
   createStyles,
   alpha,
@@ -41,6 +41,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import CreateIcon from '@material-ui/icons/Create';
 import InputIcon from '@material-ui/icons/Input';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import imag from '../img/appbarimg.jpeg'
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -146,7 +147,7 @@ export default function SearchAppBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {user ? <Typography variant="h6">  💐 Hello, {user?.firstName} </Typography> : <Typography>Please login🔐</Typography>}
+        {user ? <Typography variant="h6">  🌸 Hello, {user?.firstName} </Typography> : <Typography>Please login🔐</Typography>}
         <Divider />
         <Link component={RouterLink} to="/" color="textPrimary">
           <ListItem button key={"home"}>
@@ -234,7 +235,7 @@ export default function SearchAppBar() {
   }, [isAuthenticated]);
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="static" style={{backgroundImage: `url(${imag})`}}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -255,21 +256,27 @@ export default function SearchAppBar() {
           <Typography className={classes.title} variant="h5" onClick={()=>{
             history.push('/');
           }} noWrap>
-            🖋 SWAT 💘
+            <Box fontFamily="Century Gothic" fontWeight="fontWeightBold" color="#07370C">
+            💘 SWAT
+            </Box>
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
+          {
+            isAuthenticated && (
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </div>
+            )
+          }
         </Toolbar>
       </AppBar>
     </div>

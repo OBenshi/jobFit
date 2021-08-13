@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       margin: 20
     },
+    footer: {
+      backgroundColor: theme.palette.background.paper,
+      padding: theme.spacing(6),
+    },
   })
 );
 
@@ -35,6 +39,7 @@ const DisplayText: React.FC= () => {
     resizeMode: 'stretch',
   };
   return (
+    <>
     <div style={backgroundStyles}>
       <Typography
         component="h1"
@@ -74,6 +79,12 @@ const DisplayText: React.FC= () => {
         return <DisplayTextComp key={index} allText={allText} />
       })} 
       </div>
+      <footer className={classes.footer}>
+        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+        ❤️‍🔥 SWAT 2021 All rights reserved ©
+        </Typography>
+      </footer>
+      </>
       );
 };
 export default DisplayText;
