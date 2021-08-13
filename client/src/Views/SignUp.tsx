@@ -124,13 +124,17 @@ const SignUp: React.FC = () => {
             />
             <CardContent>
               <DatePicker
-                disableFuture
-                openTo="year"
-                format="dd/MM/yyyy"
+                // disableFuture
+                // openTo="year"
+                // format="dd/MM/yyyy"
+                // label="Date of birth"
+                // views={["year", "month", "date"]}
+                // value={selectedDate}
+                // onChange={handleDateChange}
                 label="Date of birth"
-                views={["year", "month", "date"]}
                 value={selectedDate}
                 onChange={handleDateChange}
+                animateYearScrolling
               />
               {firstNameErr && <Alert severity="error">{firstNameErr}</Alert>}
               <TextField
