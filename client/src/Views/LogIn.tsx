@@ -18,6 +18,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import background from "../img/background.jpg";
 import { AuthContext } from "../context/AuthContext";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,6 +40,9 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       marginTop: theme.spacing(10),
     },
+     button: {
+      justifyContent:"center"
+    },
   })
 );
 
@@ -48,6 +52,7 @@ interface FormData {
 }
 
 const LogIn: React.FC = () => {
+  const history = useHistory();
   const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
   const history = useHistory();
@@ -89,6 +94,7 @@ const LogIn: React.FC = () => {
         console.log(error);
       } else {
         console.log("user logged in");
+        history.push("/dashboard");
       }
     }
   };
@@ -141,7 +147,7 @@ const LogIn: React.FC = () => {
                 />
               </div>
             </CardContent>
-            <CardActions>
+            <CardActions className={classes.button}>
               <Button
                 variant="contained"
                 size="large"

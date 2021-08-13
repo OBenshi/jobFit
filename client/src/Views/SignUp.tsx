@@ -11,6 +11,7 @@ import { useMutation } from "@apollo/client";
 import { SIGN_UP_USER } from "../GraphQL/Mutations";
 import Alert from "@material-ui/lab/Alert";
 import { DatePicker } from "@material-ui/pickers";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,10 +33,14 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       marginTop: theme.spacing(1),
     },
+    button: {
+      justifyContent: "center",
+    },
   })
 );
 
 const SignUp: React.FC = () => {
+  const history = useHistory();
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date("2014-08-18T21:11:54")
   );
@@ -97,6 +102,7 @@ const SignUp: React.FC = () => {
         console.log(error);
       } else {
         console.log("user signed up");
+        history.push("/dashboard");
       }
     }
   };
@@ -124,13 +130,11 @@ const SignUp: React.FC = () => {
             />
             <CardContent>
               <DatePicker
-                disableFuture
-                openTo="year"
-                format="dd/MM/yyyy"
                 label="Date of birth"
-                views={["year", "month", "date"]}
                 value={selectedDate}
                 onChange={handleDateChange}
+                animateYearScrolling
+                fullWidth
               />
               {firstNameErr && <Alert severity="error">{firstNameErr}</Alert>}
               <TextField
@@ -254,12 +258,12 @@ const SignUp: React.FC = () => {
                 }}
               />
             </CardContent>
-            <CardActions>
+            <CardActions className={classes.button}>
               <Button
                 variant="contained"
                 size="large"
                 type="submit"
-                style={{ backgroundColor: "#FFD700", color: "#FFFFFF" }}
+                style={{ backgroundColor: "#FFD700", color: "#FFFFFF"}}
               >
                 Sign Up
               </Button>

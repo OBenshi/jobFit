@@ -39,7 +39,7 @@ const AddText: React.FC = (props) => {
   const [AddDatingTextMutation, { error: addTextErr }] =
     useMutation(ADD_DATING);
   const [datingText, setDatingText] = useState<IAddText>({
-    owner: "610aab87b019d20496f334c8",
+    owner: "",
     text: "",
     postDate: new Date().toISOString(),
     private: false,
