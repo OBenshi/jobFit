@@ -1,5 +1,6 @@
 import React from "react";
-import bg from "../img/bg2.jpg";
+import bg from "../img/head.jpeg";
+import backGround from "../img/head.jpeg";
 import DisplayTextComp from "../components/DisplayTextComp";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -14,7 +15,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      margin: 20,
+      backgroundImage:  `url(${backGround})`,
+      backgroundPosition: "center",
+      width: "100vw",
+      height: "150px",
+      paddingTop: 70
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
@@ -29,40 +34,27 @@ const DisplayText: React.FC = () => {
 
   const backgroundStyles = {
     backgroundImage: `url(${bg})`,
-    width: undefined,
-    height: undefined,
-    resizeMode: "stretch",
+    // backgroundPosition: "center",
+    // backgroundSize: "cover",
+    // backgroundRepeat: "repeat",
+    width: "100%",
+    // height: "10%",
+    resizeMode: "repeat"
   };
   return (
     <>
       <div style={backgroundStyles}>
-        <Typography
-          component="h1"
-          variant="h4"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          <Box
-            fontWeight="fontWeightBold"
-            fontSize={92}
-            letterSpacing={14}
-            fontFamily="Monospace"
-            color="#FFD700"
-          >
-            SWAT
-          </Box>
-        </Typography>
+        
         <Typography
           className={classes.title}
-          component="h4"
-          variant="h4"
+          component="h5"
+          variant="h5"
           align="center"
           color="textPrimary"
           gutterBottom
         >
           <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
-            Dating Texts... 📪
+            Dating Texts 📪
           </Box>
         </Typography>
 

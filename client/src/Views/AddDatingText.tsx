@@ -1,9 +1,12 @@
 import React from "react";
-import bg from "../img/bg2.jpg";
+import bg from "../img/backImg.png";
 import AddText from "../components/AddText";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import backGround from "../img/head.jpeg"
+import { AutoComplete } from "material-ui";
+import { CenterFocusStrong } from "@material-ui/icons";
 interface Props {}
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -12,8 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     title: {
-      flexGrow: 1,
-      margin: 20,
+      flexGrow: 10,
+      backgroundImage:  `url(${backGround})`,
+      backgroundPosition: "center",
+      width: "100vw",
+      height: "150px",
+      paddingTop: 70
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
@@ -35,23 +42,7 @@ const AddDatingText: React.FC = () => {
   return (
     <>
       <div style={backgroundStyles}>
-        <Typography
-          component="h1"
-          variant="h4"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          {/* <Box
-            fontWeight="fontWeightBold"
-            fontSize={92}
-            letterSpacing={14}
-            fontFamily="Monospace"
-            // color="#FFD700"
-          > */}
-          SWAT
-          {/* </Box> */}
-        </Typography>
+        
         <Typography
           className={classes.title}
           component="h5"
@@ -60,9 +51,9 @@ const AddDatingText: React.FC = () => {
           color="textPrimary"
           gutterBottom
         >
-          {/* <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white"> */}
+          <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
           Add Dating Texts ✏️
-          {/* </Box> */}
+          </Box>
         </Typography>
 
         <AddText />
