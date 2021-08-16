@@ -87,7 +87,9 @@ export const ADD_COMMENT = gql`
   mutation Mutation($addCommentComment: newComment) {
     addComment(comment: $addCommentComment) {
       text
-      owner
+      owner {
+      username
+    }
       score
     }
   }

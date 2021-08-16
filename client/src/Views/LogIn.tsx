@@ -5,10 +5,10 @@ import React, {
   ChangeEvent,
   FormEvent,
   useContext,
+  useRef,
 } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../GraphQL/Mutations";
-import { useHistory } from "react-router-dom";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -18,6 +18,8 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import background from "../img/bground.jpeg";
 import { AuthContext } from "../context/AuthContext";
+import Alert from "@material-ui/lab/Alert";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +40,9 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       marginTop: theme.spacing(10),
     },
+    button: {
+      justifyContent: "center",
+    },
   })
 );
 
@@ -47,10 +52,14 @@ interface FormData {
 }
 
 const LogIn: React.FC = () => {
+  const emailRegEx: RegExp =
+    /^(([^<>()\[\]\\.,;:\s\W@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const history = useHistory();
   const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
-  const history = useHistory();
   //const [user, setUser] = useState("");
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
   const [input, setInput] = useState<FormData>({
@@ -79,7 +88,7 @@ const LogIn: React.FC = () => {
           setUser(data.logIn);
           setIsAuthenticated(true);
           console.log(data.logIn);
-          history.push('/');
+          history.push("/");
         })
         .catch((error) => {
           console.log(error);
@@ -116,6 +125,7 @@ const LogIn: React.FC = () => {
             />
             <CardContent>
               <div>
+                 {emailError && <Alert severity="error">{emailError}</Alert>}
                 <TextField
                   fullWidth
                   id="email"
@@ -123,10 +133,20 @@ const LogIn: React.FC = () => {
                   label="Email"
                   placeholder="Email"
                   margin="normal"
-                  value={input.email}
+                  //value={input.email}
                   name="email"
-                  onChange={handleChange}
+                 // onChange={handleChange}
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (!emailRegEx.test(eve.target.value)) {
+                    setEmailError("Please enter a valid email address.");
+                  } else {
+                    setEmailError(null);
+                    handleChange(eve);
+                  }
+                }} 
+                 
                 />
+                {passwordError && <Alert severity="error">{setPasswordError}</Alert>}
                 <TextField
                   fullWidth
                   id="password"
@@ -134,13 +154,22 @@ const LogIn: React.FC = () => {
                   label="Password"
                   placeholder="Password"
                   margin="normal"
-                  value={input.password}
+                  //value={input.password}
                   name="password"
                   onChange={handleChange}
+                  /*  onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                  if (eve.target.value.length < 8) {
+                    setPasswordError(
+                      "Password must be at least 8 characters long."
+                    );
+                  } else {
+                    setPasswordError(null);
+                  }
+                }} */
                 />
               </div>
             </CardContent>
-            <CardActions>
+            <CardActions className={classes.button}>
               <Button
                 variant="contained"
                 size="large"

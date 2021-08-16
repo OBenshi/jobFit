@@ -41,7 +41,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import CreateIcon from '@material-ui/icons/Create';
 import InputIcon from '@material-ui/icons/Input';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import imag from '../img/appbarimg.jpeg'
+import imag from '../img/newHead2.png'
 
 
 const useStyles = makeStyles((theme: Theme) =>

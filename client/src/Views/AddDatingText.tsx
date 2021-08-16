@@ -3,11 +3,10 @@ import bg from "../img/bg2.jpg";
 import AddText from "../components/AddText";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import {
-  createStyles,
-  Theme,
-  makeStyles,
-} from "@material-ui/core/styles";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import backGround from "../img/head.jpeg"
+import { AutoComplete } from "material-ui";
+import { CenterFocusStrong } from "@material-ui/icons";
 interface Props {}
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -16,8 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     title: {
-      flexGrow: 1,
-      margin: 20
+      flexGrow: 10,
+      backgroundImage:  `url(${backGround})`,
+      backgroundPosition: "center",
+      width: "100vw",
+      height: "150px",
+      paddingTop: 70
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
@@ -38,44 +41,33 @@ const AddDatingText: React.FC = () => {
   const classes = useStyles();
   return (
     <>
-    <div style={backgroundStyles}>
-      <Typography
-        component="h1"
-        variant="h4"
-        align="center"
-        color="textPrimary"
-        gutterBottom
-      >
-        <Box
-          fontWeight="fontWeightBold"
-          fontSize={92}
-          letterSpacing={14}
-          fontFamily="Monospace"
-          color="#FFD700"
-        >
-          SWAT
-        </Box>
-      </Typography>
-      <Typography
+      <div>
+        
+        <Typography
           className={classes.title}
           component="h5"
           variant="h5"
           align="center"
           color="textPrimary"
           gutterBottom
-      >
-        <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
-           Add Dating Texts ✏️
-        </Box>
-      </Typography>
-      
-      <AddText />
-    </div>
-    <footer className={classes.footer}>
-      <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-      ❤️‍🔥 SWAT 2021 All rights reserved ©
-      </Typography>
-    </footer>
+        >
+          <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
+          Add Dating Texts ✏️
+          </Box>
+        </Typography>
+
+        <AddText />
+      </div>
+      <footer className={classes.footer}>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="textSecondary"
+          component="p"
+        >
+          ❤️‍🔥 SWAT 2021 All rights reserved ©
+        </Typography>
+      </footer>
     </>
   );
 };

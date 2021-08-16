@@ -25,6 +25,7 @@ export const resolvers = {
           console.log("you should not be seeing this");
           const datingTexts = await datingTextModel
             .find({})
+            .populate({ path: "owner" })
             .populate({ path: "comments", populate: { path: "owner" } });
           return datingTexts;
         } catch (err) {
@@ -117,11 +118,10 @@ export const resolvers = {
           return new AuthenticationError("UNAUTHORIZED");
         }
         try {
-          const { owner, postDate, text, toneResults, xprivate } = args.text;
+          const { postDate, text, toneResults, xprivate } = args.text;
           console.log(`tones`, toneResults);
-          console.log(`owner`, owner);
           const newDT: datingTextNs.datingTextSchemaData = new datingTextModel({
-            owner,
+            owner: userAuth.id,
             postDate,
             text,
             score: 0,
