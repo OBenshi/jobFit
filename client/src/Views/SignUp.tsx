@@ -27,11 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: "center",
-      background: "#FFD700",
-      color: "#fff",
+      background: "#FF7600",
     },
     card: {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(10),
     },
     button: {
       justifyContent: "center",
@@ -126,7 +125,7 @@ const SignUp: React.FC = () => {
           <Card className={classes.card}>
             <CardHeader
               className={classes.header}
-              title="Sign Up to your SWAT"
+              title="Sign Up"
             />
             <CardContent>
               <DatePicker
@@ -263,7 +262,8 @@ const SignUp: React.FC = () => {
                 variant="contained"
                 size="large"
                 type="submit"
-                style={{ backgroundColor: "#FFD700", color: "#FFFFFF"}}
+                color="primary"
+                fullWidth
               >
                 Sign Up
               </Button>

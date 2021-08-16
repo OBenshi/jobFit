@@ -1,9 +1,12 @@
 import React from "react";
-import bg from "../img/bg2.jpg";
+import bg from "../img/backImg.png";
 import AddText from "../components/AddText";
 import { Typography, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import backGround from "../img/head.jpeg";
+import { AutoComplete } from "material-ui";
+import { CenterFocusStrong } from "@material-ui/icons";
 interface Props {}
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -12,8 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     title: {
-      flexGrow: 1,
-      margin: 20,
+      flexGrow: 10,
+      backgroundImage: `url(${backGround})`,
+      backgroundPosition: "center",
+      width: "100vw",
+      height: "150px",
+      paddingTop: 70,
     },
     footer: {
       backgroundColor: theme.palette.background.paper,

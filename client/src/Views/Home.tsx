@@ -183,9 +183,9 @@ const Home: React.FC = () => {
                     <div>
                       <AccessibilityNewIcon fontSize="large"/>
                     </div>
+                    <br></br>
                     <Typography variant="h6" className={classes.title}>
                       You're a lonely single, who just joined Tinder.
-                      
                       But not sure about your dating Profile?
                     </Typography>
                     <Typography variant="h5">
@@ -225,7 +225,7 @@ const Home: React.FC = () => {
                     </Typography>
                   </div>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={12}>
                   <div className={classes.backItem}>
                     <Box
                       fontSize={90}
@@ -233,7 +233,7 @@ const Home: React.FC = () => {
                     >
                     👤💯🖋<br></br>➡🔜<br></br> 🫂❤️‍🔥
                     </Box>
-                    <Button variant="contained" size="large" color="primary" onClick={()=>history.push('/login')}>get started</Button>
+                    <Button variant="contained" size="large" color="primary" onClick={()=>history.push('/signup')}>JOIN SWAT</Button>
                   </div>
                 </Grid>
               </Grid>
