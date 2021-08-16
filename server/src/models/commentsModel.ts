@@ -2,7 +2,7 @@ import mongoose, { Schema, connect, Model } from "mongoose";
 import { commentsNs } from "../@types/index";
 
 const commentsSchema: Schema = new Schema({
-  owner: { type: Schema.Types.ObjectId, required: false },
+  owner: { type: Schema.Types.ObjectId, required: false, ref: "user" },
   postDate: { type: Date, required: false },
   onText: { type: Schema.Types.ObjectId, required: false },
   text: { type: String, required: false },

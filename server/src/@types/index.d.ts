@@ -85,7 +85,7 @@ export namespace datingTextNs {
   interface newText {
     text: string;
     postDate: Date;
-    owner: ObjectID;
+    // owner: ObjectID;
     toneResults: object;
     xprivate: boolean;
   }

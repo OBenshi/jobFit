@@ -9,7 +9,7 @@ const userSchema: Schema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   rank: { type: Number, required: true },
-  avatar: { type: String, required: false },
+  // avatar: { type: String, required: false },
   loggedIn: { type: Boolean, required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: "comment" }],
   datingTexts: [{ type: Schema.Types.ObjectId, ref: "datingText" }],

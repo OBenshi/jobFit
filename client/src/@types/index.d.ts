@@ -2,7 +2,7 @@ interface Props {
   allText: DatingText;
 }
 interface IAddText {
-  owner: string;
+  // owner: ObjectId;
   text: string;
   postDate: string;
   display: boolean;
@@ -23,7 +23,7 @@ interface Comment {
   //date: Date;
 }
 interface AnotherOwner {
-  username:string
+  username: string;
 }
 type Comments = Comment[];
 interface Owner {
