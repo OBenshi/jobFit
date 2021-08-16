@@ -102,7 +102,6 @@ const UpdateProfile: React.FC = (props) => {
           onSubmit={handleUpdate}
         >
           <Card className={classes.card}>
-            <CardHeader className={classes.header} title="your info" />
             <CardContent>
               <div>
                 {successMsg && <Alert severity="success">{successMsg}</Alert>}
@@ -239,7 +238,7 @@ const UpdateProfile: React.FC = (props) => {
                   variant="contained"
                   size="large"
                   type="submit"
-                  color="secondary"
+                  color="primary"
                   disabled={loading}
                 >
                   <Typography color="inherit">Update</Typography>

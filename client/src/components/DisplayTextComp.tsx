@@ -15,10 +15,13 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from "@material-ui/core/TextField";
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+
 import { borders } from '@material-ui/system';
 import Box from '@material-ui/core/Box';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import Divider from '@material-ui/core/Divider';
+
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -51,9 +54,9 @@ const useStyles = makeStyles((theme) => ({
   biggest: {
     backgroundColor: "#e0e0e0"
   },
-   textField: {
-     width: '320px',
-     backgroundColor: "#e0e0e0",
+  textField: {
+    width: '320px',
+    backgroundColor: "#e0e0e0",
   }
    
 }));
