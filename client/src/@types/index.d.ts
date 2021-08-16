@@ -19,8 +19,8 @@ interface DatingText {
 }
 interface Comment {
   text: string;
-  owner: AnotherOwner;
-  date: Date;
+  //owner: AnotherOwner;
+  //date: Date;
 }
 interface AnotherOwner {
   username:string
