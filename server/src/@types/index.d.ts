@@ -110,12 +110,13 @@ export namespace commentsNs {
   interface newComment {
     text: string;
     score: number;
-    owner: ObjectID;
+    // owner: ObjectID;
     onText: ObjectID;
   }
   interface comment extends newComment {
     display: boolean;
     postDate: Date;
+    owner: ObjectID;
   }
   interface commentsSchemaData extends comment, Document {}
 }

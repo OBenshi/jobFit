@@ -61,7 +61,7 @@ export const resolvers = {
     //todo  TODO ranking!!!
     addComment: async (
       parent: any,
-      { comment: { owner, text, onText, score } },
+      { comment: { text, onText, score } },
       { auth }
     ) => {
       try {
@@ -71,7 +71,7 @@ export const resolvers = {
           return new AuthenticationError("UNAUTHORIZED");
         }
         try {
-          console.log(`owner`, owner);
+          const owner = userAuth.id;
           const newComment: commentsNs.commentsSchemaData = new commentsModel({
             owner: owner,
             onText,
