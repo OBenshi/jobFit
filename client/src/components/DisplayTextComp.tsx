@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IAddComment {
-  owner: string;
+  //owner: string,
   text: string;
   //score: string,
   // onText: string
@@ -71,7 +71,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
   const { error, loading, data } = useQuery(DATING_TEXT);
   const [addComment] = useMutation(ADD_COMMENT);
   const [comment, setComment] = useState<IAddComment>({
-    owner: "",
+    //owner: "",
     text: "",
     //score: "",
     //onText: ""
@@ -83,7 +83,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
     addComment({
       variables: {
         addCommentComment: {
-          owner: comment.owner,
+          //"owner": comment.owner,
           text: comment.text,
           //"score": comment.score,
           //"onText": comment.onText
