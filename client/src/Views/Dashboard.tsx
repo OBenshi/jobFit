@@ -9,11 +9,13 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import UpdateProfile from "../components/UpdateProfile";
+import backGround from "../img/head.jpeg"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      backgroundImage: `url(${backGround})`
     },
     title: {
       flexGrow: 1,
@@ -36,7 +38,7 @@ const Dashboard = () => {
   useEffect(() => {}, [user]);
   return (
     <>
-    <div style={backgroundStyles}>
+    <div className={classes.root}>
       {user?.username && (
         <Typography
           className={classes.title}

@@ -206,7 +206,7 @@ export default function SearchAppBar() {
           </Link>
         )}
         {!isAuthenticated && (
-          <Link component={RouterLink} to="/signup">
+          <Link component={RouterLink} to="/signup" color="textPrimary">
             <ListItem button key={"signup"}>
               <ListItemIcon>
                 <InputIcon />
@@ -256,7 +256,7 @@ export default function SearchAppBar() {
           <Typography className={classes.title} variant="h5" onClick={()=>{
             history.push('/');
           }} noWrap>
-            <Box fontFamily="Century Gothic" fontWeight="fontWeightBold" color="#07370C">
+            <Box fontFamily="Century Gothic" fontWeight="fontWeightBold">
             💘 SWAT
             </Box>
           </Typography>

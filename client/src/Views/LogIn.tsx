@@ -16,7 +16,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
-import background from "../img/background.jpg";
+import background from "../img/bground.jpeg";
 import { AuthContext } from "../context/AuthContext";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -33,8 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: "center",
-      background: "#FFD700",
-      color: "#fff",
+      background: "#FF7600",
     },
     card: {
       marginTop: theme.spacing(10),
@@ -97,7 +96,7 @@ const LogIn: React.FC = () => {
     backgroundImage: `url(${background})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
+    backgroundRepeat: "repeat",
     width: "100vw",
     height: "100vh",
   };
@@ -113,7 +112,7 @@ const LogIn: React.FC = () => {
           <Card className={classes.card}>
             <CardHeader
               className={classes.header}
-              title="Log in to your SWAT"
+              title="Log in"
             />
             <CardContent>
               <div>
@@ -146,7 +145,8 @@ const LogIn: React.FC = () => {
                 variant="contained"
                 size="large"
                 type="submit"
-                style={{ backgroundColor: "#FFD700", color: "#FFFFFF" }}
+                color="primary"
+                fullWidth
               >
                 Login
               </Button>
