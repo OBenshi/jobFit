@@ -16,7 +16,7 @@ export default gql`
     toneResults: JSON
   }
   input newDTI {
-    owner: ObjectID!
+    # owner: ObjectID!
     text: String!
     postDate: DateTime!
     display: Boolean!

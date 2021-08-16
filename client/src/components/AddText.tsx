@@ -5,6 +5,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { KeyboardDatePicker } from "@material-ui/pickers";
+import { AuthContext } from "../context/AuthContext";
 import React, {
   ChangeEvent,
   FormEvent,
@@ -13,6 +14,7 @@ import React, {
   useEffect,
   useRef,
   useState,
+  useContext,
 } from "react";
 import { ADD_DATING } from "../GraphQL/Mutations";
 import { TONE_OF_TEXT } from "../GraphQL/Queries";
@@ -35,11 +37,12 @@ const AddText: React.FC = (props) => {
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
+  const { user } = useContext(AuthContext);
   const classes = useStyles();
   const [AddDatingTextMutation, { error: addTextErr }] =
     useMutation(ADD_DATING);
   const [datingText, setDatingText] = useState<IAddText>({
-    owner: "",
+    // owner: user?._id,
     text: "",
     postDate: new Date().toISOString(),
     private: false,
@@ -61,13 +64,13 @@ const AddText: React.FC = (props) => {
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
   const handleSubmit = async () => {
-    console.log(123, toneData);
+    // console.log(123, toneData);
     console.log(datingText);
     try {
       await AddDatingTextMutation({
         variables: {
           addDatingTextText: {
-            owner: datingText.owner,
+            // owner: datingText.owner,
             text: datingText.text,
             postDate: datingText.postDate,
             xprivate: datingText.private,
@@ -90,11 +93,12 @@ const AddText: React.FC = (props) => {
     console.log(`toneData from Ue`, toneData);
     const thv = async () => {
       await toneData;
+      console.log(`submit`, submit);
+      submit && handleSubmit();
+      console.log("submit", submit);
     };
     thv();
-    submit && handleSubmit();
-    console.log("submit", submit);
-  }, [toneData]);
+  }, [toneData, submit]);
   return (
     <div>
       <form
@@ -145,7 +149,8 @@ const AddText: React.FC = (props) => {
         >
           Let's analyze your text
         </Button>
-        {textAnal !== "" &&
+        {toneData !== undefined &&
+          textAnal !== "" &&
           (toneData?.aTone && Object.keys(toneData.aTone).length !== 0 ? (
             Object.entries(toneData.aTone).map(([key, value]) => (
               <p>
