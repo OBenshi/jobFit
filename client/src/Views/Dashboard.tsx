@@ -9,17 +9,28 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import UpdateProfile from "../components/UpdateProfile";
-import backGround from "../img/head.jpeg"
+import backGround from "../img/backImg.png";
+import head from "../img/head.jpeg";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      backgroundImage: `url(${backGround})`
+      backgroundImage: `url(${backGround})`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      width: "100vw",
+      height: "100vh",
     },
     title: {
       flexGrow: 1,
-      margin: 20
+      margin: 20,
+      backgroundImage:  `url(${head})`,
+      backgroundPosition: "center",
+      width: "100vw",
+      height: "150px",
+      paddingTop: 70
     },
     footer: {
       backgroundColor: theme.palette.background.paper,

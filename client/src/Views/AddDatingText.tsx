@@ -1,5 +1,5 @@
 import React from "react";
-import bg from "../img/bg2.jpg";
+import bg from "../img/backImg.png";
 import AddText from "../components/AddText";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -41,7 +41,7 @@ const AddDatingText: React.FC = () => {
   const classes = useStyles();
   return (
     <>
-      <div>
+      <div style={backgroundStyles}>
         
         <Typography
           className={classes.title}
