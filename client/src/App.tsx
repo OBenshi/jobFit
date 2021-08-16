@@ -15,6 +15,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./Views/Dashboard";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { theme } from "./style/theme";
+import AAbla from "./AAbla";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
               <Appbar />
               <Switch>
                 <Route exact path="/login" children={<LogIn />} />
-                {/* <Route exact path="/testing" children={<AAbla />} /> */}
+                <Route exact path="/testing" children={<AAbla />} />
                 <PrivateRoute
                   path="/displaytext"
                   component={DisplayText}

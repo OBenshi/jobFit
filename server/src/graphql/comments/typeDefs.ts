@@ -14,7 +14,7 @@ export default gql`
     display: Boolean
   }
   input newComment {
-    owner: ObjectID
+    # owner: ObjectID
     text: String
     score: Int
     onText: ObjectID

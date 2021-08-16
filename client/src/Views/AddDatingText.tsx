@@ -1,7 +1,7 @@
 import React from "react";
 import bg from "../img/bg2.jpg";
 import AddText from "../components/AddText";
-import Typography from "@material-ui/core/Typography";
+import { Typography, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 interface Props {}
@@ -33,25 +33,8 @@ const AddDatingText: React.FC = () => {
   };
   const classes = useStyles();
   return (
-    <>
-      <div style={backgroundStyles}>
-        <Typography
-          component="h1"
-          variant="h4"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          {/* <Box
-            fontWeight="fontWeightBold"
-            fontSize={92}
-            letterSpacing={14}
-            fontFamily="Monospace"
-            // color="#FFD700"
-          > */}
-          SWAT
-          {/* </Box> */}
-        </Typography>
+    <div style={backgroundStyles}>
+      <Grid container alignItems="center">
         <Typography
           className={classes.title}
           component="h5"
@@ -60,24 +43,24 @@ const AddDatingText: React.FC = () => {
           color="textPrimary"
           gutterBottom
         >
-          {/* <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white"> */}
           Add Dating Texts ✏️
-          {/* </Box> */}
         </Typography>
+        <Grid item>
+          <AddText />
+        </Grid>
 
-        <AddText />
-      </div>
-      <footer className={classes.footer}>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          ❤️‍🔥 SWAT 2021 All rights reserved ©
-        </Typography>
-      </footer>
-    </>
+        <footer className={classes.footer}>
+          <Typography
+            variant="subtitle1"
+            align="center"
+            color="textSecondary"
+            component="p"
+          >
+            ❤️‍🔥 SWAT 2021 All rights reserved ©
+          </Typography>
+        </footer>
+      </Grid>
+    </div>
   );
 };
 
