@@ -26,6 +26,7 @@ export const resolvers = {
           console.log("you should not be seeing this");
           const datingTexts = await datingTextModel
             .find({})
+            .sort({ postDate: -1 })
             .populate({ path: "owner" })
             .populate({ path: "comments", populate: { path: "owner" } });
           return datingTexts;

@@ -46,14 +46,14 @@ export const theme = createTheme({
       fontFamily: '"Monospace","Roboto", "Helvetica", "Arial", sans-serif',
     },
   },
-  overrides: {
-    MuiCssBaseline: {
-      "@global": {
-        body: {
-          backgroundImage: `url(${bg})`,
-          height: "100vh",
-        },
-      },
-    },
-  },
+  // overrides: {
+  //   MuiCssBaseline: {
+  //     "@global": {
+  //       body: {
+  //         backgroundImage: `url(${bg})`,
+  //         height: "100vh",
+  //       },
+  //     },
+  //   },
+  // },
 });
