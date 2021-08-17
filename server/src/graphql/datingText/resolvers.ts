@@ -14,6 +14,7 @@ export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
 
   Query: {
+    //* ---------------------------- SECTION ALL TEXTS --------------------------- */
     allTexts: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
@@ -35,7 +36,9 @@ export const resolvers = {
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
       }
+      //* ------------------------- END !SECTION ALL TEXTS ------------------------- */
     },
+    //* ----------------------------- SECTION A TEXT ----------------------------- */
     aText: async (parent: any, args: ObjectID, { auth }) => {
       try {
         const userAuth = await getUser(auth);
@@ -59,7 +62,9 @@ export const resolvers = {
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
       }
+      //* --------------------------- END !SECTION A TEXT -------------------------- */
     },
+    //* ----------------------------- SECTION A TONE ----------------------------- */
     aTone: async (parent: any, args: string, { auth }) => {
       try {
         const userAuth = await getUser(auth);
@@ -78,10 +83,33 @@ export const resolvers = {
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
       }
+      //* --------------------------- END !SECTION A TONE -------------------------- */
     },
+    //* --------------------------- SECTION SEARCH TEXT -------------------------- */
+    searchText: async (parent: any, searchTerm: string, { auth }) => {
+      try {
+        const userAuth = await getUser(auth);
+        console.log(`userAuth in allTexts`, userAuth);
+        if (userAuth === null) {
+          return new AuthenticationError("UNAUTHORIZED");
+        }
+        try {
+          const datingTexts = await datingTextModel
+            .find({ $text: { $search: searchTerm } })
+            .populate({ path: "owner" })
+            .populate({ path: "comments", populate: { path: "owner" } });
+          return datingTexts;
+        } catch (err) {
+          console.error("¡error! : ", err);
+          throw new ApolloError("Error retrieving all dating texts", "500");
+        }
+      } catch (err) {
+        return new AuthenticationError("UNAUTHORIZED");
+      }
+      //* ------------------------ END !SECTION SEARCH TEXT ------------------------ */
+    },
+    //* --------------------------- END !SECTION Query --------------------------- */
   },
-
-  //* ----------------------------- !SECTION Query ----------------------------- */
 
   //* ---------------------------- SECTION Mutation ---------------------------- */
   Mutation: {
@@ -100,7 +128,8 @@ export const resolvers = {
     //     throw new ApolloError("shit", "69");
     //   }
     // },
-    //*-------------------------- !SECTION DT MAINTENANCE -------------------------- */
+
+    //* ----------------------- END !SECTION DT MAINTENANCE ---------------------- */
 
     //* ---------------------------- SECTION ADD TEXT ---------------------------- */
     addDatingText: async (
@@ -109,9 +138,6 @@ export const resolvers = {
       { auth }
     ) => {
       try {
-        // const toneResult: string[] = await watsonTA(text);
-        // console.log("Confirm toneResult", toneResult);
-
         const userAuth = await getUser(auth);
         console.log(`userAuth in addText`, userAuth);
         if (userAuth === null) {
@@ -154,11 +180,9 @@ export const resolvers = {
       } catch (err) {
         return new AuthenticationError("UNAUTHORIZED");
       }
+      //* -------------------------- END !SECTION ADD TEXT ------------------------- */
     },
-    //* ---------------------------- !SECTION ADD TEXT --------------------------- */
-
     //* ---------------------------- SECTION EDIT TEXT --------------------------- */
-
     editDatingText: async (
       parent: any,
       { text, xprivate, display, _id }: datingTextNs.editText,
@@ -200,5 +224,5 @@ export const resolvers = {
 
     //* ------------------------- END !SECTION EDIT TEXT ------------------------- */
   },
-  //* ---------------------------- !SECTION Mutation --------------------------- */
+  //* -------------------------- END !SECTION Mutation ------------------------- */
 };

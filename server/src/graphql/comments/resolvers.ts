@@ -22,9 +22,11 @@ export const resolvers = {
         throw new ApolloError("Error retrieving all comments", "500");
       }
     },
-    aText: async (parent, args: ObjectID) => {
+    aComment: async (parent, args: ObjectID) => {
       try {
-        const comment = await commentsModel.findById(args);
+        const comment = await commentsModel
+          .findById(args)
+          .populate({ path: "owner" });
         if (comment === null) {
           return new ApolloError("Comment not found", "204");
         }

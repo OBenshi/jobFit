@@ -37,6 +37,7 @@ export default gql`
     allTexts: [datingText!]!
     aText(_id: ObjectID): datingText!
     aTone(text: String!): JSON!
+    searchText(searchTerm: String!): [datingText]
   }
   extend type Mutation {
     # logIn(input: logInInput): User!
