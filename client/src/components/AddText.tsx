@@ -1,4 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
+import { flexbox } from "@material-ui/system";
+
 import {
   Button,
   Checkbox,
@@ -6,6 +8,7 @@ import {
   TextareaAutosize,
   Typography,
   Grid,
+  Input,
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, {
@@ -85,14 +88,7 @@ const AddText: React.FC = (props) => {
     thv();
   }, [toneData, submit]);
   return (
-    <Grid
-      container
-      // direction="column"
-      // spacing={2}
-      // alignContent="center"
-      // alignItems="center"
-      // style={{ marginLeft: "1rem", marginRight: "1rem" }}
-    >
+    <Grid container alignContent="flex-start">
       <Grid item xs={12}>
         <TextareaAutosize
           aria-label="minimum height"
@@ -103,14 +99,16 @@ const AddText: React.FC = (props) => {
           onChange={handleChange}
           style={{
             width: "100%",
-            // alignSelf: "center",
-            // alignItems: "center",
-            // alignContent: "center",
           }}
         />
       </Grid>
+
       <Grid item xs={12} style={{ display: "flex" }}>
         <FormControlLabel
+          style={{
+            background: "rgba(255,255,255,0.7)",
+            borderRadius: "50%",
+          }}
           control={
             <AmberSwitch
               checked={datingText.xprivate}
@@ -123,7 +121,7 @@ const AddText: React.FC = (props) => {
               name="xprivate"
             />
           }
-          label="Draft"
+          label={datingText.xprivate ? "Private" : "Public"}
         />
       </Grid>
       <Grid item xs={12}>
@@ -141,25 +139,45 @@ const AddText: React.FC = (props) => {
       </Grid>
       {textAnal !== "" &&
         (toneData?.aTone && Object.keys(toneData.aTone).length !== 0 ? (
-          Object.keys(toneData.aTone).map((tone) => {
-            console.log(`toneData.aTone[tone]`, toneData.aTone[tone]);
-            return (
-              <span>
-                <Typography component="span">{tone}</Typography>
-                <StyledRating
-                  name="customized-color"
-                  defaultValue={Math.round(toneData.aTone[tone] * 100) / 10}
-                  getLabelText={(value: number) =>
-                    `${value} Heart${value !== 1 ? "s" : ""}`
-                  }
-                  precision={0.5}
-                  max={10}
-                  readOnly={true}
-                  icon={<FavoriteIcon fontSize="inherit" />}
-                />
-              </span>
-            );
-          })
+          <Grid
+            container
+            direction="row"
+            style={{
+              background: "rgba(255,255,255,0.7)",
+              // borderRadius: "50%",
+            }}
+            alignContent="center"
+            justifyContent="center"
+            // spacing={8}
+          >
+            {Object.keys(toneData.aTone).map((tone) => {
+              console.log(`toneData.aTone[tone]`, toneData.aTone[tone]);
+              const toneNum = Math.round(toneData.aTone[tone] * 100) / 10 / 2;
+              return (
+                <>
+                  <Grid item xs={3}>
+                    <Typography>{tone}</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <StyledRating
+                      name="customized-color"
+                      defaultValue={toneNum}
+                      getLabelText={(value: number) =>
+                        `${value} Heart${value !== 1 ? "s" : ""}`
+                      }
+                      precision={0.1}
+                      max={5}
+                      readOnly={true}
+                      icon={<FavoriteIcon fontSize="inherit" />}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography>{toneNum}/5</Typography>
+                  </Grid>
+                </>
+              );
+            })}
+          </Grid>
         ) : !toneLoading ? (
           <p>text too short</p>
         ) : (
@@ -178,13 +196,8 @@ const AddText: React.FC = (props) => {
             await setSubmit(true);
           }}
         >
-          Upload your text
+          Save your text
         </Button>{" "}
-      </Grid>
-      <Grid item xs={12}>
-        <button onClick={() => console.log(`datingText`, datingText)}>
-          datingText
-        </button>
       </Grid>
     </Grid>
   );

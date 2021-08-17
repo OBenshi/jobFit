@@ -31,43 +31,48 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const AddDatingText: React.FC = () => {
   const backgroundStyles = {
-    backgroundImage: `url(${bg})`,
+    flexGrow: 1,
+    backgroundImage: `url(${backGround})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
+    // backgroundRepeat: "repeat",
     width: "100vw",
     height: "100vh",
+    alignContent: "baseline",
   };
   const classes = useStyles();
   return (
-    <div style={backgroundStyles}>
-      <Grid container alignItems="center">
-        <Typography
-          className={classes.title}
-          component="h5"
-          variant="h5"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          Add Dating Texts ✏️
-        </Typography>
-        <Grid item>
-          <AddText />
-        </Grid>
-
-        <footer className={classes.footer}>
-          <Typography
-            variant="subtitle1"
-            align="center"
-            color="textSecondary"
-            component="p"
-          >
-            ❤️‍🔥 SWAT 2021 All rights reserved ©
-          </Typography>
-        </footer>
+    <Grid
+      container
+      style={backgroundStyles}
+      alignItems="flex-start"
+      justifyContent="center"
+    >
+      <Typography
+        // className={classes.title}
+        component="h5"
+        variant="h5"
+        align="center"
+        color="textPrimary"
+        gutterBottom
+      >
+        Add Dating Texts ✏️
+      </Typography>
+      <Grid item xs={10}>
+        <AddText />
       </Grid>
-    </div>
+
+      {/* <footer className={classes.footer}>
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="textSecondary"
+          component="p"
+        >
+          ❤️‍🔥 SWAT 2021 All rights reserved ©
+        </Typography>
+      </footer> */}
+    </Grid>
   );
 };
 

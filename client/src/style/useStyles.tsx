@@ -32,14 +32,14 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-export const backgroundStyles = {
-  backgroundImage: `url(${bg})`,
-  backgroundPosition: "center",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  width: "100vw",
-  height: "100vh",
-};
+// export const backgroundStyles = {
+//   backgroundImage: `url(${bg})`,
+//   backgroundPosition: "center",
+//   backgroundSize: "cover",
+//   backgroundRepeat: "no-repeat",
+//   width: "100vw",
+//   height: "100vh",
+// };
 
 export const AmberSwitch = withStyles({
   switchBase: {
