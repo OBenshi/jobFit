@@ -16,19 +16,21 @@ interface DatingText {
   display: boolean;
   comments: Comments;
   owner: Owner;
+  _id: ObjectId
 }
 interface Comment {
   text: string;
-  //owner: AnotherOwner;
-  //date: Date;
+  date: Date;
+  score: number;
+  onText: ObjectID;
+  display: boolean;
+  postDate: Date;
+  owner:AnotherOwner
 }
 interface AnotherOwner {
   username: string;
 }
-type Comments = Comment[];
-interface Owner {
-  username: string;
-}
+
 
 namespace toolsNs {
   interface error {

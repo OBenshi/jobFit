@@ -5,6 +5,7 @@ import React, {
   ChangeEvent,
   FormEvent,
   useContext,
+  useEffect
 } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { DATING_TEXT } from "../GraphQL/Queries";
@@ -14,13 +15,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-
-import { borders } from "@material-ui/system";
 import Box from "@material-ui/core/Box";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import Divider from "@material-ui/core/Divider";
+import { ObjectId } from "mongodb";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -60,10 +58,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IAddComment {
-  //owner: string,
   text: string;
-  //score: string,
-  // onText: string
+  onText:  ObjectId | null 
 }
 
 const DisplayTextComp: React.FC<Props> = (props) => {
@@ -71,10 +67,8 @@ const DisplayTextComp: React.FC<Props> = (props) => {
   const { error, loading, data } = useQuery(DATING_TEXT);
   const [addComment] = useMutation(ADD_COMMENT);
   const [comment, setComment] = useState<IAddComment>({
-    //owner: "",
     text: "",
-    //score: "",
-    //onText: ""
+    onText: null
   });
   const handleChange = (e: ChangeEvent<any>) =>
     setComment({ ...comment, [e.target.name]: e.target.value });
@@ -84,8 +78,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
       variables: {
         addCommentComment: {
           text: comment.text,
-          //"score": comment.score,
-          //"onText": comment.onText
+          onText: props.allText._id
         },
       },
     });
@@ -97,7 +90,12 @@ const DisplayTextComp: React.FC<Props> = (props) => {
   };
   //console.log(data);
   console.log(comment);
-  //console.log(props.allText.postDate);
+  console.log(props);
+  //console.log(props.allText);
+
+  useEffect(() => {
+    
+  },[])
   return (
     <div>
       <Box className={classes.big}>
@@ -106,7 +104,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
           <Box display="flex">
             <Box ml={2}>
               <Typography variant="h5" gutterBottom>
-                username
+                {props.allText.owner.username}
               </Typography>
             </Box>
           </Box>
@@ -135,7 +133,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
                 <Box display="flex">
                   <Box ml={4}>
                     <Typography variant="h5" gutterBottom>
-                      owner {comment.owner}
+                       {comment.owner.username}
                     </Typography>
                   </Box>
                 </Box>
