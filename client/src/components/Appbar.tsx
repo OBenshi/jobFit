@@ -1,7 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { AuthContext } from "../context/AuthContext";
 import { LOGOUT_USER as logoutUser } from "../GraphQL/Mutations";
+import { SEARCH_TEXT as searchText } from "../GraphQL/Queries";
+
 import {
   Link as RouterLink,
   NavLink,
@@ -34,15 +36,14 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import clsx from "clsx";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import HomeIcon from '@material-ui/icons/Home';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import FaceIcon from '@material-ui/icons/Face';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import CreateIcon from '@material-ui/icons/Create';
-import InputIcon from '@material-ui/icons/Input';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import imag from '../img/newHead2.png'
-
+import HomeIcon from "@material-ui/icons/Home";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import FaceIcon from "@material-ui/icons/Face";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+import CreateIcon from "@material-ui/icons/Create";
+import InputIcon from "@material-ui/icons/Input";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import imag from "../img/newHead2.png";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -53,7 +54,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
     },
     title: {
-      flexGrow: 1,
       display: "none",
       fontWeight: 500,
       [theme.breakpoints.up("xs")]: {
@@ -61,6 +61,8 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     search: {
+      flexGrow: 1,
+
       position: "relative",
       borderRadius: theme.shape.borderRadius,
       backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -114,7 +116,17 @@ export default function SearchAppBar() {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
   const [drawerState, setDrawerState] = useState<boolean>(false);
-  const [logOutMutation, { error }] = useMutation(logoutUser);
+  const [logOutMutation, { error: logOutErr }] = useMutation(logoutUser);
+  const [searchTerm, setSearchTerm] = useState<string | null>(null);
+  const {
+    loading: searchLoading,
+    data: searchData,
+    refetch: searchcgRefetch,
+  } = useQuery(searchText, {
+    variables: {
+      searchTextSearchTerm: searchTerm,
+    },
+  });
   const handleLogout = async (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
@@ -147,7 +159,11 @@ export default function SearchAppBar() {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {user ? <Typography variant="h6">  🌸 Hello, {user?.firstName} </Typography> : <Typography>Please login🔐</Typography>}
+        {user ? (
+          <Typography variant="h6"> 🌸 Hello, {user?.firstName} </Typography>
+        ) : (
+          <Typography>Please login🔐</Typography>
+        )}
         <Divider />
         <Link component={RouterLink} to="/" color="textPrimary">
           <ListItem button key={"home"}>
@@ -230,12 +246,11 @@ export default function SearchAppBar() {
     </div>
   );
   useEffect(() => {
-    // user !== null && console.log(`user`, user.birthday);
-    // console.log(`isAuthenticated`, isAuthenticated);
-  }, [isAuthenticated]);
+    console.log(`object`, searchData);
+  }, [searchData, isAuthenticated]);
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{backgroundImage: `url(${imag})`}}>
+      <AppBar position="static" style={{ backgroundImage: `url(${imag})` }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -253,30 +268,45 @@ export default function SearchAppBar() {
           >
             {list()}
           </Drawer>
-          <Typography className={classes.title} variant="h5" onClick={()=>{
-            history.push('/');
-          }} noWrap>
+          <Typography
+            className={classes.title}
+            variant="h5"
+            onClick={() => {
+              history.push("/");
+            }}
+            noWrap
+          >
             <Box fontFamily="Century Gothic" fontWeight="fontWeightBold">
-            💘 SWAT
+              💘 SWAT
             </Box>
           </Typography>
-          {
-            isAuthenticated && (
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
+          {history.location.pathname === "/displaytext" && (
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <IconButton
+                  aria-label="search"
+                  onClick={() => {
+                    console.log(9);
                   }}
-                  inputProps={{ "aria-label": "search" }}
-                />
+                >
+                  <SearchIcon />
+                </IconButton>
               </div>
-            )
-          }
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+                onKeyUp={(event: any) => {
+                  if (event.key === "Enter") {
+                    setSearchTerm(event.target.value);
+                  }
+                }}
+              />
+            </div>
+          )}
         </Toolbar>
       </AppBar>
     </div>

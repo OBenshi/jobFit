@@ -40,8 +40,7 @@ export default gql`
     searchText(searchTerm: String!): [datingText]
   }
   extend type Mutation {
-    # logIn(input: logInInput): User!
-    # logOut(input: logOutInput): JSON!
+    textMaintenance: JSON!
     addDatingText(text: newDTI!): datingText!
     editDatingText(input: editText!): datingText!
   }

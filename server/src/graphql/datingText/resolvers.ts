@@ -86,16 +86,18 @@ export const resolvers = {
       //* --------------------------- END !SECTION A TONE -------------------------- */
     },
     //* --------------------------- SECTION SEARCH TEXT -------------------------- */
-    searchText: async (parent: any, searchTerm: string, { auth }) => {
+    searchText: async (parent: any, args: { searchTerm: string }, { auth }) => {
       try {
         const userAuth = await getUser(auth);
-        console.log(`userAuth in allTexts`, userAuth);
+        console.log(`userAuth in search`, userAuth);
         if (userAuth === null) {
           return new AuthenticationError("UNAUTHORIZED");
         }
         try {
+          const { searchTerm } = args;
+          console.log(`searchTerm`, searchTerm);
           const datingTexts = await datingTextModel
-            .find({ $text: { $search: searchTerm } })
+            .find({ text: { $regex: searchTerm, $options: "i" } })
             .populate({ path: "owner" })
             .populate({ path: "comments", populate: { path: "owner" } });
           return datingTexts;
@@ -114,20 +116,18 @@ export const resolvers = {
   //* ---------------------------- SECTION Mutation ---------------------------- */
   Mutation: {
     //*--------------------------- SECTION DT MAINTENANCE -------------------------- */
-    // UpdateAllUsers: async (parent, args) => {
-    //   try {
-    //     sendConfirmationEmail("bob", "benshi.code@gmail.com");
-    //     // const users = await userModel.updateMany(
-    //     //   {},
-    //     //   { $set: { loggedIn: true } },
-    //     //   { useFindAndModify: false }
-    //     // );
-    //     return { status: 200, msg: "update successful" };
-    //   } catch (err) {
-    //     console.log(`err`, err);
-    //     throw new ApolloError("shit", "69");
-    //   }
-    // },
+    textMaintenance: async (parent, args, { auth }) => {
+      try {
+        datingTextModel.createIndexes({
+          text: "text",
+        });
+
+        return { status: 200, msg: "update successful" };
+      } catch (err) {
+        console.log(`err`, err);
+        throw new ApolloError("shit", "69");
+      }
+    },
 
     //* ----------------------- END !SECTION DT MAINTENANCE ---------------------- */
 

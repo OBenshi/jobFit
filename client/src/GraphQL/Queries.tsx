@@ -48,3 +48,26 @@ export const USER = gql`
     }
   }
 `;
+
+export const SEARCH_TEXT = gql`
+  query Query($searchTextSearchTerm: String!) {
+    searchText(searchTerm: $searchTextSearchTerm) {
+      _id
+      owner {
+        username
+      }
+      text
+      score
+      postDate
+      comments {
+        owner {
+          username
+        }
+        text
+        postDate
+      }
+      display
+      private
+    }
+  }
+`;
