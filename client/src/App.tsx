@@ -28,7 +28,7 @@ function App() {
               <Appbar />
               <Switch>
                 <Route exact path="/login" children={<LogIn />} />
-                <Route exact path="/testing" children={<AAbla />} />
+                {/* <Route exact path="/testing" children={<AAbla />} /> */}
                 <PrivateRoute
                   path="/displaytext"
                   component={DisplayText}
