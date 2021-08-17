@@ -5,7 +5,7 @@ import {
   Theme as AugmentedTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
-
+import bg from "../img/backImg.png";
 export const theme = createTheme({
   palette: {
     primary: {
@@ -41,6 +41,16 @@ export const theme = createTheme({
     },
     h6: {
       fontFamily: '"Monospace","Roboto", "Helvetica", "Arial", sans-serif',
+    },
+  },
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        body: {
+          backgroundImage: `url(${bg})`,
+          height: "100vh",
+        },
+      },
     },
   },
 });

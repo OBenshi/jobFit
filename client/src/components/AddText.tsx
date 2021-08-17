@@ -1,51 +1,38 @@
 import { useMutation, useQuery } from "@apollo/client";
-import Button from "@material-ui/core/Button";
-import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { flexbox } from "@material-ui/system";
+
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextareaAutosize,
+  Typography,
+  Grid,
+  Input,
+} from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import { KeyboardDatePicker } from "@material-ui/pickers";
-import { AuthContext } from "../context/AuthContext";
 import React, {
   ChangeEvent,
-  FormEvent,
-  MouseEvent,
-  TouchEvent,
+  useContext,
   useEffect,
   useRef,
   useState,
-  useContext,
 } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { ADD_DATING } from "../GraphQL/Mutations";
 import { TONE_OF_TEXT } from "../GraphQL/Queries";
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      display: "flex",
-      flexDirection: "column",
-      flexWrap: "wrap",
-      width: 360,
-      margin: `${theme.spacing(0)} auto`,
-    },
-  })
-);
+import { AmberSwitch, StyledRating } from "../style/useStyles";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const AddText: React.FC = (props) => {
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date()
-  );
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
   const { user } = useContext(AuthContext);
-  const classes = useStyles();
   const [AddDatingTextMutation, { error: addTextErr }] =
     useMutation(ADD_DATING);
   const [datingText, setDatingText] = useState<IAddText>({
     // owner: user?._id,
     text: "",
     postDate: new Date().toISOString(),
-    private: false,
+    xprivate: false,
     display: true,
   });
   const [submit, setSubmit] = useState<boolean>(false);
@@ -60,12 +47,12 @@ const AddText: React.FC = (props) => {
       aToneText: textAnal,
     },
   });
-  const [buttonNum, setButtonNum] = useState<number>(1);
   const handleChange = (e: ChangeEvent<any>): void =>
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
+
   const handleSubmit = async () => {
     // console.log(123, toneData);
-    console.log(datingText);
+    // console.log(datingText);
     try {
       await AddDatingTextMutation({
         variables: {
@@ -73,7 +60,7 @@ const AddText: React.FC = (props) => {
             // owner: datingText.owner,
             text: datingText.text,
             postDate: datingText.postDate,
-            xprivate: datingText.private,
+            xprivate: datingText.xprivate,
             display: datingText.display,
             toneResults: toneData.aTone,
           },
@@ -87,6 +74,7 @@ const AddText: React.FC = (props) => {
       console.log(`err`, err);
     }
     console.log(datingText.text);
+    setSubmit(false);
   };
 
   useEffect(() => {
@@ -100,14 +88,8 @@ const AddText: React.FC = (props) => {
     thv();
   }, [toneData, submit]);
   return (
-    <div>
-      <form
-        className={classes.container}
-        noValidate
-        autoComplete="off"
-        style={{ backgroundColor: " white" }}
-        // onSubmit={handleSubmit}
-      >
+    <Grid container alignContent="flex-start">
+      <Grid item xs={12}>
         <TextareaAutosize
           aria-label="minimum height"
           minRows={10}
@@ -115,32 +97,37 @@ const AddText: React.FC = (props) => {
           name="text"
           value={datingText.text}
           onChange={handleChange}
-        />
-        {/* <FormControlLabel
-        control={
-          <Checkbox
-            name="xprivate"
-            color="primary"
-            value={datingText.private}
-            onChange={handleChange}
-          />
-        }
-            label="Private"
-                />  */}
-        <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Todays date"
-          format="MM/dd/yyyy"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
+          style={{
+            width: "100%",
           }}
         />
+      </Grid>
+
+      <Grid item xs={12} style={{ display: "flex" }}>
+        <FormControlLabel
+          style={{
+            background: "rgba(255,255,255,0.7)",
+            borderRadius: "50%",
+          }}
+          control={
+            <AmberSwitch
+              checked={datingText.xprivate}
+              onChange={(event) => {
+                setDatingText({
+                  ...datingText,
+                  xprivate: event.target.checked,
+                });
+              }}
+              name="xprivate"
+            />
+          }
+          label={datingText.xprivate ? "Private" : "Public"}
+        />
+      </Grid>
+      <Grid item xs={12}>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           type="button"
           name="update_button2"
           onClick={async (e) => {
@@ -149,22 +136,57 @@ const AddText: React.FC = (props) => {
         >
           Let's analyze your text
         </Button>
-        {toneData !== undefined &&
-          textAnal !== "" &&
-          (toneData?.aTone && Object.keys(toneData.aTone).length !== 0 ? (
-            Object.entries(toneData.aTone).map(([key, value]) => (
-              <p>
-                {key}:{value}
-              </p>
-            ))
-          ) : !toneLoading ? (
-            <p>text too short</p>
-          ) : (
-            <p>loading</p>
-          ))}
+      </Grid>
+      {textAnal !== "" &&
+        (toneData?.aTone && Object.keys(toneData.aTone).length !== 0 ? (
+          <Grid
+            container
+            direction="row"
+            style={{
+              background: "rgba(255,255,255,0.7)",
+              // borderRadius: "50%",
+            }}
+            alignContent="center"
+            justifyContent="center"
+            // spacing={8}
+          >
+            {Object.keys(toneData.aTone).map((tone) => {
+              console.log(`toneData.aTone[tone]`, toneData.aTone[tone]);
+              const toneNum = Math.round(toneData.aTone[tone] * 100) / 10 / 2;
+              return (
+                <>
+                  <Grid item xs={3}>
+                    <Typography>{tone}</Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <StyledRating
+                      name="customized-color"
+                      defaultValue={toneNum}
+                      getLabelText={(value: number) =>
+                        `${value} Heart${value !== 1 ? "s" : ""}`
+                      }
+                      precision={0.1}
+                      max={5}
+                      readOnly={true}
+                      icon={<FavoriteIcon fontSize="inherit" />}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography>{toneNum}/5</Typography>
+                  </Grid>
+                </>
+              );
+            })}
+          </Grid>
+        ) : !toneLoading ? (
+          <p>text too short</p>
+        ) : (
+          <p>loading</p>
+        ))}
+      <Grid item xs={12}>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           type="button"
           name="update_button"
           onClick={async (e) => {
@@ -174,11 +196,10 @@ const AddText: React.FC = (props) => {
             await setSubmit(true);
           }}
         >
-          Upload your text
+          Save your text
         </Button>{" "}
-      </form>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 export default AddText;
-///TODO watson and edit your dating text.

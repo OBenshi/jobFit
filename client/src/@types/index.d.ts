@@ -6,7 +6,7 @@ interface IAddText {
   text: string;
   postDate: string;
   display: boolean;
-  private: boolean;
+  xprivate: boolean;
 }
 interface DatingText {
   text: string;

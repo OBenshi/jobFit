@@ -1,9 +1,12 @@
 import React from "react";
-import bg from "../img/bg2.jpg";
+import bg from "../img/backImg.png";
 import AddText from "../components/AddText";
-import Typography from "@material-ui/core/Typography";
+import { Typography, Grid } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import backGround from "../img/head.jpeg";
+import { AutoComplete } from "material-ui";
+import { CenterFocusStrong } from "@material-ui/icons";
 interface Props {}
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -12,8 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     title: {
-      flexGrow: 1,
-      margin: 20,
+      flexGrow: 10,
+      backgroundImage: `url(${backGround})`,
+      backgroundPosition: "center",
+      width: "100vw",
+      height: "150px",
+      paddingTop: 70,
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
@@ -24,50 +31,38 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const AddDatingText: React.FC = () => {
   const backgroundStyles = {
-    backgroundImage: `url(${bg})`,
+    flexGrow: 1,
+    backgroundImage: `url(${backGround})`,
     backgroundPosition: "center",
     backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
+    // backgroundRepeat: "repeat",
     width: "100vw",
     height: "100vh",
+    alignContent: "baseline",
   };
   const classes = useStyles();
   return (
-    <>
-      <div style={backgroundStyles}>
-        <Typography
-          component="h1"
-          variant="h4"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          {/* <Box
-            fontWeight="fontWeightBold"
-            fontSize={92}
-            letterSpacing={14}
-            fontFamily="Monospace"
-            // color="#FFD700"
-          > */}
-          SWAT
-          {/* </Box> */}
-        </Typography>
-        <Typography
-          className={classes.title}
-          component="h5"
-          variant="h5"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          {/* <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white"> */}
-          Add Dating Texts ✏️
-          {/* </Box> */}
-        </Typography>
-
+    <Grid
+      container
+      style={backgroundStyles}
+      alignItems="flex-start"
+      justifyContent="center"
+    >
+      <Typography
+        // className={classes.title}
+        component="h5"
+        variant="h5"
+        align="center"
+        color="textPrimary"
+        gutterBottom
+      >
+        Add Dating Texts ✏️
+      </Typography>
+      <Grid item xs={10}>
         <AddText />
-      </div>
-      <footer className={classes.footer}>
+      </Grid>
+
+      {/* <footer className={classes.footer}>
         <Typography
           variant="subtitle1"
           align="center"
@@ -76,8 +71,8 @@ const AddDatingText: React.FC = () => {
         >
           ❤️‍🔥 SWAT 2021 All rights reserved ©
         </Typography>
-      </footer>
-    </>
+      </footer> */}
+    </Grid>
   );
 };
 
