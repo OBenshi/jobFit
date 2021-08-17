@@ -4,8 +4,6 @@ import React, {
   useState,
   ChangeEvent,
   FormEvent,
-  useContext,
-  useEffect
 } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useMutation } from "@apollo/client";
@@ -113,7 +111,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
               gutterBottom
               className={classes.grey}
             >
-              {props.allText.postDate}
+              {props.allText.postDate.substring(0, 10)}
             </Typography>
           </Box>
         </Box>
@@ -141,7 +139,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
                     display="block"
                     className={classes.grey}
                   >
-                    {comment.postDate}
+                    {comment.postDate.substring(0, 10)}
                   </Typography>
                 </Box>
               </Box>

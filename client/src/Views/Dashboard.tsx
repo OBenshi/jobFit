@@ -42,6 +42,7 @@ const Dashboard = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(AuthContext);
   const [tabValue, setTabValue] = useState<number>(0);
+  console.log(user)
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTabValue(newValue);
@@ -94,7 +95,10 @@ const Dashboard = () => {
         >
           {tabValue === 0 && (
             <Box p={3}>
-              <Typography>your texts 📝</Typography>
+              <Typography>your texts 📝{user?.datingTexts.length }</Typography>
+             {user?.datingTexts.map((datingTexts) => {
+               return <Typography>{datingTexts.text}</Typography>
+              }) }
             </Box>
           )}
         </div>

@@ -47,6 +47,7 @@ interface userProfile {
   datingTexts: Array<datingTextNs.datingText>;
   comments: Array<commentsNs.comment>;
 }
+
 interface IAuthContext {
   isAuthenticated: boolean;
   user: userProfile | null;
@@ -58,7 +59,7 @@ const initAuthContext: IAuthContext = {
   isAuthenticated: false,
   user: null,
   setUser: () => {},
-  setIsAuthenticated: () => {},
+  setIsAuthenticated: () => { },
 };
 
 //export const AuthContext = createContext(initAuthContext);
