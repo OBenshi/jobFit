@@ -8,7 +8,6 @@ import React, {
   useEffect
 } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { DATING_TEXT } from "../GraphQL/Queries";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../GraphQL/Mutations";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,6 +18,8 @@ import Box from "@material-ui/core/Box";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { ObjectId } from "mongodb";
+import { DATING_TEXT } from "../GraphQL/Queries";
+
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -65,7 +66,7 @@ interface IAddComment {
 const DisplayTextComp: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { error, loading, data } = useQuery(DATING_TEXT);
-  const [addComment] = useMutation(ADD_COMMENT);
+  const [addComment] = useMutation(ADD_COMMENT, {refetchQueries:[{query: DATING_TEXT}]});
   const [comment, setComment] = useState<IAddComment>({
     text: "",
     onText: null
@@ -81,21 +82,18 @@ const DisplayTextComp: React.FC<Props> = (props) => {
           onText: props.allText._id
         },
       },
-    });
+    })
     if (error) {
       console.log(error);
     } else {
       console.log("success");
     }
   };
-  //console.log(data);
+
   console.log(comment);
   console.log(props);
-  //console.log(props.allText);
+  console.log(data)
 
-  useEffect(() => {
-    
-  },[])
   return (
     <div>
       <Box className={classes.big}>
