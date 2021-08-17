@@ -16,9 +16,6 @@ export const DATING_TEXT = gql`
         }
         text
         postDate
-        onText {
-        text
-      }
       }
       display
       private
@@ -44,8 +41,21 @@ export const USER = gql`
       rank
       loggedIn
       datingTexts {
+        _id
         text
         score
+        owner {
+          _id
+          username
+        }
+        postDate
+        comments {
+          owner {
+            username
+          }
+          text
+          postDate
+        }
       }
       token
     }

@@ -1,7 +1,7 @@
 import React from "react";
 import bg from "../img/backImg.png";
 import AddText from "../components/AddText";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, CircularProgress } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import backGround from "../img/head.jpeg";
@@ -47,31 +47,23 @@ const AddDatingText: React.FC = () => {
       style={backgroundStyles}
       alignItems="flex-start"
       justifyContent="center"
+      // spacing={9}
     >
-      <Typography
-        // className={classes.title}
-        component="h5"
-        variant="h5"
-        align="center"
-        color="textPrimary"
-        gutterBottom
-      >
-        Add Dating Texts ✏️
-      </Typography>
+      <Grid item xs={12}>
+        <Typography
+          // className={classes.title}
+          component="h5"
+          variant="h5"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+        >
+          Add Dating Texts ✏️
+        </Typography>{" "}
+      </Grid>
       <Grid item xs={10}>
         <AddText />
       </Grid>
-
-      {/* <footer className={classes.footer}>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          ❤️‍🔥 SWAT 2021 All rights reserved ©
-        </Typography>
-      </footer> */}
     </Grid>
   );
 };

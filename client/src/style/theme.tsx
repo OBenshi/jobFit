@@ -5,6 +5,8 @@ import {
   Theme as AugmentedTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
+import "@fontsource/special-elite"; // Defaults to weight 400.
+
 import bg from "../img/backImg.png";
 export const theme = createTheme({
   palette: {
@@ -34,7 +36,8 @@ export const theme = createTheme({
       fontFamily: '"Monospace","Roboto", "Helvetica", "Arial", sans-serif',
     },
     h4: {
-      fontFamily: '"Monospace","Roboto", "Helvetica", "Arial", sans-serif',
+      fontFamily:
+        '"Special Elite","Monospace","Roboto", "Helvetica", "Arial", sans-serif',
     },
     h5: {
       fontFamily: '"Monospace","Roboto", "Helvetica", "Arial", sans-serif',

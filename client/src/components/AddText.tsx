@@ -9,6 +9,7 @@ import {
   Typography,
   Grid,
   Input,
+  CircularProgress,
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, {
@@ -88,7 +89,7 @@ const AddText: React.FC = (props) => {
     thv();
   }, [toneData, submit]);
   return (
-    <Grid container alignContent="flex-start">
+    <Grid container>
       <Grid item xs={12}>
         <TextareaAutosize
           aria-label="minimum height"
@@ -179,9 +180,11 @@ const AddText: React.FC = (props) => {
             })}
           </Grid>
         ) : !toneLoading ? (
-          <p>text too short</p>
+          <Typography>text to short</Typography>
         ) : (
-          <p>loading</p>
+          <Grid item xs={12} alignItems="center">
+            <CircularProgress />
+          </Grid>
         ))}
       <Grid item xs={12}>
         <Button

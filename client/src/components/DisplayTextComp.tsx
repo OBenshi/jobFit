@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  Fragment,
-  useState,
-  ChangeEvent,
-  FormEvent,
-} from "react";
+import React, { FC, Fragment, useState, ChangeEvent, FormEvent } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../GraphQL/Mutations";
@@ -17,7 +11,6 @@ import StarRateIcon from "@material-ui/icons/StarRate";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { ObjectId } from "mongodb";
 import { DATING_TEXT } from "../GraphQL/Queries";
-
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -58,16 +51,18 @@ const useStyles = makeStyles((theme) => ({
 
 interface IAddComment {
   text: string;
-  onText:  ObjectId | null 
+  onText: ObjectId | null;
 }
 
 const DisplayTextComp: React.FC<Props> = (props) => {
   const classes = useStyles();
   const { error, loading, data } = useQuery(DATING_TEXT);
-  const [addComment] = useMutation(ADD_COMMENT, {refetchQueries:[{query: DATING_TEXT}]});
+  const [addComment] = useMutation(ADD_COMMENT, {
+    refetchQueries: [{ query: DATING_TEXT }],
+  });
   const [comment, setComment] = useState<IAddComment>({
     text: "",
-    onText: null
+    onText: null,
   });
   const handleChange = (e: ChangeEvent<any>) =>
     setComment({ ...comment, [e.target.name]: e.target.value });
@@ -77,10 +72,10 @@ const DisplayTextComp: React.FC<Props> = (props) => {
       variables: {
         addCommentComment: {
           text: comment.text,
-          onText: props.allText._id
+          onText: props.allText._id,
         },
       },
-    })
+    });
     if (error) {
       console.log(error);
     } else {
@@ -90,7 +85,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
 
   console.log(comment);
   console.log(props);
-  console.log(data)
+  console.log(data);
 
   return (
     <div>
@@ -100,7 +95,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
           <Box display="flex">
             <Box ml={2}>
               <Typography variant="h5" gutterBottom>
-                {props.allText.owner.username}
+                {props.allText.owner?.username}
               </Typography>
             </Box>
           </Box>
@@ -129,7 +124,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
                 <Box display="flex">
                   <Box ml={4}>
                     <Typography variant="h5" gutterBottom>
-                       {comment.owner.username}
+                      {comment.owner.username}
                     </Typography>
                   </Box>
                 </Box>

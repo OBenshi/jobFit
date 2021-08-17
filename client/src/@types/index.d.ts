@@ -15,8 +15,8 @@ interface DatingText {
   private: boolean;
   display: boolean;
   comments: Comments;
-  owner: Owner;
-  _id: ObjectId
+  owner?: userNs.userProfile;
+  _id: ObjectId;
 }
 interface Comment {
   text: string;
@@ -25,12 +25,11 @@ interface Comment {
   onText: ObjectID;
   display: boolean;
   postDate: Date;
-  owner:AnotherOwner
+  owner: AnotherOwner;
 }
 interface AnotherOwner {
   username: string;
 }
-
 
 namespace toolsNs {
   interface error {
@@ -51,8 +50,8 @@ namespace userNs {
     rank: number;
     // avatar?: string;
     loggedIn: boolean;
-    datingTexts: Array<datingTextNs.datingText>;
-    comments: Array<commentsNs.comment>;
+    datingTexts: Array<DatingText>;
+    comments: Array<Comment>;
   }
   interface updateProfile {
     //   _id: ObjectId;

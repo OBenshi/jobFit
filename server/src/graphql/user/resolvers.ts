@@ -113,7 +113,7 @@ export const resolvers = {
             email: email,
           })
           .populate({ path: "datingTexts" })
-          .populate({ path: "comments" });
+          .populate({ path: "comments", populate: { path: "owner" } });
         console.log(`user`, user);
         if (user === null || !user) {
           throw new ApolloError("User not found", "204");
