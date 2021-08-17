@@ -83,7 +83,6 @@ const DisplayTextComp: React.FC<Props> = (props) => {
     addComment({
       variables: {
         addCommentComment: {
-          //"owner": comment.owner,
           text: comment.text,
           //"score": comment.score,
           //"onText": comment.onText
@@ -156,17 +155,10 @@ const DisplayTextComp: React.FC<Props> = (props) => {
         })}
       <Box>
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          {/*          <TextareaAutosize
-            aria-label="minimum height"
-              minRows={1} placeholder="your comment"
-              name="text"
-              value={comment.text}
-              onChange={handleChange} /> */}
           <TextField
             className={classes.textField}
             label="comment"
             id="standard-size-small"
-            // defaultValue="comment"
             size="small"
             rows={1}
             name="text"
