@@ -10,7 +10,7 @@ interface IAddText {
 }
 interface DatingText {
   text: string;
-  postDate: Date;
+  postDate: string;
   score: number;
   private: boolean;
   display: boolean;

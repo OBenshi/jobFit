@@ -12,6 +12,10 @@ import UpdateProfile from "../components/UpdateProfile";
 import backGround from "../img/backImg.png";
 import head from "../img/head.jpeg";
 
+
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent"
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -36,12 +40,31 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(6),
     },
+    rootSnd: {
+    display: "flex",
+    flexDirection: "row",
+    minWidth: 275,
+    margin: theme.spacing(1),
+  },
+  details: {
+    display: "flex",
+  },
+  content: {
+    flex: "1 0 auto",
+  },
+  controls: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
   })
 );
 const Dashboard = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(AuthContext);
   const [tabValue, setTabValue] = useState<number>(0);
+  console.log(user)
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTabValue(newValue);
@@ -94,7 +117,10 @@ const Dashboard = () => {
         >
           {tabValue === 0 && (
             <Box p={3}>
-              <Typography>your texts 📝</Typography>
+              <Typography>your texts 📝{user?.datingTexts.length }</Typography>
+             {user?.datingTexts.map((datingTexts) => {
+               return  <Card className={classes.rootSnd} elevation={12}><CardContent className={classes.content}><Typography component="h5" variant="h5">{datingTexts.text}</Typography></CardContent></Card>
+              }) }
             </Box>
           )}
         </div>

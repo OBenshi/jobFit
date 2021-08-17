@@ -16,6 +16,9 @@ export const DATING_TEXT = gql`
         }
         text
         postDate
+        onText {
+        text
+      }
       }
       display
       private
