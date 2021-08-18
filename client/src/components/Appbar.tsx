@@ -74,7 +74,12 @@ export default function SearchAppBar() {
     <div className={classes.appbarRoot}>
       <AppBar
         position='fixed'
-        style={{ backgroundImage: `url(${imag})`, marginBottom: '5rem' }}>
+        style={{
+          backgroundImage: `url(${imag})`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          // backgroundRepeat: 'no-repeat',
+        }}>
         <Toolbar>
           <IconButton
             edge='start'
@@ -97,9 +102,7 @@ export default function SearchAppBar() {
               history.push('/');
             }}
             noWrap>
-            <Box fontFamily='Century Gothic' fontWeight='fontWeightBold'>
-              💘 SWAT
-            </Box>
+            SWAT
           </Typography>
 
           {(history.location.pathname === '/displaytext' ||
