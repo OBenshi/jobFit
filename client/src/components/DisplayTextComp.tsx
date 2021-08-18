@@ -56,7 +56,7 @@ interface IAddComment {
 
 const DisplayTextComp: React.FC<Props> = (props) => {
   const classes = useStyles();
-  const { error, loading, data } = useQuery(DATING_TEXT);
+  const { error, loading, data: datingTextData } = useQuery(DATING_TEXT);
   const [addComment] = useMutation(ADD_COMMENT, {
     refetchQueries: [{ query: DATING_TEXT }],
   });
@@ -85,7 +85,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
 
   console.log(comment);
   console.log(props);
-  console.log(data);
+
 
   return (
     <div>
@@ -106,7 +106,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
               gutterBottom
               className={classes.grey}
             >
-              {props.allText.postDate.substring(0, 10)}
+            {props.allText.postDate.substring(0, 10)} 
             </Typography>
           </Box>
         </Box>
@@ -115,7 +115,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
         </Typography>
       </Box>
       {/* 2nd  */}
-      {data !== undefined &&
+      {datingTextData !== undefined &&
         props.allText.comments.map((comment: any) => {
           return (
             <Box className={classes.small}>
@@ -134,7 +134,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
                     display="block"
                     className={classes.grey}
                   >
-                    {comment.postDate.substring(0, 10)}
+                {comment.postDate.substring(0, 10)} 
                   </Typography>
                 </Box>
               </Box>

@@ -10,15 +10,21 @@ export const DATING_TEXT = gql`
       text
       score
       postDate
+      display
+      private
       comments {
+        text
+        postDate
+        owner{
+          username
+        }
+      onText {
         owner {
           username
         }
         text
-        postDate
       }
-      display
-      private
+    }
     }
   }
 `;
