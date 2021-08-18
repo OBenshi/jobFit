@@ -1,21 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { Typography, AppBar, Tab, Tabs, Box, Grid } from "@material-ui/core";
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { Typography, AppBar, Tab, Tabs, Box, Grid } from '@material-ui/core';
 // import { backgroundStyles } from "../style/useStyles";
 import {
   createStyles,
   alpha,
   Theme,
   makeStyles,
-} from "@material-ui/core/styles";
-import "@fontsource/special-elite"; // Defaults to weight 400.
+} from '@material-ui/core/styles';
+import '@fontsource/special-elite'; // Defaults to weight 400.
 
-import UpdateProfile from "../components/UpdateProfile";
-import backGround from "../img/backImg.png";
-import head from "../img/head.jpeg";
-import DisplayTextComp from "../components/DisplayTextComp";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import UpdateProfile from '../components/UpdateProfile';
+import backGround from '../img/backImg.png';
+import head from '../img/head.jpeg';
+import DisplayTextComp from '../components/DisplayTextComp';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,31 +31,31 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       // flexGrow: 1,
       // margin: 20,
-      background: "rgba(255,255,255,0.75)",
-      fontFamily: "Special Elite",
-      width: "100vw",
+      background: 'rgba(255,255,255,0.75)',
+      fontFamily: 'Special Elite',
+      width: '100vw',
       // height: "150px",
-      paddingTop: "1rem",
+      paddingTop: '1rem',
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(6),
     },
     rootSnd: {
-      display: "flex",
-      flexDirection: "row",
+      display: 'flex',
+      flexDirection: 'row',
       minWidth: 275,
       margin: theme.spacing(1),
     },
     details: {
-      display: "flex",
+      display: 'flex',
     },
     content: {
-      flex: "1 0 auto",
+      flex: '1 0 auto',
     },
     controls: {
-      display: "flex",
-      alignItems: "center",
+      display: 'flex',
+      alignItems: 'center',
       paddingLeft: theme.spacing(1),
       paddingBottom: theme.spacing(1),
     },
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundImage: `url(${head})`,
       // backgroundPosition: "center",
       // backgroundRepeat: "no-repeat",
-      backgroundSize: "auto",
+      backgroundSize: 'auto',
     },
   })
 );
@@ -81,19 +81,17 @@ const Dashboard = () => {
     user && (
       <Grid
         container
-        id="fjkdhskj"
-        justifyContent="center"
-        className={classes.dashCont}
-      >
+        id='fjkdhskj'
+        justifyContent='center'
+        className={classes.dashCont}>
         <Grid item xs={12}>
           <Typography
             className={classes.title}
-            component="h4"
-            variant="h4"
-            align="center"
-            color="secondary"
-            gutterBottom
-          >
+            component='h4'
+            variant='h4'
+            align='center'
+            color='secondary'
+            gutterBottom>
             👤 The &nbsp;
             {user.username[0].toUpperCase() + user.username.slice(1)}
             &nbsp; Zone 👥
@@ -105,39 +103,36 @@ const Dashboard = () => {
             className={classes.title}
             value={tabValue}
             onChange={handleTabChange}
-            indicatorColor="secondary"
-            textColor="secondary"
+            indicatorColor='secondary'
+            textColor='secondary'
             centered
-            variant="fullWidth"
-          >
+            variant='fullWidth'>
             <Tab
-              label="your texts"
-              id="userTextTab"
+              label='your texts'
+              id='userTextTab'
               aria-controls={`your-texts-tabpanel`}
-            />{" "}
+            />{' '}
             <Tab
-              label="mange profile"
-              id="manageProfileTab"
-              aria-controls="manage profile tab"
+              label='mange profile'
+              id='manageProfileTab'
+              aria-controls='manage profile tab'
             />
           </Tabs>
         </Grid>
         <div
-          role="tabpanel"
+          role='tabpanel'
           hidden={tabValue !== 0}
           id={`your-texts-tabpanel`}
-          aria-labelledby={`your-texts-tab`}
-        >
+          aria-labelledby={`your-texts-tab`}>
           {tabValue === 0 &&
-            (user?.datingTexts.length ? (
-              <Grid container justifyContent="center">
+            (user?.datingTexts?.length ? (
+              <Grid container justifyContent='center'>
                 <Grid item xs={12}>
                   <Grid
                     container
-                    justifyContent="center"
-                    alignItems="center"
-                    alignContent="center"
-                  >
+                    justifyContent='center'
+                    alignItems='center'
+                    alignContent='center'>
                     {user?.datingTexts.map((datingText) => {
                       console.log(`datingText`, datingText._id);
                       return (
@@ -157,13 +152,12 @@ const Dashboard = () => {
             ))}
         </div>
         <div
-          role="tabpanel"
+          role='tabpanel'
           hidden={tabValue !== 1}
           id={`manage-your-profile-tabpanel`}
-          aria-labelledby={`manage-profile-tab`}
-        >
-          <Grid container justifyContent="center">
-            {" "}
+          aria-labelledby={`manage-profile-tab`}>
+          <Grid container justifyContent='center'>
+            {' '}
             {tabValue === 1 && <UpdateProfile />}
           </Grid>
         </div>

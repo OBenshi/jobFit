@@ -13,6 +13,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { AuthContextProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./Views/Dashboard";
+import SrchRes from "./Views/SrchRes";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { theme } from "./style/theme";
 import AAbla from "./AAbla";
@@ -30,13 +31,16 @@ function App() {
                 <Route exact path="/login" children={<LogIn />} />
                 {/* <Route exact path="/testing" children={<AAbla />} /> */}
                 <PrivateRoute
+                  path="/search/:searchTerm"
+                  component={SrchRes}
+                  exact
+                />
+                <PrivateRoute
                   path="/displaytext"
                   component={DisplayText}
                   exact
                 />
                 <PrivateRoute path="/dashboard" component={Dashboard} exact />
-                {/* <Route exact path="/displaytext" children={<DisplayText />} /> */}
-                {/* <Route exact path="/adddatingtext" children={<AddDatingText />} /> */}
                 <PrivateRoute
                   path="/adddatingtext"
                   component={AddDatingText}

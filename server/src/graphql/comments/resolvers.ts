@@ -2,13 +2,13 @@ import {
   ApolloError,
   ApolloServer,
   AuthenticationError,
-} from "apollo-server-express";
-import { commentsNs, datingTextNs, UserNs } from "../../@types";
-import datingTextModel from "../../models/datingTextsModel";
-import { ObjectID } from "mongodb";
-import userModel from "../../models/usersModel";
-import commentsModel from "../../models/commentsModel";
-import { getUser } from "../../context";
+} from 'apollo-server-express';
+import { commentsNs, datingTextNs, UserNs } from '../../@types';
+import datingTextModel from '../../models/datingTextsModel';
+import { ObjectID } from 'mongodb';
+import userModel from '../../models/usersModel';
+import commentsModel from '../../models/commentsModel';
+import { getUser } from '../../context';
 export const resolvers = {
   //* ---------------------------- // SECTION Query ---------------------------- */
 
@@ -18,22 +18,23 @@ export const resolvers = {
         const comments = await datingTextModel.find({});
         return comments;
       } catch (err) {
-        console.error("¡error! : ", err);
-        throw new ApolloError("Error retrieving all comments", "500");
+        console.error('¡error! : ', err);
+        throw new ApolloError('Error retrieving all comments', '500');
       }
     },
     aComment: async (parent, args: ObjectID) => {
       try {
         const comment = await commentsModel
           .findById(args)
-          .populate({ path: "owner" });
+          .populate({ path: 'owner' })
+          .populate({ path: 'onText' });
         if (comment === null) {
-          return new ApolloError("Comment not found", "204");
+          return new ApolloError('Comment not found', '204');
         }
         return comment;
       } catch (err) {
         console.log(`err`, err);
-        return new ApolloError("Error finding Comment", "500");
+        return new ApolloError('Error finding Comment', '500');
       }
     },
   },
@@ -70,7 +71,7 @@ export const resolvers = {
         const userAuth = await getUser(auth);
         console.log(`userAuth in addComment`, userAuth);
         if (userAuth === null) {
-          return new AuthenticationError("UNAUTHORIZED");
+          return new AuthenticationError('UNAUTHORIZED');
         }
         try {
           const owner = userAuth.id;
@@ -83,11 +84,12 @@ export const resolvers = {
             display: true,
           });
           if (newComment === null) {
-            return new ApolloError("failed to post comment", "502");
+            return new ApolloError('failed to post comment', '502');
           }
           const savedComment = await newComment.save();
+
           if (savedComment === null) {
-            return new ApolloError("failed to save text", "503");
+            return new ApolloError('failed to save text', '503');
           }
           const datingText = await datingTextModel.findOneAndUpdate(
             { _id: onText },
@@ -95,11 +97,11 @@ export const resolvers = {
             { useFindAndModify: false, new: true }
           );
 
-          console.log(`datingText`, datingText);
+          // console.log(`datingText`, datingText);
           if (datingText === null) {
             return new ApolloError(
-              "failed to save comment to dating text",
-              "504"
+              'failed to save comment to dating text',
+              '504'
             );
           }
           const user = await userModel.findOneAndUpdate(
@@ -108,15 +110,20 @@ export const resolvers = {
             { useFindAndModify: false }
           );
           if (user === null) {
-            return new ApolloError("failed to save comment to user", "504");
+            return new ApolloError('failed to save comment to user', '504');
           }
-          return savedComment;
+          const fullComment = await commentsModel
+            .findById(savedComment._id)
+            .populate({ path: 'onText', populate: { path: 'owner' } })
+            .populate({ path: 'owner' });
+          console.log(`savedComment`, savedComment, fullComment);
+          return fullComment;
         } catch (err) {
           console.log(`err`, err);
-          throw new ApolloError("Could not create new Comment", "500");
+          throw new ApolloError('Could not create new Comment', '500');
         }
       } catch (err) {
-        return new AuthenticationError("UNAUTHORIZED");
+        return new AuthenticationError('UNAUTHORIZED');
       }
     },
     //* ---------------------------- !SECTION ADD COMMENT --------------------------- */

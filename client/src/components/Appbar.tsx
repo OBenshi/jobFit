@@ -1,15 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { AuthContext } from "../context/AuthContext";
-import { LOGOUT_USER as logoutUser } from "../GraphQL/Mutations";
-import { SEARCH_TEXT as searchText } from "../GraphQL/Queries";
-
+import React, { useState, useContext, useEffect } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
+import { AuthContext } from '../context/AuthContext';
+import { LOGOUT_USER as logoutUser } from '../GraphQL/Mutations';
+import { SEARCH_TEXT as searchText } from '../GraphQL/Queries';
 import {
   Link as RouterLink,
   NavLink,
   useHistory,
   useRouteMatch,
-} from "react-router-dom";
+} from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -17,98 +16,14 @@ import {
   Typography,
   InputBase,
   Drawer,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  ListItemIcon,
   Link,
-} from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import {
-  createStyles,
-  alpha,
-  Theme,
-  makeStyles,
-} from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import clsx from "clsx";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import HomeIcon from "@material-ui/icons/Home";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import FaceIcon from "@material-ui/icons/Face";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import CreateIcon from "@material-ui/icons/Create";
-import InputIcon from "@material-ui/icons/Input";
-import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
-import imag from "../img/newHead2.png";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      display: "none",
-      fontWeight: 500,
-      [theme.breakpoints.up("xs")]: {
-        display: "block",
-      },
-    },
-    search: {
-      flexGrow: 1,
-
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: alpha(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-      },
-      marginLeft: 0,
-      width: "30%",
-      [theme.breakpoints.up("xs")]: {
-        marginLeft: theme.spacing(2),
-        width: "30%",
-      },
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    inputRoot: {
-      color: "inherit",
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: "12ch",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
-    },
-    list: {
-      width: 250,
-    },
-    fullList: {
-      width: "auto",
-    },
-  })
-);
+  Box,
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import imag from '../img/newHead2.png';
+import { useStyles } from '../style/useStyles';
+import DrawList from './DrawList';
 
 export default function SearchAppBar() {
   const classes = useStyles();
@@ -133,7 +48,7 @@ export default function SearchAppBar() {
     event.preventDefault();
     try {
       await logOutMutation();
-      window.localStorage.removeItem("token");
+      window.localStorage.removeItem('token');
       await setUser(null);
       await setIsAuthenticated(false);
     } catch (err) {
@@ -143,164 +58,69 @@ export default function SearchAppBar() {
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
       ) {
         return;
       }
 
       setDrawerState(open);
     };
-  const list = () => (
-    <div
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <List>
-        {user ? (
-          <Typography variant="h6"> 🌸 Hello, {user?.firstName} </Typography>
-        ) : (
-          <Typography>Please login🔐</Typography>
-        )}
-        <Divider />
-        <Link component={RouterLink} to="/" color="textPrimary">
-          <ListItem button key={"home"}>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Home"} />
-          </ListItem>{" "}
-        </Link>{" "}
-        {!isAuthenticated && (
-          <Link component={RouterLink} to="/login" color="textPrimary">
-            <ListItem button key={"login"}>
-              <ListItemIcon>
-                <VpnKeyIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Login"} />
-            </ListItem>
-          </Link>
-        )}
-        <Link component={RouterLink} to="/testing" color="textPrimary">
-          <ListItem button key={"testing"}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"testing"} />
-          </ListItem>{" "}
-        </Link>{" "}
-        {isAuthenticated && (
-          <Link component={RouterLink} to="/displaytext" color="textPrimary">
-            <ListItem button key={"dating texts"}>
-              <ListItemIcon>
-                <ListAltIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Dating texts"} />
-            </ListItem>
-          </Link>
-        )}{" "}
-        {isAuthenticated && (
-          <Link component={RouterLink} to="/adddatingtext" color="textPrimary">
-            <ListItem button key={"add dating text"}>
-              <ListItemIcon>
-                <CreateIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Add Dating text"} />
-            </ListItem>
-          </Link>
-        )}{" "}
-        {isAuthenticated && (
-          <Link component={RouterLink} to="/dashboard" color="textPrimary">
-            <ListItem button key={`${user?.username} Zone`}>
-              <ListItemIcon>
-                <FaceIcon />
-              </ListItemIcon>
-              <ListItemText primary={`${user?.username} Zone`} />
-            </ListItem>
-          </Link>
-        )}
-        {!isAuthenticated && (
-          <Link component={RouterLink} to="/signup" color="textPrimary">
-            <ListItem button key={"signup"}>
-              <ListItemIcon>
-                <InputIcon />
-              </ListItemIcon>
-              <ListItemText primary={"SignUp"} />
-            </ListItem>
-          </Link>
-        )}
-      </List>
-      <Divider />
-      {isAuthenticated && (
-        <List>
-          <ListItem button key={"logout"} onClick={handleLogout}>
-            <ListItemIcon>
-              <MeetingRoomIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Logout"} />
-          </ListItem>
-        </List>
-      )}
-    </div>
-  );
   useEffect(() => {
     console.log(`object`, searchData);
   }, [searchData, isAuthenticated]);
   return (
-    <div className={classes.root}>
-      <AppBar position="static" style={{ backgroundImage: `url(${imag})` }}>
+    <div className={classes.appbarRoot}>
+      <AppBar
+        position='fixed'
+        style={{ backgroundImage: `url(${imag})`, marginBottom: '5rem' }}>
         <Toolbar>
           <IconButton
-            edge="start"
+            edge='start'
             className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-            onClick={toggleDrawer(true)}
-          >
+            color='inherit'
+            aria-label='open drawer'
+            onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
           <Drawer
-            anchor="left"
+            anchor='left'
             open={drawerState}
-            onClose={toggleDrawer(false)}
-          >
-            {list()}
+            onClose={toggleDrawer(false)}>
+            <DrawList handleLogout={handleLogout} toggleDrawer={toggleDrawer} />
           </Drawer>
           <Typography
             className={classes.title}
-            variant="h5"
+            variant='h5'
             onClick={() => {
-              history.push("/");
+              history.push('/');
             }}
-            noWrap
-          >
-            <Box fontFamily="Century Gothic" fontWeight="fontWeightBold">
+            noWrap>
+            <Box fontFamily='Century Gothic' fontWeight='fontWeightBold'>
               💘 SWAT
             </Box>
           </Typography>
-          {history.location.pathname === "/displaytext" && (
+          {history.location.pathname === '/displaytext' && (
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <IconButton
-                  aria-label="search"
+                  aria-label='search'
                   onClick={() => {
                     console.log(9);
-                  }}
-                >
+                  }}>
                   <SearchIcon />
                 </IconButton>
               </div>
               <InputBase
-                placeholder="Search…"
+                placeholder='Search…'
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
-                inputProps={{ "aria-label": "search" }}
+                inputProps={{ 'aria-label': 'search' }}
                 onKeyUp={(event: any) => {
-                  if (event.key === "Enter") {
+                  if (event.key === 'Enter') {
                     setSearchTerm(event.target.value);
                   }
                 }}
@@ -309,6 +129,7 @@ export default function SearchAppBar() {
           )}
         </Toolbar>
       </AppBar>
+      <div className={classes.offset} />
     </div>
   );
 }

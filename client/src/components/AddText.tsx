@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { flexbox } from "@material-ui/system";
+import { useHistory } from "react-router-dom";
 
 import {
   Button,
@@ -27,6 +28,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const AddText: React.FC = (props) => {
   const { user } = useContext(AuthContext);
+  const history = useHistory();
   const [AddDatingTextMutation, { error: addTextErr }] =
     useMutation(ADD_DATING);
   const [datingText, setDatingText] = useState<IAddText>({
@@ -68,13 +70,13 @@ const AddText: React.FC = (props) => {
         },
       });
       console.log("text was uploaded");
+      history.push("/displaytext");
     } catch (err) {
       if (addTextErr) {
         console.log(addTextErr);
       }
       console.log(`err`, err);
     }
-    console.log(datingText.text);
     setSubmit(false);
   };
 
