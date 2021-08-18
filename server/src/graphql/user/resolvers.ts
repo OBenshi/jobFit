@@ -4,15 +4,15 @@ import {
   UserInputError,
   AuthenticationError,
   ApolloError,
-} from "apollo-server-express";
-require("dotenv").config();
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import { UserNs } from "../../@types";
-import { ObjectID } from "mongodb";
+} from 'apollo-server-express';
+require('dotenv').config();
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { UserNs } from '../../@types';
+import { ObjectID } from 'mongodb';
 // import { sendConfirmationEmail } from "../../mailer/mailer";
-import userModel from "../../models/usersModel";
-import { getUser } from "../../context";
+import userModel from '../../models/usersModel';
+import { getUser } from '../../context';
 
 //* --------------------------  !SECTION IMPORTS -------------------------- */
 
@@ -27,8 +27,8 @@ export const resolvers = {
         const users = await userModel.find({});
         return users;
       } catch (err) {
-        console.error("users error", err);
-        throw new ApolloError("Error retrieving all users", "400");
+        console.error('users error', err);
+        throw new ApolloError('Error retrieving all users', '400');
       }
     },
     //* ------------------------- END !SECTION ALL USERS ------------------------- */
@@ -38,24 +38,24 @@ export const resolvers = {
     user: async (a, b, { auth }) => {
       try {
         const userAuth = await getUser(auth);
-        console.log("auth is...", auth);
+        console.log('auth is...', auth);
         console.log(`userAuth in user`, userAuth);
 
         if (userAuth === null) {
-          return new AuthenticationError("UNAUTHORIZED");
+          return new AuthenticationError('UNAUTHORIZED');
         }
         try {
           const user = await userModel
             .findOne({ _id: userAuth.id })
-            .populate({ path: "datingTexts" })
-            .populate({ path: "comments", populate: { path: "onText" } });
+            .populate({ path: 'datingTexts', populate: { path: 'comments' } })
+            .populate({ path: 'comments', populate: { path: 'owner' } });
           return user;
         } catch (err) {
           console.log(`err`, err);
-          return new ApolloError("Error retrieving user info", "501");
+          return new ApolloError('Error retrieving user info', '501');
         }
       } catch (err) {
-        return new AuthenticationError("UNAUTHORIZED");
+        return new AuthenticationError('UNAUTHORIZED');
       }
     },
     //* --------------------------- END !SECTION A USER -------------------------- */
@@ -112,14 +112,14 @@ export const resolvers = {
           .findOne({
             email: email,
           })
-          .populate({ path: "datingTexts" })
-          .populate({ path: "comments", populate: { path: "owner" } });
+          .populate({ path: 'datingTexts' })
+          .populate({ path: 'comments', populate: { path: 'owner' } });
         console.log(`user`, user);
         if (user === null || !user) {
-          throw new ApolloError("User not found", "204");
+          throw new ApolloError('User not found', '204');
         } else {
           const match = await bcrypt.compare(password, user.password);
-          if (!match) throw new AuthenticationError("wrong password!");
+          if (!match) throw new AuthenticationError('wrong password!');
           user.loggedIn = true;
           user.save();
           const token = jwt.sign(
@@ -128,7 +128,7 @@ export const resolvers = {
             },
             process.env.WOJCIECH,
             {
-              expiresIn: "8d",
+              expiresIn: '8d',
             }
           );
           return {
@@ -138,7 +138,7 @@ export const resolvers = {
         }
       } catch (err) {
         console.log(err);
-        throw new ApolloError("error", "500");
+        throw new ApolloError('error', '500');
       }
     },
     //* ----------------------------- !SECTION LogIn ----------------------------- */
@@ -147,7 +147,7 @@ export const resolvers = {
     logOut: async (parent: any, args: any, { auth }) => {
       const userAuth = await getUser(auth);
       if (userAuth === null) {
-        return new AuthenticationError("UNAUTHORIZED");
+        return new AuthenticationError('UNAUTHORIZED');
       }
       try {
         const user = await userModel.findByIdAndUpdate(
@@ -156,13 +156,13 @@ export const resolvers = {
           { useFindAndModify: false }
         );
         if (user === null || !user) {
-          throw new ApolloError("User not found", "204");
+          throw new ApolloError('User not found', '204');
         } else {
-          return { status: 200, msg: "LogOut successful" };
+          return { status: 200, msg: 'LogOut successful' };
         }
       } catch (err) {
         console.log(err);
-        return new ApolloError("LogOut Failed", "501");
+        return new ApolloError('LogOut Failed', '501');
       }
     },
     //* ----------------------------- !SECTION LogOut ---------------------------- */
@@ -183,7 +183,7 @@ export const resolvers = {
       }
     ) => {
       if (password.length < 8)
-        throw new UserInputError("Password must be at least 8 characters long");
+        throw new UserInputError('Password must be at least 8 characters long');
       try {
         const existingUser = JSON.parse(
           JSON.stringify(
@@ -194,9 +194,9 @@ export const resolvers = {
         );
         if (existingUser !== null) {
           if (existingUser.username === username)
-            return new ApolloError("Username already exists", "409");
+            return new ApolloError('Username already exists', '409');
           else if (existingUser.email === email) {
-            return new ApolloError("Email already exists", "409");
+            return new ApolloError('Email already exists', '409');
           }
         } else {
           password = await bcrypt.hash(password, 10);
@@ -223,7 +223,7 @@ export const resolvers = {
             },
             process.env.WOJCIECH,
             {
-              expiresIn: "8h",
+              expiresIn: '8h',
             }
           );
           return {
@@ -233,7 +233,7 @@ export const resolvers = {
         }
       } catch (err) {
         console.log(`err`, err);
-        throw new ApolloError("Could not create user", "400");
+        throw new ApolloError('Could not create user', '400');
       }
     },
     //* ---------------------------- !SECTION ADD USER --------------------------- */
@@ -247,10 +247,10 @@ export const resolvers = {
     ) => {
       const userAuth = await getUser(auth);
       if (userAuth === null) {
-        return new AuthenticationError("UNAUTHORIZED");
+        return new AuthenticationError('UNAUTHORIZED');
       }
       try {
-        const token = auth.split("Bearer ")[1];
+        const token = auth.split('Bearer ')[1];
         console.log(`auth2`, token);
         const { user } = args;
         if (user.username) {
@@ -259,7 +259,7 @@ export const resolvers = {
           });
           if (existingUser !== null) {
             console.log(`existingUser`, existingUser);
-            const bob = new ApolloError("Username already taken", "950");
+            const bob = new ApolloError('Username already taken', '950');
             const bib = bob.code;
             // console.log(bob.);
             return bob;
@@ -276,10 +276,10 @@ export const resolvers = {
             },
             { useFindAndModify: false, new: true }
           )
-          .populate({ path: "datingTexts" })
-          .populate({ path: "comments" });
+          .populate({ path: 'datingTexts' })
+          .populate({ path: 'comments' });
         if (updatedUser === null || !updatedUser) {
-          throw new ApolloError("User not found", "204");
+          throw new ApolloError('User not found', '204');
         } else {
           // return updatedUser;
           return {
@@ -288,7 +288,7 @@ export const resolvers = {
           };
         }
       } catch (err) {
-        return new ApolloError("Failed to update user", "69");
+        return new ApolloError('Failed to update user', '69');
       }
     },
 

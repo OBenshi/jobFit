@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const DATING_TEXT = gql`
   query Query {
@@ -15,16 +15,16 @@ export const DATING_TEXT = gql`
       comments {
         text
         postDate
-        owner{
-          username
-        }
-      onText {
         owner {
           username
         }
-        text
+        onText {
+          owner {
+            username
+          }
+          text
+        }
       }
-    }
     }
   }
 `;
@@ -56,6 +56,8 @@ export const USER = gql`
         }
         postDate
         comments {
+          text
+          postDate
           owner {
             username
           }

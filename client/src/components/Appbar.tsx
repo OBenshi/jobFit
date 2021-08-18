@@ -101,7 +101,9 @@ export default function SearchAppBar() {
               💘 SWAT
             </Box>
           </Typography>
-          {history.location.pathname === '/displaytext' && (
+
+          {(history.location.pathname === '/displaytext' ||
+            history.location.pathname.match(/search/)) && (
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <IconButton
@@ -122,6 +124,7 @@ export default function SearchAppBar() {
                 onKeyUp={(event: any) => {
                   if (event.key === 'Enter') {
                     setSearchTerm(event.target.value);
+                    history.push(`/search/${event.target.value}`);
                   }
                 }}
               />

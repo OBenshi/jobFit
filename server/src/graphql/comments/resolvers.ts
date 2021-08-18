@@ -112,12 +112,7 @@ export const resolvers = {
           if (user === null) {
             return new ApolloError('failed to save comment to user', '504');
           }
-          const fullComment = await commentsModel
-            .findById(savedComment._id)
-            .populate({ path: 'onText', populate: { path: 'owner' } })
-            .populate({ path: 'owner' });
-          console.log(`savedComment`, savedComment, fullComment);
-          return fullComment;
+          return savedComment;
         } catch (err) {
           console.log(`err`, err);
           throw new ApolloError('Could not create new Comment', '500');
