@@ -79,7 +79,8 @@ const DisplayTextComp: React.FC<Props> = (props) => {
     if (error) {
       console.log(error);
     } else {
-      console.log("success");
+      console.log("success")
+      setComment ({text:"", onText: null})
     }
   };
 
