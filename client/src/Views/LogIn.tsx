@@ -57,7 +57,6 @@ const LogIn: React.FC = () => {
   const history = useHistory();
   const [logIn, { error }] = useMutation(LOGIN_USER);
   const classes = useStyles();
-  //const [user, setUser] = useState("");
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
@@ -133,10 +132,8 @@ const LogIn: React.FC = () => {
                   label="Email"
                   placeholder="Email"
                   margin="normal"
-                  //value={input.email}
                   name="email"
-                 // onChange={handleChange}
-                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (!emailRegEx.test(eve.target.value)) {
                     setEmailError("Please enter a valid email address.");
                   } else {
@@ -154,18 +151,17 @@ const LogIn: React.FC = () => {
                   label="Password"
                   placeholder="Password"
                   margin="normal"
-                  //value={input.password}
                   name="password"
-                  onChange={handleChange}
-                  /*  onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                   onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (eve.target.value.length < 8) {
                     setPasswordError(
-                      "Password must be at least 8 characters long."
+                      "Enter correct password"
                     );
                   } else {
                     setPasswordError(null);
+                    handleChange(eve);
                   }
-                }} */
+                }} 
                 />
               </div>
             </CardContent>

@@ -54,8 +54,6 @@ const AddText: React.FC = (props) => {
     setDatingText({ ...datingText, [e.target.name]: e.target.value });
 
   const handleSubmit = async () => {
-    // console.log(123, toneData);
-    // console.log(datingText);
     try {
       await AddDatingTextMutation({
         variables: {

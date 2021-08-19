@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../GraphQL/Mutations";
@@ -171,4 +171,4 @@ const DisplayTextComp: React.FC<Props> = (props) => {
 };
 export default DisplayTextComp;
 
-///TODO here once we got mutation to add a comment, need to check again the fetch and uncomment the events
+
