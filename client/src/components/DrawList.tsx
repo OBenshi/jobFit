@@ -34,11 +34,9 @@ const DrawList: React.FC<Props> = (props) => {
       onClick={props.toggleDrawer(false)}
       onKeyDown={props.toggleDrawer(false)}>
       <List>
-        {user ? (
-          <Typography variant='h6'> 🌸 Hello, {user?.firstName} </Typography>
-        ) : (
-          <Typography>Please login🔐</Typography>
-        )}
+        <Typography align='center' variant='h6'>
+          SWAT{' '}
+        </Typography>
         <Divider />
         <Link component={RouterLink} to='/' color='textPrimary'>
           <ListItem button key={'home'}>

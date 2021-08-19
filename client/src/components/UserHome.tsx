@@ -29,13 +29,13 @@ const UserHome: React.FC = () => {
           alt='chicken'></img>
       </Grid>
       <Grid item xs={12}>
-        <Grid container direction='column'>
+        <Grid container direction='column' className={classes.textCont}>
           <Typography variant='h4'>Welcome to</Typography>
           <Typography
             component='h1'
             variant='h1'
             align='center'
-            color='textPrimary'>
+            color='secondary'>
             SWAT
           </Typography>
           <div className={classes.heroButtons}>
@@ -47,7 +47,7 @@ const UserHome: React.FC = () => {
               analyser
             </Typography>
           </div>
-          <Typography variant='h4'>{user?.username}</Typography>
+          <Typography variant='h4'>{user?.username.toUpperCase()}</Typography>
         </Grid>
       </Grid>
       <Grid item xs={12}></Grid>

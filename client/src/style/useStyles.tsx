@@ -48,6 +48,15 @@ export const useStyles = makeStyles((theme: Theme) =>
         display: 'block',
       },
     },
+    Navtitle: {
+      display: 'none',
+      fontWeight: 500,
+      [theme.breakpoints.up('xs')]: {
+        display: 'block',
+      },
+      background: 'rgba(255,255,255,0.7)',
+      borderRadius: '99999999999999999999999999999px',
+    },
     search: {
       flexGrow: 1,
 
