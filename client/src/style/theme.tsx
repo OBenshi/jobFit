@@ -11,9 +11,9 @@ import bg from '../img/backImg.png';
 export const theme = createTheme({
   palette: {
     primary: {
-      light: '#FF9D00',
-      main: '#FF7600',
-      dark: '#FF3C00',
+      light: '#DBBC57',
+      main: '#d4af37',
+      dark: '#B99727',
     },
     secondary: {
       light: '#DBBC57',

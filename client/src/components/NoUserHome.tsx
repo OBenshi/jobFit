@@ -117,10 +117,16 @@ const NoUserHome: React.FC = () => {
         <Arrow3 to={'desc2'} />
       </Grid>
       <Grid item xs={12} className={classes.cardImg} id='desc2'>
-        <Typography variant='h5' className={classes.textCont}>
-          with SWAT you can receive an AI powered analysis of your dating
-          profile text , as well as <br /> anonymous feedback from other users.
-        </Typography>
+        <Grid item xs={9}>
+          <Typography variant='h5' className={classes.textCont}>
+            with
+            <Typography variant='h5' component='span' color='secondary'>
+              &nbsp;SWAT&nbsp;
+            </Typography>{' '}
+            you can receive an AI powered analysis of your dating profile text ,
+            as well as <br /> anonymous feedback from other users.
+          </Typography>
+        </Grid>
       </Grid>
     </Grid>
   );

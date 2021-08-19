@@ -1,23 +1,23 @@
-import React, { useState, ChangeEvent, FormEvent, useRef } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import CardHeader from "@material-ui/core/CardHeader";
-import Button from "@material-ui/core/Button";
-import background from "../img/background.jpg";
-import { useMutation } from "@apollo/client";
-import { SIGN_UP_USER } from "../GraphQL/Mutations";
-import Alert from "@material-ui/lab/Alert";
-import { DatePicker } from "@material-ui/pickers";
-import {useHistory} from "react-router-dom";
+import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
+import background from '../img/background.jpg';
+import { useMutation } from '@apollo/client';
+import { SIGN_UP_USER } from '../GraphQL/Mutations';
+import Alert from '@material-ui/lab/Alert';
+import { DatePicker } from '@material-ui/pickers';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      display: "flex",
-      flexWrap: "wrap",
+      display: 'flex',
+      flexWrap: 'wrap',
       width: 360,
       margin: `${theme.spacing(0)} auto`,
     },
@@ -26,14 +26,14 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     header: {
-      textAlign: "center",
-      background: "#FF7600",
+      textAlign: 'center',
+      background: theme.palette.secondary.dark,
     },
     card: {
       marginTop: theme.spacing(10),
     },
     button: {
-      justifyContent: "center",
+      justifyContent: 'center',
     },
   })
 );
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const SignUp: React.FC = () => {
   const history = useHistory();
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    new Date('2014-08-18T21:11:54')
   );
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -60,12 +60,12 @@ const SignUp: React.FC = () => {
   const [usernameErr, setUsernameErr] = useState<string | null>(null);
   const [addUser, { error }] = useMutation(SIGN_UP_USER);
   const [sign, setSign] = useState<SignUp>({
-    firstName: "",
-    lastName: "",
+    firstName: '',
+    lastName: '',
     birthday: new Date().toISOString(),
-    email: "",
-    password: "",
-    username: "",
+    email: '',
+    password: '',
+    username: '',
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
@@ -81,7 +81,7 @@ const SignUp: React.FC = () => {
       !sign.username ||
       !sign.password
     ) {
-      alert("Enter your details!");
+      alert('Enter your details!');
     } else {
       addUser({
         variables: {
@@ -95,23 +95,23 @@ const SignUp: React.FC = () => {
           },
         },
       }).then(({ data }) => {
-        localStorage.setItem("token", data.addUser.token);
+        localStorage.setItem('token', data.addUser.token);
       });
       if (error) {
         console.log(error);
       } else {
-        console.log("user signed up");
-        history.push("/dashboard");
+        console.log('user signed up');
+        history.push('/dashboard');
       }
     }
   };
   const backgroundStyles = {
     backgroundImage: `url(${background})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    width: "100vw",
-    height: "100vh",
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100vw',
+    height: '100vh',
   };
   return (
     <>
@@ -119,35 +119,34 @@ const SignUp: React.FC = () => {
         <form
           className={classes.container}
           noValidate
-          autoComplete="off"
-          onSubmit={handleCLick}
-        >
+          autoComplete='off'
+          onSubmit={handleCLick}>
           <Card className={classes.card}>
-            <CardHeader
-              className={classes.header}
-              title="Sign Up"
-            />
+            <CardHeader className={classes.header} title='Sign Up' />
             <CardContent>
               <DatePicker
-                label="Date of birth"
+                format='dd/MM/yyyy'
+                label='Date of birth'
                 value={selectedDate}
                 onChange={handleDateChange}
-                animateYearScrolling
+                openTo='year'
+                views={['year', 'month', 'date']}
                 fullWidth
+                color='secondary'
               />
-              {firstNameErr && <Alert severity="error">{firstNameErr}</Alert>}
+              {firstNameErr && <Alert severity='error'>{firstNameErr}</Alert>}
               <TextField
                 fullWidth
-                id="firstName"
-                type="firstName"
-                label="First Name"
-                placeholder="First Name"
-                margin="normal"
-                name="firstName"
+                id='firstName'
+                type='firstName'
+                label='First Name'
+                placeholder='First Name'
+                margin='normal'
+                name='firstName'
                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (eve.target.value.length < 2) {
                     setFirstNameErr(
-                      "first name must be at least 2 characters long"
+                      'first name must be at least 2 characters long'
                     );
                   } else {
                     setFirstNameErr(null);
@@ -155,19 +154,19 @@ const SignUp: React.FC = () => {
                   }
                 }}
               />
-              {lastNameErr && <Alert severity="error">{lastNameErr}</Alert>}
+              {lastNameErr && <Alert severity='error'>{lastNameErr}</Alert>}
               <TextField
                 fullWidth
-                id="lastName"
-                type="lastName"
-                label="Last Name"
-                placeholder="Last Name"
-                margin="normal"
-                name="lastName"
+                id='lastName'
+                type='lastName'
+                label='Last Name'
+                placeholder='Last Name'
+                margin='normal'
+                name='lastName'
                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (eve.target.value.length < 2) {
                     setLastNameErr(
-                      "Last name must be at least 2 characters long"
+                      'Last name must be at least 2 characters long'
                     );
                   } else {
                     setLastNameErr(null);
@@ -175,19 +174,19 @@ const SignUp: React.FC = () => {
                   }
                 }}
               />
-              {usernameErr && <Alert severity="error">{usernameErr}</Alert>}
+              {usernameErr && <Alert severity='error'>{usernameErr}</Alert>}
               <TextField
                 fullWidth
-                id="username"
-                type="username"
-                label="Username"
-                placeholder="Username"
-                margin="normal"
-                name="username"
+                id='username'
+                type='username'
+                label='Username'
+                placeholder='Username'
+                margin='normal'
+                name='username'
                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (eve.target.value.length < 3) {
                     setUsernameErr(
-                      "Username must be at least 3 characters long"
+                      'Username must be at least 3 characters long'
                     );
                   } else {
                     setUsernameErr(null);
@@ -195,38 +194,38 @@ const SignUp: React.FC = () => {
                   }
                 }}
               />
-              {emailErr && <Alert severity="error">{emailErr}</Alert>}
+              {emailErr && <Alert severity='error'>{emailErr}</Alert>}
               <TextField
                 fullWidth
-                id="email"
-                type="email"
-                label="Email"
-                placeholder="Email"
-                margin="normal"
-                name="email"
+                id='email'
+                type='email'
+                label='Email'
+                placeholder='Email'
+                margin='normal'
+                name='email'
                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (!emailRegEx.test(eve.target.value)) {
-                    setEmailErr("Please enter a valid email address.");
+                    setEmailErr('Please enter a valid email address.');
                   } else {
                     setEmailErr(null);
                     handleChange(eve);
                   }
                 }}
               />
-              {passwordErr && <Alert severity="error">{passwordErr}</Alert>}
+              {passwordErr && <Alert severity='error'>{passwordErr}</Alert>}
               <TextField
                 fullWidth
-                id="password"
-                type="password"
-                label="Password"
-                placeholder="Password"
-                margin="normal"
-                name="password"
+                id='password'
+                type='password'
+                label='Password'
+                placeholder='Password'
+                margin='normal'
+                name='password'
                 inputRef={passwordRef}
                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (eve.target.value.length < 8) {
                     setPasswordErr(
-                      "Password must be at least 8 characters long."
+                      'Password must be at least 8 characters long.'
                     );
                   } else {
                     setPasswordErr(null);
@@ -234,22 +233,22 @@ const SignUp: React.FC = () => {
                 }}
               />
               {passwordConfirmErr && (
-                <Alert severity="error">{passwordConfirmErr}</Alert>
+                <Alert severity='error'>{passwordConfirmErr}</Alert>
               )}
               <TextField
                 fullWidth
-                id="passwordConfirm"
-                type="password"
-                label="Confirm Password"
-                placeholder="Password"
-                margin="normal"
-                name="password"
+                id='passwordConfirm'
+                type='password'
+                label='Confirm Password'
+                placeholder='Password'
+                margin='normal'
+                name='password'
                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (
                     !passwordRef ||
                     eve.target.value !== passwordRef?.current?.value.toString()
                   ) {
-                    setPasswordConfirmErr("Passwords do not match");
+                    setPasswordConfirmErr('Passwords do not match');
                   } else {
                     setPasswordConfirmErr(null);
                     handleChange(eve);
@@ -259,12 +258,11 @@ const SignUp: React.FC = () => {
             </CardContent>
             <CardActions className={classes.button}>
               <Button
-                variant="contained"
-                size="large"
-                type="submit"
-                color="primary"
-                fullWidth
-              >
+                variant='contained'
+                size='large'
+                type='submit'
+                color='secondary'
+                fullWidth>
                 Sign Up
               </Button>
             </CardActions>

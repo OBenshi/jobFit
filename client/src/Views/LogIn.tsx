@@ -6,42 +6,42 @@ import React, {
   FormEvent,
   useContext,
   useRef,
-} from "react";
-import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../GraphQL/Mutations";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import CardHeader from "@material-ui/core/CardHeader";
-import Button from "@material-ui/core/Button";
-import background from "../img/bground.jpeg";
-import { AuthContext } from "../context/AuthContext";
-import Alert from "@material-ui/lab/Alert";
-import {useHistory} from "react-router-dom";
+} from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../GraphQL/Mutations';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
+import background from '../img/bground.jpeg';
+import { AuthContext } from '../context/AuthContext';
+import Alert from '@material-ui/lab/Alert';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      display: "flex",
-      flexWrap: "wrap",
+      // display: 'flex',
+      // flexWrap: 'wrap',
       width: 360,
       margin: `${theme.spacing(0)} auto`,
     },
     loginBtn: {
       marginTop: theme.spacing(2),
-      flexGrow: 1,
+      // flexGrow: 1,
     },
     header: {
-      textAlign: "center",
-      background: "#FF7600",
+      textAlign: 'center',
+      background: theme.palette.secondary.dark,
     },
     card: {
       marginTop: theme.spacing(10),
     },
     button: {
-      justifyContent: "center",
+      justifyContent: 'center',
     },
   })
 );
@@ -62,8 +62,8 @@ const LogIn: React.FC = () => {
   const { user, setUser, isAuthenticated, setIsAuthenticated } =
     useContext(AuthContext);
   const [input, setInput] = useState<FormData>({
-    password: "",
-    email: "",
+    password: '',
+    email: '',
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
@@ -72,7 +72,7 @@ const LogIn: React.FC = () => {
   const handleCLick = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.email || !input.password) {
-      alert("Enter email and password!");
+      alert('Enter email and password!');
     } else {
       console.log(input.email);
       logIn({
@@ -82,12 +82,12 @@ const LogIn: React.FC = () => {
         },
       })
         .then(({ data }) => {
-          localStorage.setItem("token", data.logIn.token);
+          localStorage.setItem('token', data.logIn.token);
           console.log(data);
           setUser(data.logIn);
           setIsAuthenticated(true);
           console.log(data.logIn);
-          history.push("/");
+          history.push('/');
         })
         .catch((error) => {
           console.log(error);
@@ -95,91 +95,82 @@ const LogIn: React.FC = () => {
       if (error) {
         console.log(error);
       } else {
-        console.log("user logged in");
+        console.log('user logged in');
       }
     }
   };
 
   const backgroundStyles = {
     backgroundImage: `url(${background})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "repeat",
-    width: "100vw",
-    height: "100vh",
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'repeat',
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
   };
   return (
-    <>
-      <div style={backgroundStyles}>
-        <form
-          className={classes.container}
-          noValidate
-          autoComplete="off"
-          onSubmit={handleCLick}
-        >
-          <Card className={classes.card}>
-            <CardHeader
-              className={classes.header}
-              title="Log in"
-            />
-            <CardContent>
-              <div>
-                 {emailError && <Alert severity="error">{emailError}</Alert>}
-                <TextField
-                  fullWidth
-                  id="email"
-                  type="email"
-                  label="Email"
-                  placeholder="Email"
-                  margin="normal"
-                  name="email"
-                 onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+    <div style={backgroundStyles}>
+      <form
+        className={classes.container}
+        noValidate
+        autoComplete='off'
+        onSubmit={handleCLick}>
+        <Card className={classes.card}>
+          <CardHeader className={classes.header} title='Log in' />
+          <CardContent>
+            <div>
+              {emailError && <Alert severity='error'>{emailError}</Alert>}
+              <TextField
+                fullWidth
+                id='email'
+                type='email'
+                label='Email'
+                placeholder='Email'
+                margin='normal'
+                name='email'
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (!emailRegEx.test(eve.target.value)) {
-                    setEmailError("Please enter a valid email address.");
+                    setEmailError('Please enter a valid email address.');
                   } else {
                     setEmailError(null);
                     handleChange(eve);
                   }
-                }} 
-                 
-                />
-                {passwordError && <Alert severity="error">{setPasswordError}</Alert>}
-                <TextField
-                  fullWidth
-                  id="password"
-                  type="password"
-                  label="Password"
-                  placeholder="Password"
-                  margin="normal"
-                  name="password"
-                   onChange={(eve: ChangeEvent<HTMLInputElement>) => {
+                }}
+              />
+              {passwordError && <Alert severity='error'>{passwordError}</Alert>}
+              <TextField
+                fullWidth
+                id='password'
+                type='password'
+                label='Password'
+                placeholder='Password'
+                margin='normal'
+                name='password'
+                onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                   if (eve.target.value.length < 8) {
-                    setPasswordError(
-                      "Enter correct password"
-                    );
+                    setPasswordError('Enter correct password');
                   } else {
                     setPasswordError(null);
                     handleChange(eve);
                   }
-                }} 
-                />
-              </div>
-            </CardContent>
-            <CardActions className={classes.button}>
-              <Button
-                variant="contained"
-                size="large"
-                type="submit"
-                color="primary"
-                fullWidth
-              >
-                Login
-              </Button>
-            </CardActions>
-          </Card>
-        </form>
-      </div>
-    </>
+                }}
+              />
+            </div>
+          </CardContent>
+          <CardActions className={classes.button}>
+            <Button
+              variant='contained'
+              size='large'
+              type='submit'
+              color='secondary'
+              fullWidth>
+              Login
+            </Button>
+          </CardActions>
+        </Card>
+      </form>
+    </div>
   );
 };
 

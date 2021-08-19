@@ -18,6 +18,7 @@ import {
   Drawer,
   Link,
   Box,
+  Grid,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -81,58 +82,71 @@ export default function SearchAppBar() {
           // backgroundRepeat: 'no-repeat',
         }}>
         <Toolbar>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='open drawer'
-            onClick={toggleDrawer(true)}>
-            <MenuIcon />
-          </IconButton>
-          <Drawer
-            anchor='left'
-            open={drawerState}
-            onClose={toggleDrawer(false)}>
-            <DrawList handleLogout={handleLogout} toggleDrawer={toggleDrawer} />
-          </Drawer>
-          <Typography
-            className={classes.title}
-            variant='h5'
-            onClick={() => {
-              history.push('/');
-            }}
-            noWrap>
-            SWAT
-          </Typography>
-
-          {(history.location.pathname === '/displaytext' ||
-            history.location.pathname.match(/search/)) && (
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <IconButton
-                  aria-label='search'
-                  onClick={() => {
-                    console.log(9);
-                  }}>
-                  <SearchIcon />
-                </IconButton>
-              </div>
-              <InputBase
-                placeholder='Search…'
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-                onKeyUp={(event: any) => {
-                  if (event.key === 'Enter') {
-                    setSearchTerm(event.target.value);
-                    history.push(`/search/${event.target.value}`);
-                  }
-                }}
+          <Grid
+            container
+            justifyContent='space-between'
+            alignItems='center'
+            alignContent='center'>
+            <Grid item>
+              <IconButton
+                edge='start'
+                className={classes.menuButton}
+                color='inherit'
+                aria-label='open drawer'
+                onClick={toggleDrawer(true)}>
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+            <Drawer
+              anchor='left'
+              open={drawerState}
+              onClose={toggleDrawer(false)}>
+              <DrawList
+                handleLogout={handleLogout}
+                toggleDrawer={toggleDrawer}
               />
-            </div>
-          )}
+            </Drawer>
+            <Grid item>
+              <Typography
+                className={classes.Navtitle}
+                variant='h5'
+                onClick={() => {
+                  history.push('/');
+                }}
+                noWrap>
+                SWAT
+              </Typography>
+            </Grid>
+
+            {(history.location.pathname === '/displaytext' ||
+              history.location.pathname.match(/search/)) && (
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <IconButton
+                    aria-label='search'
+                    onClick={() => {
+                      console.log(9);
+                    }}>
+                    <SearchIcon />
+                  </IconButton>
+                </div>
+                <InputBase
+                  placeholder='Search…'
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                  onKeyUp={(event: any) => {
+                    if (event.key === 'Enter') {
+                      setSearchTerm(event.target.value);
+                      history.push(`/search/${event.target.value}`);
+                    }
+                  }}
+                />
+              </div>
+            )}
+          </Grid>
         </Toolbar>
       </AppBar>
       <div className={classes.offset} />
