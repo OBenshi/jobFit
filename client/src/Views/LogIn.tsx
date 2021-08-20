@@ -10,12 +10,15 @@ import React, {
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../GraphQL/Mutations';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
+
+import {
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  CardHeader,
+  TextField,
+} from '@material-ui/core';
 import background from '../img/bground.jpeg';
 import { AuthContext } from '../context/AuthContext';
 import Alert from '@material-ui/lab/Alert';

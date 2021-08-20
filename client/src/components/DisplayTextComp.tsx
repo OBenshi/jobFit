@@ -1,51 +1,48 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useQuery, gql } from "@apollo/client";
-import { useMutation } from "@apollo/client";
-import { ADD_COMMENT } from "../GraphQL/Mutations";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
-import StarRateIcon from "@material-ui/icons/StarRate";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import { ObjectId } from "mongodb";
-import { DATING_TEXT } from "../GraphQL/Queries";
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useQuery, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { ADD_COMMENT } from '../GraphQL/Mutations';
+import { makeStyles } from '@material-ui/core/styles';
+import { Button, Typography, TextField, Box } from '@material-ui/core';
+import StarRateIcon from '@material-ui/icons/StarRate';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { ObjectId } from 'mongodb';
+import { DATING_TEXT } from '../GraphQL/Queries';
 
 const useStyles = makeStyles((theme) => ({
   small: {
     maxWidth: 320,
     minHeight: 50,
-    backgroundColor: "#fffde7",
-    border: "1px",
-    borderRadius: "15%",
-    marginLeft: "30px",
+    backgroundColor: '#fffde7',
+    border: '1px',
+    borderRadius: '15%',
+    marginLeft: '30px',
   },
   grey: {
-    color: "red",
+    color: 'red',
   },
   marginIcon: {
-    marginLeft: "30px",
+    marginLeft: '30px',
   },
   big: {
     margin: theme.spacing(1),
     maxWidth: 340,
     minHeight: 120,
-    border: "2px",
-    borderRadius: "7%",
-    borderColor: "red",
-    backgroundColor: "#e0e0e0",
+    border: '2px',
+    borderRadius: '7%',
+    borderColor: 'red',
+    backgroundColor: '#e0e0e0',
   },
   dating: {
-    backgroundColor: "#fffde7",
+    backgroundColor: '#fffde7',
     padding: theme.spacing(2),
   },
   biggest: {
-    backgroundColor: "#e0e0e0",
+    backgroundColor: '#e0e0e0',
   },
   textField: {
-    width: "320px",
-    backgroundColor: "#e0e0e0",
+    width: '320px',
+    backgroundColor: '#e0e0e0',
   },
 }));
 
@@ -61,7 +58,7 @@ const DisplayTextComp: React.FC<Props> = (props) => {
     refetchQueries: [{ query: DATING_TEXT }],
   });
   const [comment, setComment] = useState<IAddComment>({
-    text: "",
+    text: '',
     onText: null,
   });
   const handleChange = (e: ChangeEvent<any>) =>
@@ -79,39 +76,37 @@ const DisplayTextComp: React.FC<Props> = (props) => {
     if (error) {
       console.log(error);
     } else {
-      console.log("success")
-      setComment ({text:"", onText: null})
+      console.log('success');
+      setComment({ text: '', onText: null });
     }
   };
 
   console.log(comment);
   console.log(props);
 
-
   return (
     <div>
       <Box className={classes.big}>
-        <Box display="flex" ml={1}>
-          <FavoriteIcon style={{ padding: "4px" }} />
-          <Box display="flex">
+        <Box display='flex' ml={1}>
+          <FavoriteIcon style={{ padding: '4px' }} />
+          <Box display='flex'>
             <Box ml={2}>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant='h5' gutterBottom>
                 {props.allText.owner?.username}
               </Typography>
             </Box>
           </Box>
           <Box ml={5}>
             <Typography
-              variant="caption"
-              display="block"
+              variant='caption'
+              display='block'
               gutterBottom
-              className={classes.grey}
-            >
-            {props.allText.postDate.substring(0, 10)} 
+              className={classes.grey}>
+              {props.allText.postDate.substring(0, 10)}
             </Typography>
           </Box>
         </Box>
-        <Typography variant="body1" gutterBottom className={classes.dating}>
+        <Typography variant='body1' gutterBottom className={classes.dating}>
           {props.allText.text}
         </Typography>
       </Box>
@@ -120,48 +115,46 @@ const DisplayTextComp: React.FC<Props> = (props) => {
         props.allText.comments.map((comment: any) => {
           return (
             <Box className={classes.small}>
-              <Box display="flex">
+              <Box display='flex'>
                 <StarRateIcon />
-                <Box display="flex">
+                <Box display='flex'>
                   <Box ml={4}>
-                    <Typography variant="h5" gutterBottom>
+                    <Typography variant='h5' gutterBottom>
                       {comment.owner.username}
                     </Typography>
                   </Box>
                 </Box>
                 <Box ml={5}>
                   <Typography
-                    variant="caption"
-                    display="block"
-                    className={classes.grey}
-                  >
-                {comment.postDate.substring(0, 10)} 
+                    variant='caption'
+                    display='block'
+                    className={classes.grey}>
+                    {comment.postDate.substring(0, 10)}
                   </Typography>
                 </Box>
               </Box>
-              <Typography variant="body2">{comment.text}</Typography>
+              <Typography variant='body2'>{comment.text}</Typography>
             </Box>
           );
         })}
       <Box>
-        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <form noValidate autoComplete='off' onSubmit={handleSubmit}>
           <TextField
             className={classes.textField}
-            label="comment"
-            id="standard-size-small"
-            size="small"
+            label='comment'
+            id='standard-size-small'
+            size='small'
             rows={1}
-            name="text"
+            name='text'
             value={comment.text}
-            variant="outlined"
+            variant='outlined'
             onChange={handleChange}
           />
           <Button
-            size="small"
-            variant="contained"
-            style={{ backgroundColor: "#FFD700", color: "#FFFFFF" }}
-            type="submit"
-          >
+            size='small'
+            variant='contained'
+            style={{ backgroundColor: '#FFD700', color: '#FFFFFF' }}
+            type='submit'>
             post
           </Button>
         </form>
@@ -170,5 +163,3 @@ const DisplayTextComp: React.FC<Props> = (props) => {
   );
 };
 export default DisplayTextComp;
-
-

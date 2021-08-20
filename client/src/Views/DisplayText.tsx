@@ -1,12 +1,11 @@
-import React from "react";
-import bg from "../img/head.jpeg";
-import backGround from "../img/head.jpeg";
-import DisplayTextComp from "../components/DisplayTextComp";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { useQuery, gql } from "@apollo/client";
-import { DATING_TEXT } from "../GraphQL/Queries";
+import React from 'react';
+import bg from '../img/head.jpeg';
+import backGround from '../img/head.jpeg';
+import DisplayTextComp from '../components/DisplayTextComp';
+import { Typography, Box } from '@material-ui/core';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { useQuery, gql } from '@apollo/client';
+import { DATING_TEXT } from '../GraphQL/Queries';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,11 +14,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      backgroundImage:  `url(${backGround})`,
-      backgroundPosition: "center",
-      width: "100vw",
-      height: "150px",
-      paddingTop: 70
+      backgroundImage: `url(${backGround})`,
+      backgroundPosition: 'center',
+      width: '100vw',
+      height: '150px',
+      paddingTop: 70,
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
@@ -34,22 +33,20 @@ const DisplayText: React.FC = () => {
 
   const backgroundStyles = {
     backgroundImage: `url(${bg})`,
-    width: "100%",
-    resizeMode: "repeat"
+    width: '100%',
+    resizeMode: 'repeat',
   };
   return (
     <>
       <div style={backgroundStyles}>
-        
         <Typography
           className={classes.title}
-          component="h5"
-          variant="h5"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          <Box fontWeight="fontWeightBold" fontFamily="Arial" bgcolor="white">
+          component='h5'
+          variant='h5'
+          align='center'
+          color='textPrimary'
+          gutterBottom>
+          <Box fontWeight='fontWeightBold' fontFamily='Arial' bgcolor='white'>
             Dating Texts 📪
           </Box>
         </Typography>
@@ -64,11 +61,10 @@ const DisplayText: React.FC = () => {
       </div>
       <footer className={classes.footer}>
         <Typography
-          variant="subtitle1"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
+          variant='subtitle1'
+          align='center'
+          color='textSecondary'
+          component='p'>
           ❤️‍🔥 SWAT 2021 All rights reserved ©
         </Typography>
       </footer>

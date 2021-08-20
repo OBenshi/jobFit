@@ -1,11 +1,14 @@
 import React, { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
+import {
+  TextField,
+  Card,
+  CardContent,
+  CardHeader,
+  CardActions,
+  Button,
+} from '@material-ui/core';
+
 import background from '../img/background.jpg';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP_USER } from '../GraphQL/Mutations';
