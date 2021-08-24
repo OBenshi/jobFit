@@ -1,4 +1,4 @@
-interface Props {
+interface DTProps {
   allText: DatingText;
 }
 interface IAddText {
@@ -10,7 +10,7 @@ interface IAddText {
 }
 interface DatingText {
   text: string;
-  postDate: string;
+  postDate: Date;
   score: number;
   private: boolean;
   display: boolean;

@@ -5,7 +5,7 @@ import {
   Theme,
   alpha,
 } from '@material-ui/core/styles';
-import { purple, amber, yellow } from '@material-ui/core/colors';
+import { purple, amber, yellow, red } from '@material-ui/core/colors';
 import Rating from '@material-ui/lab/Rating';
 import descImg from '../img/descImg.jpeg';
 import head2Img from '../img/head2.jpeg';
@@ -147,6 +147,27 @@ export const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       padding: theme.spacing(0, 5),
       // marginTop: '80px',
+    },
+
+    cardRoot: {
+      maxWidth: 345,
+    },
+    cardMedia: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
+    },
+    cardExpand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+      }),
+    },
+    cardExpandOpen: {
+      transform: 'rotate(180deg)',
+    },
+    cardAvatar: {
+      backgroundColor: red[500],
     },
   })
 );

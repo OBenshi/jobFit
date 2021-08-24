@@ -2,7 +2,7 @@ import React from 'react';
 import bg from '../img/head.jpeg';
 import backGround from '../img/head.jpeg';
 import DisplayTextComp from '../components/DisplayTextComp';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box, Grid } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { useQuery, gql } from '@apollo/client';
 import { DATING_TEXT } from '../GraphQL/Queries';
@@ -33,42 +33,27 @@ const DisplayText: React.FC = () => {
 
   const backgroundStyles = {
     backgroundImage: `url(${bg})`,
-    width: '100%',
-    resizeMode: 'repeat',
+    // width: '100wh',
+    // resizeMode: 'repeat',
   };
   return (
-    <>
-      <div style={backgroundStyles}>
-        <Typography
-          className={classes.title}
-          component='h5'
-          variant='h5'
-          align='center'
-          color='textPrimary'
-          gutterBottom>
-          <Box fontWeight='fontWeightBold' fontFamily='Arial' bgcolor='white'>
-            Dating Texts 📪
-          </Box>
-        </Typography>
-
-        {loading && <p>loading</p>}
-        {error !== undefined && <p>{error.message}</p>}
-        {data !== undefined &&
-          data.allTexts.map((allText: any, index: number) => {
-            console.log(`allText222`, allText);
-            return <DisplayTextComp key={index} allText={allText} />;
-          })}
-      </div>
-      <footer className={classes.footer}>
-        <Typography
-          variant='subtitle1'
-          align='center'
-          color='textSecondary'
-          component='p'>
-          ❤️‍🔥 SWAT 2021 All rights reserved ©
-        </Typography>
-      </footer>
-    </>
+    <Grid
+      container
+      direction='column'
+      alignContent='center'
+      style={backgroundStyles}
+      id='dfjkgnfdlkngfdlkndsfvlkdön8'>
+      {loading && <p>loading</p>}
+      {error !== undefined && <p>{error.message}</p>}
+      {data !== undefined &&
+        data.allTexts.map((allText: DatingText, index: number) => {
+          return (
+            <Grid item xs={11}>
+              <DisplayTextComp key={index} allText={allText} />
+            </Grid>
+          );
+        })}
+    </Grid>
   );
 };
 export default DisplayText;
