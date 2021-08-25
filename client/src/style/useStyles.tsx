@@ -150,7 +150,7 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
 
     cardRoot: {
-      maxWidth: 345,
+      // maxWidth: 345,
     },
     cardMedia: {
       height: 0,
