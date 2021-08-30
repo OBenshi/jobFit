@@ -42,7 +42,7 @@ const DisplayText: React.FC = () => {
       direction='column'
       alignContent='center'
       style={backgroundStyles}
-      id='dfjkgnfdlkngfdlkndsfvlkdön8'>
+      spacing={2}>
       {loading && <p>loading</p>}
       {error !== undefined && <p>{error.message}</p>}
       {data !== undefined &&

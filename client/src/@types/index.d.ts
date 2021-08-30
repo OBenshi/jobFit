@@ -25,7 +25,7 @@ interface Comment {
   onText: ObjectID;
   display: boolean;
   postDate: Date;
-  owner: AnotherOwner;
+  owner: userProfile;
 }
 interface AnotherOwner {
   username: string;

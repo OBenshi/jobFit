@@ -30,7 +30,9 @@ const UserHome: React.FC = () => {
       </Grid>
       <Grid item xs={12}>
         <Grid container direction='column' className={classes.textCont}>
-          <Typography variant='h4'>Welcome to</Typography>
+          <Typography variant='h4' align='center'>
+            Welcome to
+          </Typography>
           <Typography
             component='h1'
             variant='h1'
@@ -47,7 +49,9 @@ const UserHome: React.FC = () => {
               analyser
             </Typography>
           </div>
-          <Typography variant='h4'>{user?.username.toUpperCase()}</Typography>
+          <Typography variant='h4' align='center'>
+            {user?.username.toUpperCase()}
+          </Typography>
         </Grid>
       </Grid>
       <Grid item xs={12}></Grid>

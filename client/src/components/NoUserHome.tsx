@@ -69,20 +69,22 @@ const NoUserHome: React.FC = () => {
             </div>
           </Grid>
           <Grid item xs={12}>
-            <Button
-              variant='contained'
-              size='large'
-              color='secondary'
-              onClick={() => history.push('/signup')}>
-              JOIN SWAT
-            </Button>
+            <Grid container direction='column'>
+              <Button
+                variant='contained'
+                size='large'
+                color='secondary'
+                onClick={() => history.push('/signup')}>
+                JOIN SWAT
+              </Button>
+            </Grid>
+            <Typography className={classes.textCont} align='center'>
+              Already have an account?{' '}
+              <Link component={RouterLink} to='/login' color='secondary'>
+                Login!
+              </Link>
+            </Typography>
           </Grid>
-          <Typography className={classes.textCont}>
-            Already have an account?{' '}
-            <Link component={RouterLink} to='/login' color='secondary'>
-              Login!
-            </Link>
-          </Typography>
         </Grid>
       </Grid>
       <Grid item xs={12}>
