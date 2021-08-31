@@ -33,27 +33,31 @@ const DisplayText: React.FC = () => {
 
   const backgroundStyles = {
     backgroundImage: `url(${bg})`,
-    // width: '100wh',
+    // marginLeft: 0,
+    // marginRight: 0,
+    // width: '100%',
     // resizeMode: 'repeat',
   };
   return (
-    <Grid
-      container
-      direction='column'
-      alignContent='center'
-      style={backgroundStyles}
-      spacing={2}>
-      {loading && <p>loading</p>}
-      {error !== undefined && <p>{error.message}</p>}
-      {data !== undefined &&
-        data.allTexts.map((allText: DatingText, index: number) => {
-          return (
-            <Grid item xs={11}>
-              <DisplayTextComp key={index} allText={allText} />
-            </Grid>
-          );
-        })}
-    </Grid>
+    <div>
+      <Grid
+        container
+        direction='column'
+        alignContent='center'
+        style={backgroundStyles}
+        spacing={2}>
+        {loading && <p>loading</p>}
+        {error !== undefined && <p>{error.message}</p>}
+        {data !== undefined &&
+          data.allTexts.map((allText: DatingText, index: number) => {
+            return (
+              <Grid item xs={11}>
+                <DisplayTextComp key={index} allText={allText} />
+              </Grid>
+            );
+          })}
+      </Grid>
+    </div>
   );
 };
 export default DisplayText;

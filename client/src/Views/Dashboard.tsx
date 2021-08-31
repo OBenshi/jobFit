@@ -76,7 +76,9 @@ const Dashboard = () => {
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTabValue(newValue);
   };
-  useEffect(() => {}, [user]);
+  useEffect(() => {
+    console.log(`user`, user);
+  }, [user]);
   return (
     user && (
       <Grid
@@ -133,8 +135,8 @@ const Dashboard = () => {
                     justifyContent='center'
                     alignItems='center'
                     alignContent='center'>
-                    {user?.datingTexts.map((datingText) => {
-                      console.log(`datingText`, datingText._id);
+                    {user?.datingTexts.map((datingText: DatingText) => {
+                      console.log(`datingText`, datingText);
                       return (
                         <Grid item xs={12}>
                           <DisplayTextComp

@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery } from '@apollo/client';
 
 export const LOGIN_USER = gql`
   mutation Mutation($logInEmail: String, $logInPassword: String) {
@@ -7,10 +7,54 @@ export const LOGIN_USER = gql`
       username
       firstName
       lastName
+      birthday
       email
+      password
       rank
-      # avatar
       loggedIn
+      datingTexts {
+        _id
+        owner {
+          username
+        }
+        text
+        score
+        postDate
+        display
+        private
+        comments {
+          text
+          postDate
+          owner {
+            username
+          }
+          onText {
+            owner {
+              username
+            }
+            text
+          }
+        }
+      }
+      # datingTexts {
+      #   _id
+      #   text
+      #   score
+      #   owner {
+      #     _id
+      #     username
+      #   }
+      #   postDate
+      #   comments {
+      #     text
+      #     postDate
+      #     owner {
+      #       username
+      #     }
+      #     text
+      #     postDate
+      #   }
+      # }
       token
     }
   }
@@ -26,11 +70,11 @@ export const SIGN_UP_USER = gql`
   mutation Mutation($addUserUser: newUserInput!) {
     addUser(user: $addUserUser) {
       username
-    firstName
-    lastName
-    email
-    password
-    token
+      firstName
+      lastName
+      email
+      password
+      token
     }
   }
 `;
@@ -67,8 +111,8 @@ export const ADD_COMMENT = gql`
     addComment(comment: $addCommentComment) {
       text
       onText {
-      text
-    }
+        text
+      }
     }
   }
 `;

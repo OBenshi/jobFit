@@ -1,9 +1,9 @@
-import { gql } from "apollo-server-express";
-import { ObjectID } from "mongodb";
+import { gql } from 'apollo-server-express';
+import { ObjectID } from 'mongodb';
 // import { ObjectId } from "mongoose";
 
-import { GeneralNs, commentsNs } from "../../@types";
-import { DateTypeDefinition } from "graphql-scalars";
+import { GeneralNs, commentsNs } from '../../@types';
+import { DateTypeDefinition } from 'graphql-scalars';
 export default gql`
   type User {
     _id: ObjectID

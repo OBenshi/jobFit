@@ -17,11 +17,13 @@ import SrchRes from './Views/SrchRes';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { theme } from './style/theme';
 import AAbla from './AAbla';
-
+import { useStyles } from './style/useStyles';
+// theme.palette.background.paper = theme.palette.primary.dark;
 function App() {
+  const classes = useStyles();
   return (
     <AuthContextProvider>
-      <div className='App'>
+      <div className={classes.rootOfroots}>
         <CssBaseline />
         <ThemeProvider theme={theme}>
           <Router>

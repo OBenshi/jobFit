@@ -1,4 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import React, {
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+} from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { ADD_COMMENT } from '../GraphQL/Mutations';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,8 +33,9 @@ import ShareIcon from '@material-ui/icons/Share';
 import { ObjectId } from 'mongodb';
 import { DATING_TEXT } from '../GraphQL/Queries';
 import CommentBox from './CommentBox';
-import { useStyles } from '../style/useStyles';
+import { useStyles, randColor } from '../style/useStyles';
 import AddCommentTwoToneIcon from '@material-ui/icons/AddCommentTwoTone';
+import comment from 'material-ui/svg-icons/communication/comment';
 
 interface IAddComment {
   text: string;
@@ -39,7 +46,7 @@ const DisplayTextComp: React.FC<DTProps> = (props) => {
   const { allText: aText } = props;
   const classes = useStyles();
   const [expandedComment, setExpandedComment] = React.useState(false);
-
+  const commentRef = useRef<HTMLTextAreaElement | null>();
   const [expandedAddComment, setExpandedAddComment] = React.useState(false);
   const { error, loading, data: datingTextData } = useQuery(DATING_TEXT);
   const [addComment] = useMutation(ADD_COMMENT, {
@@ -68,7 +75,7 @@ const DisplayTextComp: React.FC<DTProps> = (props) => {
     addComment({
       variables: {
         addCommentComment: {
-          text: comment.text,
+          text: commentRef.current?.value,
           onText: aText._id,
         },
       },
@@ -78,27 +85,34 @@ const DisplayTextComp: React.FC<DTProps> = (props) => {
     } else {
       console.log('success');
       setComment({ text: '', onText: null });
+      setExpandedAddComment(!expandedAddComment);
+      setExpandedComment(true);
     }
   };
-
+  // let randomColor: string = 'black';
+  let randomColor = randColor();
   useEffect(() => {
     // console.log(comment);
     // console.log('props', props);
-  }, []);
+
+    // randomColor = 'white';
+    console.log(`randomColor`, randomColor);
+    console.log(`inputRef.current`, commentRef.current);
+  }, [comment]);
 
   return (
-    <Card className={classes.cardRoot}>
+    <Card>
       <CardHeader
         avatar={
-          <Avatar aria-label='recipe' className={classes.cardAvatar}>
+          <Avatar aria-label='avatar' style={{ backgroundColor: randomColor }}>
             {aText.owner?.username[0].toUpperCase()}
           </Avatar>
         }
-        action={
-          <IconButton aria-label='settings'>
-            <MoreVertIcon />
-          </IconButton>
-        }
+        // action={
+        // <IconButton aria-label='settings'>
+        /* <MoreVertIcon /> */
+        /* </IconButton> */
+        // }
         // title='Shrimp and Chorizo Paella'
         subheader={`${new Date(aText.postDate).toDateString()}`}
       />
@@ -108,9 +122,6 @@ const DisplayTextComp: React.FC<DTProps> = (props) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>
-          <FavoriteIcon />
-        </IconButton>
         <IconButton
           // aria-label='comment'
           // className={clsx(classes.cardExpand, {
@@ -121,33 +132,35 @@ const DisplayTextComp: React.FC<DTProps> = (props) => {
           aria-label='add comment'>
           <AddCommentTwoToneIcon />
         </IconButton>
-        <IconButton
-          className={clsx(classes.cardExpand, {
-            [classes.cardExpandOpen]: expandedComment,
-          })}
-          onClick={() => handleExpandClick(2)}
-          aria-expanded={expandedComment}
-          aria-label='show more'>
-          <ExpandMoreIcon />
-        </IconButton>
+        {aText.comments.length > 0 && (
+          <IconButton
+            className={clsx(classes.cardExpand, {
+              [classes.cardExpandOpen]: expandedComment,
+            })}
+            onClick={() => handleExpandClick(2)}
+            aria-expanded={expandedComment}
+            aria-label='show more'>
+            <ExpandMoreIcon />
+          </IconButton>
+        )}
       </CardActions>{' '}
       <Collapse in={expandedAddComment} timeout='auto' unmountOnExit>
         <CardContent>
-          <Grid container direction='column' justifyContent='center'>
+          <Grid
+            container
+            direction='column'
+            justifyContent='center'
+            spacing={1}>
             <Grid item xs={12}>
               <TextareaAutosize
                 placeholder='Comment'
                 // fullWidth
                 style={{ width: '100%' }}
-                // label='comment'
                 id={`${aText._id}-post-comment`}
-                // size='small'
-                rows={2}
+                rows={3}
                 name='text'
-                value={comment.text}
-                // variant='outlined'
-                onChange={handleChange}
-              />
+                ref={(tag) => (commentRef.current = tag)}
+              />{' '}
             </Grid>
             <Grid item xs={12}>
               <Button

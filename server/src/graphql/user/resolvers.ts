@@ -47,7 +47,16 @@ export const resolvers = {
         try {
           const user = await userModel
             .findOne({ _id: userAuth.id })
-            .populate({ path: 'datingTexts', populate: { path: 'comments' } })
+            .populate({
+              path: 'datingTexts',
+              populate: { path: 'comments', populate: { path: 'owner' } },
+              // populate: { path: 'owner' },
+            })
+            .populate({
+              path: 'datingTexts',
+              populate: { path: 'owner' },
+              // populate: { path: 'owner' },
+            })
             .populate({ path: 'comments', populate: { path: 'owner' } });
           return user;
         } catch (err) {
@@ -112,7 +121,7 @@ export const resolvers = {
           .findOne({
             email: email,
           })
-          .populate({ path: 'datingTexts' })
+          .populate({ path: 'datingTexts', populate: { path: 'owner' } })
           .populate({ path: 'comments', populate: { path: 'owner' } });
         console.log(`user`, user);
         if (user === null || !user) {
