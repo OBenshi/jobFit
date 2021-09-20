@@ -26,11 +26,10 @@ async function startApolloServer() {
     const app = express();
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-    app.use(cors(corsOptions));
+    app.use(cors());
     // app.use("/users", require("./routes/users"));
     server.applyMiddleware({
       app,
-      cors: corsOptions,
     });
 
     await mongoose.connect(mongoURI, {
@@ -40,10 +39,10 @@ async function startApolloServer() {
     });
     console.log('Connection to Mongo DB established');
     const port = process.env.PORT || 5000;
-    //ts-ignore
-    // await new Promise((resolve) => app.listen({ port: port }, resolve));
+    //@ts-ignore
+    await new Promise((resolve) => app.listen({ port: port }, resolve));
 
-    await new Promise((resolve) => app.listen(port));
+    // await new Promise((resolve) => app.listen(port));
     console.log(
       `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
     );
