@@ -22,9 +22,14 @@ async function startApolloServer() {
     const app = express();
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-    app.use(cors());
+    app.use(
+      cors({
+        origin: 'https://musing-edison-996039.netlify.app/',
+        credentials: true,
+      })
+    );
     // app.use("/users", require("./routes/users"));
-    server.applyMiddleware({ app, cors: false });
+    server.applyMiddleware({ app });
 
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,

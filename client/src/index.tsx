@@ -18,6 +18,7 @@ const httpLink = createHttpLink({
   // uri: 'http://localhost:4000/graphql',
 
   uri: serverURL,
+  credentials: 'include',
 });
 
 const authLink = setContext((_, { headers }) => {
