@@ -9,12 +9,15 @@ import {
   ApolloProvider,
   createHttpLink,
   useQuery,
-  gql
-} from "@apollo/client";
+  gql,
+} from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { serverURL } from './config';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  // uri: 'http://localhost:4000/graphql',
+
+  uri: serverURL,
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -24,24 +27,22 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    }
-  }
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
 });
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
-
-
 ReactDOM.render(
-   <ApolloProvider client={client}>
-  <React.StrictMode>
-    <App />
+  <ApolloProvider client={client}>
+    <React.StrictMode>
+      <App />
     </React.StrictMode>
-    </ApolloProvider>,
+  </ApolloProvider>,
   document.getElementById('root')
 );
 
