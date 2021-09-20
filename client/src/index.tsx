@@ -16,7 +16,7 @@ import { serverURL } from './config';
 
 const httpLink = createHttpLink({
   // uri: 'http://localhost:4000/graphql',
-  uri: `${serverURL}/graphql`,
+  uri: `${serverURL}`,
   credentials: 'include',
 });
 
