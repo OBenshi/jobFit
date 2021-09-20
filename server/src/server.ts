@@ -39,9 +39,11 @@ async function startApolloServer() {
       useUnifiedTopology: true,
     });
     console.log('Connection to Mongo DB established');
-    const port = process.env.PORT;
-    //@ts-ignore
-    await new Promise((resolve) => app.listen({ port: port }, resolve));
+    const port = process.env.PORT || 5000;
+    //ts-ignore
+    // await new Promise((resolve) => app.listen({ port: port }, resolve));
+
+    await new Promise((resolve) => app.listen(port));
     console.log(
       `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
     );
