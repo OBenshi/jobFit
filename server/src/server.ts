@@ -30,7 +30,6 @@ async function startApolloServer() {
     // app.use("/users", require("./routes/users"));
     server.applyMiddleware({
       app,
-      path: '/graphql',
       cors: corsOptions,
     });
 
