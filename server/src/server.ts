@@ -1,18 +1,18 @@
-require("dotenv").config();
-import { schema } from "./graphql/schema";
+require('dotenv').config();
+import { schema } from './graphql/schema';
 // import { context } from "./context";
-const mongoURI = require("./config.js").mongoURI;
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
-import { ApolloServer, gql } from "apollo-server-express";
+const mongoURI = require('./config.js').mongoURI;
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import { ApolloServer, gql } from 'apollo-server-express';
 // const userRoute = re './routes/users'
 async function startApolloServer() {
   try {
     const server = new ApolloServer({
       schema,
       context: ({ req }) => {
-        const auth = req.headers.authorization || "";
+        const auth = req.headers.authorization || '';
         return {
           auth,
         };
@@ -24,14 +24,14 @@ async function startApolloServer() {
     app.use(express.json());
     app.use(cors());
     // app.use("/users", require("./routes/users"));
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app, cors: false });
 
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
     });
-    console.log("Connection to Mongo DB established");
+    console.log('Connection to Mongo DB established');
     //@ts-ignore
     await new Promise((resolve) => app.listen({ port: 4000 }, resolve));
     console.log(
