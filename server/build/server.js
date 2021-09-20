@@ -13,8 +13,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const apollo_server_express_1 = require("apollo-server-express");
 // const userRoute = re './routes/users'
 const corsOptions = {
-    origin: '*',
-    credentials: true,
+    origin: '*', // <- allow request from all domains
+    // credentials: true,
 };
 async function startApolloServer() {
     try {
