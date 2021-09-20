@@ -16,7 +16,6 @@ import Dashboard from './Views/Dashboard';
 import SrchRes from './Views/SrchRes';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { theme } from './style/theme';
-import AAbla from './AAbla';
 import { useStyles } from './style/useStyles';
 // theme.palette.background.paper = theme.palette.primary.dark;
 function App() {
@@ -31,7 +30,6 @@ function App() {
               <Appbar />
               <Switch>
                 <Route exact path='/login' children={<LogIn />} />
-                <Route exact path='/testing' children={<AAbla />} />
                 <PrivateRoute
                   path='/search/:searchTerm'
                   component={SrchRes}
