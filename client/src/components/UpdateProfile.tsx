@@ -5,8 +5,8 @@ import React, {
   ChangeEvent,
   FormEvent,
   useRef,
-} from "react";
-import { AuthContext } from "../context/AuthContext";
+} from 'react';
+import { AuthContext } from '../context/AuthContext';
 import {
   TextField,
   Card,
@@ -16,11 +16,11 @@ import {
   Button,
   Grid,
   Typography,
-} from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
-import { useMutation } from "@apollo/client";
-import { useStyles } from "../style/useStyles";
-import { UPDATE_USER } from "../GraphQL/Mutations";
+} from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import { useMutation } from '@apollo/client';
+import { useStyles } from '../style/useStyles';
+import { UPDATE_USER } from '../GraphQL/Mutations';
 
 const UpdateProfile: React.FC = (props) => {
   const classes = useStyles();
@@ -70,10 +70,10 @@ const UpdateProfile: React.FC = (props) => {
         },
       });
       setUser(updatedUser.data.updateUserProfile);
-      setSuccessMsg("Profile updated successfully!");
-    } catch (err) {
+      setSuccessMsg('Profile updated successfully!');
+    } catch (err: any) {
       console.log(err);
-      if (err.message.indexOf("username")) {
+      if (err.message.indexOf('username')) {
         setUsernameErr(err.message);
       }
     }
@@ -98,27 +98,26 @@ const UpdateProfile: React.FC = (props) => {
         <form
           className={classes.container}
           noValidate
-          autoComplete="off"
-          onSubmit={handleUpdate}
-        >
+          autoComplete='off'
+          onSubmit={handleUpdate}>
           <Card className={classes.card}>
             <CardContent>
               <div>
-                {successMsg && <Alert severity="success">{successMsg}</Alert>}
-                {firstNameErr && <Alert severity="error">{firstNameErr}</Alert>}
+                {successMsg && <Alert severity='success'>{successMsg}</Alert>}
+                {firstNameErr && <Alert severity='error'>{firstNameErr}</Alert>}
                 <TextField
                   fullWidth
-                  id="firstName"
-                  type="firstName"
-                  label="First Name"
+                  id='firstName'
+                  type='firstName'
+                  label='First Name'
                   placeholder={`${user?.firstName}`}
                   defaultValue={`${user?.firstName}`}
-                  margin="normal"
-                  name="firstName"
+                  margin='normal'
+                  name='firstName'
                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
                     if (event.target.value.length < 2) {
                       setFirstNameErr(
-                        "first name must be at least 2 characters long"
+                        'first name must be at least 2 characters long'
                       );
                     } else {
                       setFirstNameErr(null);
@@ -126,20 +125,20 @@ const UpdateProfile: React.FC = (props) => {
                     }
                   }}
                 />
-                {lastNameErr && <Alert severity="error">{lastNameErr}</Alert>}
+                {lastNameErr && <Alert severity='error'>{lastNameErr}</Alert>}
                 <TextField
                   fullWidth
-                  id="lastName"
-                  type="lastName"
-                  label="Last Name"
+                  id='lastName'
+                  type='lastName'
+                  label='Last Name'
                   placeholder={`${user?.lastName}`}
                   defaultValue={`${user?.lastName}`}
-                  margin="normal"
-                  name="lastName"
+                  margin='normal'
+                  name='lastName'
                   onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                     if (eve.target.value.length < 2) {
                       setLastNameErr(
-                        "Last name must be at least 2 characters long"
+                        'Last name must be at least 2 characters long'
                       );
                     } else {
                       setLastNameErr(null);
@@ -147,20 +146,20 @@ const UpdateProfile: React.FC = (props) => {
                     }
                   }}
                 />
-                {usernameErr && <Alert severity="error">{usernameErr}</Alert>}
+                {usernameErr && <Alert severity='error'>{usernameErr}</Alert>}
                 <TextField
                   fullWidth
-                  id="username"
-                  type="username"
-                  label="Username"
+                  id='username'
+                  type='username'
+                  label='Username'
                   placeholder={`${user?.username}`}
                   defaultValue={`${user?.username}`}
-                  margin="normal"
-                  name="username"
+                  margin='normal'
+                  name='username'
                   onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                     if (eve.target.value.length < 3) {
                       setUsernameErr(
-                        "Username must be at least 3 characters long"
+                        'Username must be at least 3 characters long'
                       );
                     } else {
                       setUsernameErr(null);
@@ -168,38 +167,38 @@ const UpdateProfile: React.FC = (props) => {
                     }
                   }}
                 />
-                {emailErr && <Alert severity="error">{emailErr}</Alert>}
+                {emailErr && <Alert severity='error'>{emailErr}</Alert>}
                 <TextField
                   fullWidth
-                  id="email"
-                  type="email"
-                  label="Email"
+                  id='email'
+                  type='email'
+                  label='Email'
                   defaultValue={user?.email}
-                  margin="normal"
-                  name="email"
+                  margin='normal'
+                  name='email'
                   onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                     if (!emailRegEx.test(eve.target.value)) {
-                      setEmailErr("Please enter a valid email address.");
+                      setEmailErr('Please enter a valid email address.');
                     } else {
                       setEmailErr(null);
                       handleChange(eve);
                     }
                   }}
                 />
-                {passwordErr && <Alert severity="error">{passwordErr}</Alert>}
+                {passwordErr && <Alert severity='error'>{passwordErr}</Alert>}
                 <TextField
                   fullWidth
-                  id="password"
-                  type="password"
-                  label="Password"
-                  placeholder="Password"
-                  margin="normal"
-                  name="passwordConfirm"
+                  id='password'
+                  type='password'
+                  label='Password'
+                  placeholder='Password'
+                  margin='normal'
+                  name='passwordConfirm'
                   inputRef={passwordRef}
                   onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                     if (eve.target.value.length < 8) {
                       setPasswordErr(
-                        "Password must be at least 8 characters long."
+                        'Password must be at least 8 characters long.'
                       );
                     } else {
                       setPasswordErr(null);
@@ -207,16 +206,16 @@ const UpdateProfile: React.FC = (props) => {
                   }}
                 />
                 {passwordConfirmErr && (
-                  <Alert severity="error">{passwordConfirmErr}</Alert>
+                  <Alert severity='error'>{passwordConfirmErr}</Alert>
                 )}
                 <TextField
                   fullWidth
-                  id="passwordConfirm"
-                  type="password"
-                  label="Confirm Password"
-                  placeholder="Password"
-                  margin="normal"
-                  name="password"
+                  id='passwordConfirm'
+                  type='password'
+                  label='Confirm Password'
+                  placeholder='Password'
+                  margin='normal'
+                  name='password'
                   onChange={(eve: ChangeEvent<HTMLInputElement>) => {
                     console.log(`object`, passwordRef.current?.value);
                     if (
@@ -224,7 +223,7 @@ const UpdateProfile: React.FC = (props) => {
                       eve.target.value !==
                         passwordRef?.current?.value.toString()
                     ) {
-                      setPasswordConfirmErr("Passwords do not match");
+                      setPasswordConfirmErr('Passwords do not match');
                     } else {
                       setPasswordConfirmErr(null);
                     }
@@ -233,15 +232,14 @@ const UpdateProfile: React.FC = (props) => {
               </div>
             </CardContent>
             <CardActions>
-              <Grid container justifyContent="center">
+              <Grid container justifyContent='center'>
                 <Button
-                  variant="contained"
-                  size="large"
-                  type="submit"
-                  color="primary"
-                  disabled={loading}
-                >
-                  <Typography color="inherit">Update</Typography>
+                  variant='contained'
+                  size='large'
+                  type='submit'
+                  color='primary'
+                  disabled={loading}>
+                  <Typography color='inherit'>Update</Typography>
                 </Button>
               </Grid>
             </CardActions>
