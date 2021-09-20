@@ -7,6 +7,10 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { ApolloServer, gql } from 'apollo-server-express';
 // const userRoute = re './routes/users'
+const corsOptions = {
+  origin: '*', // <- allow request from all domains
+  credentials: true,
+};
 async function startApolloServer() {
   try {
     const server = new ApolloServer({
@@ -22,14 +26,11 @@ async function startApolloServer() {
     const app = express();
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-    app.use(cors());
+    app.use(cors(corsOptions));
     // app.use("/users", require("./routes/users"));
     server.applyMiddleware({
       app,
-      cors: {
-        origin: '*', // <- allow request from all domains
-        credentials: true,
-      },
+      cors: corsOptions,
     });
 
     await mongoose.connect(mongoURI, {
