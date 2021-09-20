@@ -9,7 +9,7 @@ import { ApolloServer, gql } from 'apollo-server-express';
 // const userRoute = re './routes/users'
 const corsOptions = {
   origin: '*', // <- allow request from all domains
-  // credentials: true,
+  credentials: true,
 };
 async function startApolloServer() {
   try {
@@ -30,6 +30,7 @@ async function startApolloServer() {
     // app.use("/users", require("./routes/users"));
     server.applyMiddleware({
       app,
+      cors: corsOptions,
     });
 
     await mongoose.connect(mongoURI, {
